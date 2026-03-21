@@ -116,12 +116,10 @@ async function analyzeIdentity(photoBase64: string, apiKey: string): Promise<Ide
   return parseJsonBlock(content);
 }
 
-function buildStickerPrompt(style: string, emotion: string, identity: IdentityProfile, isRestFrame = false) {
+function buildStickerPrompt(style: string, emotion: string, identity: IdentityProfile) {
   const stylePrompt = STYLE_PROMPTS[style] || STYLE_PROMPTS.pixar;
   const styleFinish = STYLE_FINISHES[style] || STYLE_FINISHES.pixar;
-  const posePrompt = isRestFrame
-    ? (POSE_FRAME1[emotion] || `neutral resting pose, about to perform: ${emotion}`)
-    : (POSE_PROMPTS[emotion] || emotion);
+  const posePrompt = POSE_PROMPTS[emotion] || emotion;
 
   return `This is an IDENTITY-LOCKED IMAGE EDIT of the uploaded person, not a fresh character generation.
 
