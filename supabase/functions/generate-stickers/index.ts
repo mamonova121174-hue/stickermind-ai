@@ -54,6 +54,26 @@ const POSE_PROMPTS: Record<string, string> = {
   Пока: "waving goodbye, soft smile, one hand raised",
 };
 
+// Edit instructions to create a "rest" frame FROM the action-pose sticker
+// These describe what to CHANGE in the existing image — the character stays the same
+const ANIMATION_EDIT_INSTRUCTIONS: Record<string, string> = {
+  Привет: "Lower the raised hand to the side. Keep everything else identical — same face, same style, same background, same clothing.",
+  Окей: "Move the hand making the OK gesture down to the side in a relaxed position. Keep the exact same character, face, style, clothes, and background.",
+  Лайк: "Lower the thumbs-up hand down to a neutral resting position. Keep the exact same character, face, style, clothes, and background.",
+  Любовь: "Move both hands apart from the heart shape to a relaxed position at chest level. Keep the exact same character, face, style, clothes, and background.",
+  Фейспалм: "Move the hand away from the forehead down to the side. Change expression to mildly concerned. Keep the exact same character, style, clothes, and background.",
+  Работаю: "Move the hands to hover just above the keyboard instead of typing. Eyes looking up slightly. Keep the exact same character, style, laptop, clothes, and background.",
+  Злюсь: "Uncross the arms to sides. Relax the brows slightly — still annoyed but not furious. Keep the exact same character, style, clothes, and background.",
+  Думаю: "Move the hand from chin to a neutral position. Eyes looking forward instead of up. Keep the exact same character, style, clothes, and background.",
+  Успех: "Lower the cash/money down. Neutral expression instead of smirk. Keep the exact same character, style, sunglasses, clothes, and background.",
+  "Ура!": "Lower the raised arms to waist level. Still smiling but arms down. Keep the exact same character, style, confetti, clothes, and background.",
+  Сплю: "Open the eyes halfway — drowsy, yawning expression. Keep the exact same character, style, clothes, and background. Remove zzz symbols.",
+  Шок: "Close the mouth, lower the hands from cheeks to sides. Neutral expression. Keep the exact same character, style, clothes, and background.",
+  Закон: "Lower the scales of justice to the side. Relaxed courtroom stance. Keep the exact same character, face, lawyer robe, style, and background.",
+  Вперёд: "Relax the flexing arm down to the side. Keep the determined face but arm relaxed. Keep the exact same character, style, clothes, and background.",
+  Пока: "Lower the waving hand to the side. Keep the soft smile. Keep the exact same character, style, clothes, and background.",
+};
+
 
 type IdentityProfile = {
   subjectSummary: string;
@@ -213,7 +233,46 @@ async function generateStickerImage(photoBase64: string, prompt: string, apiKey:
     const error = new Error(`AI error: ${response.status} ${errText}`) as Error & { status?: number };
     error.status = response.status;
     throw error;
+}
+
+// Edit an existing sticker image to create an animation frame
+async function editStickerImage(stickerBase64: string, editInstruction: string, apiKey: string) {
+  const response = await fetch(AI_GATEWAY_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: STICKER_MODEL,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: `CRITICAL: This is an IMAGE EDIT, not a new generation. You MUST keep the EXACT same character — same face, same art style, same proportions, same colors, same background. Only make the following small change:\n\n${editInstruction}\n\nDo NOT regenerate or reimagine the character. Do NOT change the face, hair, body shape, clothing style, or art style. The output must look like a slightly different frame of the SAME animation — identical character with a subtle pose change.`,
+            },
+            {
+              type: "image_url",
+              image_url: { url: stickerBase64 },
+            },
+          ],
+        },
+      ],
+      modalities: ["image", "text"],
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    console.error(`Edit error: ${response.status} ${errText}`);
+    return undefined;
   }
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
+}
 
   const data = await response.json();
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
@@ -241,7 +300,7 @@ serve(async (req) => {
       });
     }
 
-    const results: { label: string; url: string; animated: boolean }[] = [];
+    const results: { label: string; url: string; frames?: string[]; animated: boolean }[] = [];
     const identity = await analyzeIdentity(photoBase64, LOVABLE_API_KEY);
 
     async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
@@ -261,6 +320,7 @@ serve(async (req) => {
 
     for (const emotion of emotions) {
       try {
+        // Step 1: Generate the action-pose sticker
         const prompt = buildStickerPrompt(style, emotion, identity);
         const imageData = await generateStickerImage(photoBase64, prompt, LOVABLE_API_KEY);
 
@@ -269,14 +329,36 @@ serve(async (req) => {
           continue;
         }
 
-        const url = await uploadImage(imageData, supabase);
-        if (!url) continue;
+        const actionUrl = await uploadImage(imageData, supabase);
+        if (!actionUrl) continue;
 
-        results.push({
-          label: emotion,
-          url,
-          animated: !!requestAnimated,
-        });
+        if (requestAnimated) {
+          // Step 2: EDIT the action sticker to create a rest frame
+          const editInstruction = ANIMATION_EDIT_INSTRUCTIONS[emotion] || 
+            "Move the character to a neutral resting pose with arms at sides. Keep the exact same character, face, style, and background.";
+          
+          const restFrameData = await editStickerImage(imageData, editInstruction, LOVABLE_API_KEY);
+          
+          const frames: string[] = [];
+          if (restFrameData) {
+            const restUrl = await uploadImage(restFrameData, supabase);
+            if (restUrl) frames.push(restUrl);
+          }
+          frames.push(actionUrl); // action frame is always last
+
+          results.push({
+            label: emotion,
+            url: actionUrl,
+            frames: frames.length > 1 ? frames : undefined,
+            animated: true,
+          });
+        } else {
+          results.push({
+            label: emotion,
+            url: actionUrl,
+            animated: false,
+          });
+        }
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);
