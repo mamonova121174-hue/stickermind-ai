@@ -149,6 +149,48 @@ const GeneratorSection = () => {
     );
   };
 
+  const handleAnimateSticker = async (sticker: StickerData) => {
+    if (!sticker.imageUrl) return;
+    
+    toast({
+      title: "Оживляем стикер...",
+      description: `Создаём анимацию для "${sticker.label}". Это займёт 1-3 минуты.`,
+    });
+
+    try {
+      const { data, error } = await supabase.functions.invoke("animate-sticker", {
+        body: {
+          imageUrl: sticker.imageUrl,
+          emotion: sticker.label,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      if (data?.videoUrl) {
+        setGeneratedStickers((prev) =>
+          prev.map((s) =>
+            s.imageUrl === sticker.imageUrl && s.label === sticker.label
+              ? { ...s, animated: true, videoUrl: data.videoUrl }
+              : s
+          )
+        );
+        toast({
+          title: "Анимация готова! 🎬",
+          description: `Стикер "${sticker.label}" оживлён!`,
+        });
+      }
+    } catch (err: any) {
+      console.error("Animation error:", err);
+      toast({
+        title: "Ошибка анимации",
+        description: err?.message || "Не удалось создать анимацию",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleGenerate = () => {
     if (!uploadedFile || !selectedStyle || selectedEmotions.length === 0) return;
 
@@ -164,7 +206,6 @@ const GeneratorSection = () => {
     setIsGenerating(true);
     setGenerationProgress("Подготовка фото...");
 
-    // Convert file to base64
     const reader = new FileReader();
     reader.onload = async (e) => {
       const photoBase64 = e.target?.result as string;
@@ -178,7 +219,7 @@ const GeneratorSection = () => {
             photoBase64,
             style: selectedStyle,
             emotions: selectedEmotions,
-            animated: animateAll,
+            animated: false,
           },
         });
 
@@ -191,16 +232,14 @@ const GeneratorSection = () => {
             variant: "destructive",
           });
           if (data.results?.length) {
-            // Partial results
             const partialCost = data.results.length * costPerSticker;
             setBalance(balance - partialCost);
             const newStickers = data.results.map((r: any) => ({
               emoji: goldenReactions.find((gr) => gr.label === r.label)?.emoji ?? "🎨",
               label: r.label,
               style: styleName,
-              animated: r.animated,
+              animated: false,
               imageUrl: r.url,
-              frames: r.frames,
             }));
             setGeneratedStickers((prev) => [...newStickers, ...prev]);
           }
@@ -228,12 +267,37 @@ const GeneratorSection = () => {
           emoji: goldenReactions.find((gr) => gr.label === r.label)?.emoji ?? "🎨",
           label: r.label,
           style: styleName,
-          animated: r.animated,
+          animated: false,
           imageUrl: r.url,
-          frames: r.frames,
         }));
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
+
+        // If animateAll is on, start animating each sticker via Replicate
+        if (animateAll) {
+          setGenerationProgress("Оживляем стикеры через AI-видео... Это займёт ещё 2-5 минут");
+          for (const s of newStickers) {
+            if (s.imageUrl) {
+              try {
+                const { data: animData } = await supabase.functions.invoke("animate-sticker", {
+                  body: { imageUrl: s.imageUrl, emotion: s.label },
+                });
+                if (animData?.videoUrl) {
+                  setGeneratedStickers((prev) =>
+                    prev.map((existing) =>
+                      existing.imageUrl === s.imageUrl && existing.label === s.label
+                        ? { ...existing, animated: true, videoUrl: animData.videoUrl }
+                        : existing
+                    )
+                  );
+                }
+              } catch (animErr) {
+                console.error(`Animation failed for ${s.label}:`, animErr);
+              }
+            }
+          }
+        }
+
         toast({
           title: "Стикеры готовы! 🎉",
           description: `Создано ${results.length} стикер(ов). Списано ${actualCost} 🪙`,
