@@ -91,7 +91,7 @@ serve(async (req) => {
     const { imageUrl, emotion, skipRemoveBg } = await req.json();
     if (!imageUrl || !emotion) return json({ error: "Missing imageUrl or emotion" }, 400);
 
-    const motionPrompt = MOTION_PROMPTS[emotion] || `The person performs a ${emotion} gesture naturally.`;
+    const motionPrompt = MOTION_PROMPTS[emotion] || (`The person performs a ${emotion} gesture naturally.` + GREEN_SCREEN_SUFFIX);
 
     // ── Step 1: Remove background ──
     let cleanImageUrl = imageUrl;
