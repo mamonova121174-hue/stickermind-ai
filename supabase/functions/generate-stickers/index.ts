@@ -10,7 +10,7 @@ const corsHeaders = {
 const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const IDENTITY_MODEL = "google/gemini-2.5-pro";
 const STICKER_MODEL = "google/gemini-3-pro-image-preview";
-const EDIT_MODEL = "google/gemini-3.1-flash-image-preview";
+
 
 const STYLE_PROMPTS: Record<string, string> = {
   pixar:
