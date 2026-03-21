@@ -22,29 +22,23 @@ const demoAnimatedStickers: { id: number; image: string; label: string; delay: n
 ];
 
 const DemoStickerCard = ({ sticker }: { sticker: typeof demoAnimatedStickers[0] }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
       <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative bg-secondary/30">
-        {sticker.videoUrl ? (
-          <video
-            ref={videoRef}
-            src={sticker.videoUrl}
+        {sticker.gifUrl ? (
+          <img
+            src={sticker.gifUrl}
+            alt={`Анимированный стикер ${sticker.label}`}
             className="w-full h-full object-contain rounded-lg"
-            loop
-            muted
-            autoPlay
-            playsInline
           />
         ) : (
           <img
             src={sticker.image}
-            alt={`Анимированный стикер ${sticker.label}`}
+            alt={`Стикер ${sticker.label}`}
             className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
           />
         )}
-        {!sticker.videoUrl && (
+        {!sticker.gifUrl && (
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-background/40 rounded-lg">
             <div className="w-8 h-8 rounded-full bg-primary/90 flex items-center justify-center">
               <Play className="w-3.5 h-3.5 text-primary-foreground ml-0.5" />
@@ -56,7 +50,7 @@ const DemoStickerCard = ({ sticker }: { sticker: typeof demoAnimatedStickers[0] 
         {sticker.label}
       </span>
       <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-        {sticker.videoUrl ? "MP4" : "MP4"}
+        {sticker.gifUrl ? "GIF" : "MP4"}
       </span>
     </div>
   );
