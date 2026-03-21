@@ -48,8 +48,7 @@ const AnimatedStickersSection = () => {
             <ScrollReveal key={s.id} delay={s.delay}>
               <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
                 <div
-                  className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative"
-                  style={{ backgroundImage: checkerBg, backgroundColor: '#fff' }}
+                  className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative bg-secondary/30"
                 >
                   <img
                     src={s.image}
