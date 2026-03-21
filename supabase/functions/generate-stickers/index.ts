@@ -259,7 +259,7 @@ serve(async (req) => {
       });
     }
 
-    const results: { label: string; url: string; animated: boolean; frames?: string[] }[] = [];
+    const results: { label: string; url: string }[] = [];
     const identity = await analyzeIdentity(photoBase64, LOVABLE_API_KEY);
 
     for (const emotion of emotions) {
@@ -275,32 +275,7 @@ serve(async (req) => {
         const mainUrl = await uploadImage(imageData, supabase);
         if (!mainUrl) continue;
 
-        // If animated, generate a subtle edit frame
-        if (requestAnimated) {
-          console.log(`Generating animation frame for ${emotion}...`);
-          const editedFrame = await editStickerForAnimation(imageData, emotion, LOVABLE_API_KEY);
-          
-          if (editedFrame) {
-            const editedUrl = await uploadImage(editedFrame, supabase);
-            if (editedUrl) {
-              results.push({
-                label: emotion,
-                url: mainUrl,
-                animated: true,
-                frames: [mainUrl, editedUrl],
-              });
-              continue;
-            }
-          }
-          // Fallback: no animation frame generated
-          console.warn(`Animation edit failed for ${emotion}, using static`);
-        }
-
-        results.push({
-          label: emotion,
-          url: mainUrl,
-          animated: false,
-        });
+        results.push({ label: emotion, url: mainUrl });
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);
