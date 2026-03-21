@@ -174,10 +174,10 @@ CLOTHING RULES:
 COMPOSITION RULES:
 - face must stay large and readable
 - prefer bust or waist-up composition
-- white clean background
+- TRANSPARENT background (no white, no color, no gradient — fully transparent PNG)
 - one character only
 - no text, no border, no extra people
-- premium polished sticker presentation
+- premium polished sticker presentation, figure cutout on transparent background
 
 NEGATIVE RULES:
 - do not invent a prettier or younger face
