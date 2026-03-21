@@ -7,6 +7,32 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+function jsonResponse(body: Record<string, unknown>, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
+async function parseReplicateError(response: Response) {
+  const rawText = await response.text();
+
+  try {
+    const parsed = JSON.parse(rawText);
+    return {
+      status: response.status,
+      message: parsed?.detail || parsed?.error || rawText || "Replicate request failed",
+      rawText,
+    };
+  } catch {
+    return {
+      status: response.status,
+      message: rawText || "Replicate request failed",
+      rawText,
+    };
+  }
+}
+
 // Motion prompts per emotion — short, clear instructions for the video model
 const MOTION_PROMPTS: Record<string, string> = {
   "Привет": "The person waves hello with their right hand, smiling warmly. Natural arm movement, 2 waves back and forth.",
@@ -61,10 +87,7 @@ serve(async (req) => {
     const { imageUrl, emotion } = await req.json();
 
     if (!imageUrl || !emotion) {
-      return new Response(JSON.stringify({ error: "Missing imageUrl or emotion" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse({ error: "Missing imageUrl or emotion" }, 400);
     }
 
     const motionPrompt = MOTION_PROMPTS[emotion] || `The person performs a ${emotion} gesture with natural movement.`;
@@ -91,7 +114,11 @@ serve(async (req) => {
     });
 
     if (!createRes.ok) {
-      const errText = await createRes.text();
+      const primaryError = await parseReplicateError(createRes);
+
+      if (primaryError.status === 402 || primaryError.status === 429) {
+        return jsonResponse({ error: primaryError.message }, primaryError.status);
+      }
       
       // If this specific model fails, try wan-i2v as fallback
       console.log("Primary model failed, trying fallback model...");
@@ -117,8 +144,23 @@ serve(async (req) => {
       });
 
       if (!fallbackRes.ok) {
-        const fallbackErr = await fallbackRes.text();
-        throw new Error(`Replicate API error: ${createRes.status} ${errText} | Fallback: ${fallbackRes.status} ${fallbackErr}`);
+        const fallbackError = await parseReplicateError(fallbackRes);
+        const fallbackStatus = fallbackError.status === 402 || fallbackError.status === 429
+          ? fallbackError.status
+          : primaryError.status === 402 || primaryError.status === 429
+            ? primaryError.status
+            : 500;
+
+        return jsonResponse(
+          {
+            error: fallbackError.message || primaryError.message,
+            details: {
+              primary: primaryError.message,
+              fallback: fallbackError.message,
+            },
+          },
+          fallbackStatus,
+        );
       }
 
       const fallbackPrediction = await fallbackRes.json();
@@ -130,10 +172,7 @@ serve(async (req) => {
       // Download and upload to storage
       const storedUrl = await downloadAndStore(videoUrl, supabase);
 
-      return new Response(JSON.stringify({ videoUrl: storedUrl, emotion }), {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse({ videoUrl: storedUrl, emotion }, 200);
     }
 
     const prediction = await createRes.json();
@@ -146,17 +185,11 @@ serve(async (req) => {
     // Download the video and upload to Supabase storage
     const storedUrl = await downloadAndStore(videoUrl, supabase);
 
-    return new Response(JSON.stringify({ videoUrl: storedUrl, emotion }), {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return jsonResponse({ videoUrl: storedUrl, emotion }, 200);
 
   } catch (e) {
     console.error("animate-sticker error:", e);
-    return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return jsonResponse({ error: e instanceof Error ? e.message : "Unknown error" }, 500);
   }
 });
 
