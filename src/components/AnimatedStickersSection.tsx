@@ -1,59 +1,20 @@
-import { Film, Sparkles, Play, Zap } from "lucide-react";
+import { Film, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 
-import animHello from "@/assets/anim-hello.png";
-import animLike from "@/assets/anim-like.png";
-import animThink from "@/assets/anim-think.png";
-import animParty from "@/assets/anim-party.png";
-import animAngry from "@/assets/anim-angry.png";
-import animStrong from "@/assets/anim-strong.png";
+import demoPixar from "@/assets/demo-pixar-hello.png";
+import demoGta from "@/assets/demo-gta-like.png";
+import demoGhibli from "@/assets/demo-ghibli-think.png";
+import demoCyberpunk from "@/assets/demo-cyberpunk-cool.png";
+import demoLineart from "@/assets/demo-lineart-love.png";
 
-import animCyberpunkGif from "@/assets/demo-cyberpunk-animated.gif";
-
-const demoAnimatedStickers: { id: number; image: string; label: string; delay: number; gifUrl?: string }[] = [
-  { id: 1, image: animHello, label: "Привет", delay: 0 },
-  { id: 2, image: animLike, label: "Лайк", delay: 80 },
-  { id: 3, image: animThink, label: "Думаю", delay: 160 },
-  { id: 4, image: animParty, label: "Ура!", delay: 240 },
-  { id: 5, image: animAngry, label: "Злюсь", delay: 320, gifUrl: animCyberpunkGif },
-  { id: 6, image: animStrong, label: "Вперёд", delay: 400 },
+const demoAnimatedStickers = [
+  { id: 1, image: demoPixar, label: "Привет", style: "Pixar", delay: 0 },
+  { id: 2, image: demoGta, label: "Лайк", style: "GTA", delay: 80 },
+  { id: 3, image: demoGhibli, label: "Думаю", style: "Ghibli", delay: 160 },
+  { id: 4, image: demoCyberpunk, label: "Злюсь", style: "Cyberpunk", delay: 240 },
+  { id: 5, image: demoLineart, label: "Любовь", style: "Line Art", delay: 320 },
 ];
-
-const DemoStickerCard = ({ sticker }: { sticker: typeof demoAnimatedStickers[0] }) => {
-  return (
-    <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
-      <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative bg-secondary/30">
-        {sticker.gifUrl ? (
-          <img
-            src={sticker.gifUrl}
-            alt={`Анимированный стикер ${sticker.label}`}
-            className="w-full h-full object-contain rounded-lg"
-          />
-        ) : (
-          <img
-            src={sticker.image}
-            alt={`Стикер ${sticker.label}`}
-            className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
-          />
-        )}
-        {!sticker.gifUrl && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-background/40 rounded-lg">
-            <div className="w-8 h-8 rounded-full bg-primary/90 flex items-center justify-center">
-              <Play className="w-3.5 h-3.5 text-primary-foreground ml-0.5" />
-            </div>
-          </div>
-        )}
-      </div>
-      <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
-        {sticker.label}
-      </span>
-      <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-        {sticker.gifUrl ? "GIF" : "MP4"}
-      </span>
-    </div>
-  );
-};
 
 const AnimatedStickersSection = () => {
   return (
@@ -77,11 +38,26 @@ const AnimatedStickersSection = () => {
           </p>
         </ScrollReveal>
 
-        {/* Demo grid with real transparent stickers */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-10">
+        {/* Demo grid — same character, different styles */}
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
           {demoAnimatedStickers.map((s) => (
             <ScrollReveal key={s.id} delay={s.delay}>
-              <DemoStickerCard sticker={s} />
+              <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
+                <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative bg-secondary/30">
+                  <img
+                    src={s.image}
+                    alt={`Стикер «${s.label}» в стиле ${s.style}`}
+                    className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
+                  />
+                </div>
+                <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
+                  {s.label}
+                </span>
+                <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
+                <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
+                  MP4
+                </span>
+              </div>
             </ScrollReveal>
           ))}
         </div>
@@ -98,7 +74,7 @@ const AnimatedStickersSection = () => {
               {
                 icon: Film,
                 title: "Прозрачный фон",
-                desc: "Автоматическое удаление фона — только ваш персонаж, без квадратов",
+                desc: "Автоматическое удаление фона — только ваш персонаж",
               },
               {
                 icon: Sparkles,
