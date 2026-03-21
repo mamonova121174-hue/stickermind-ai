@@ -54,24 +54,6 @@ const POSE_PROMPTS: Record<string, string> = {
   Пока: "waving goodbye, soft smile, one hand raised",
 };
 
-// Frame 1 = "anticipation / rest" pose, Frame 2 = full action pose (POSE_PROMPTS above)
-const POSE_FRAME1: Record<string, string> = {
-  Привет: "hand down at side, calm neutral face, about to wave",
-  Окей: "hand relaxed at side, calm expression, about to make OK gesture",
-  Лайк: "hand relaxed, neutral expression, about to give thumbs up",
-  Любовь: "hands apart at chest level, gentle smile, about to form a heart shape",
-  Фейспалм: "hand at chin level, mildly concerned expression, about to facepalm",
-  Работаю: "hands hovering above keyboard, alert expression, about to start typing",
-  Злюсь: "hands at sides, slightly annoyed expression, brows starting to furrow",
-  Думаю: "hand near chin, neutral expression, eyes looking slightly upward",
-  Успех: "hands empty at sides, slight smirk, about to receive money",
-  "Ура!": "arms at sides, excited smile, about to throw arms up in celebration",
-  Сплю: "eyes half-closed, drowsy yawning expression, head tilting to one side",
-  Шок: "neutral face, hands at sides, eyes starting to widen in surprise",
-  Закон: "wearing a black lawyer robe, hands at sides holding nothing, composed neutral courtroom stance",
-  Вперёд: "arm at side relaxed, determined face, about to flex bicep",
-  Пока: "hand at waist level, soft smile, about to wave goodbye",
-};
 
 type IdentityProfile = {
   subjectSummary: string;
@@ -134,12 +116,10 @@ async function analyzeIdentity(photoBase64: string, apiKey: string): Promise<Ide
   return parseJsonBlock(content);
 }
 
-function buildStickerPrompt(style: string, emotion: string, identity: IdentityProfile, isRestFrame = false) {
+function buildStickerPrompt(style: string, emotion: string, identity: IdentityProfile) {
   const stylePrompt = STYLE_PROMPTS[style] || STYLE_PROMPTS.pixar;
   const styleFinish = STYLE_FINISHES[style] || STYLE_FINISHES.pixar;
-  const posePrompt = isRestFrame
-    ? (POSE_FRAME1[emotion] || `neutral resting pose, about to perform: ${emotion}`)
-    : (POSE_PROMPTS[emotion] || emotion);
+  const posePrompt = POSE_PROMPTS[emotion] || emotion;
 
   return `This is an IDENTITY-LOCKED IMAGE EDIT of the uploaded person, not a fresh character generation.
 
@@ -261,7 +241,7 @@ serve(async (req) => {
       });
     }
 
-    const results: { label: string; url: string; frames?: string[]; animated: boolean }[] = [];
+    const results: { label: string; url: string; animated: boolean }[] = [];
     const identity = await analyzeIdentity(photoBase64, LOVABLE_API_KEY);
 
     async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
@@ -281,56 +261,22 @@ serve(async (req) => {
 
     for (const emotion of emotions) {
       try {
-        if (requestAnimated) {
-          // Generate 2 frames: rest pose (frame1) and action pose (frame2)
-          const frame1Prompt = buildStickerPrompt(style, emotion, identity, true);
-          const frame2Prompt = buildStickerPrompt(style, emotion, identity, false);
+        const prompt = buildStickerPrompt(style, emotion, identity);
+        const imageData = await generateStickerImage(photoBase64, prompt, LOVABLE_API_KEY);
 
-          const [frame1Data, frame2Data] = await Promise.all([
-            generateStickerImage(photoBase64, frame1Prompt, LOVABLE_API_KEY),
-            generateStickerImage(photoBase64, frame2Prompt, LOVABLE_API_KEY),
-          ]);
-
-          const frameUrls: string[] = [];
-          if (frame1Data) {
-            const url = await uploadImage(frame1Data, supabase);
-            if (url) frameUrls.push(url);
-          }
-          if (frame2Data) {
-            const url = await uploadImage(frame2Data, supabase);
-            if (url) frameUrls.push(url);
-          }
-
-          if (frameUrls.length === 0) {
-            console.error(`No frames generated for ${emotion}`);
-            continue;
-          }
-
-          results.push({
-            label: emotion,
-            url: frameUrls[frameUrls.length - 1], // action frame as primary
-            frames: frameUrls,
-            animated: true,
-          });
-        } else {
-          // Static: single frame
-          const prompt = buildStickerPrompt(style, emotion, identity, false);
-          const imageData = await generateStickerImage(photoBase64, prompt, LOVABLE_API_KEY);
-
-          if (!imageData) {
-            console.error(`No image returned for ${emotion}`);
-            continue;
-          }
-
-          const url = await uploadImage(imageData, supabase);
-          if (!url) continue;
-
-          results.push({
-            label: emotion,
-            url,
-            animated: false,
-          });
+        if (!imageData) {
+          console.error(`No image returned for ${emotion}`);
+          continue;
         }
+
+        const url = await uploadImage(imageData, supabase);
+        if (!url) continue;
+
+        results.push({
+          label: emotion,
+          url,
+          animated: !!requestAnimated,
+        });
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);
