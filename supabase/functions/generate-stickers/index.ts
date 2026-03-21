@@ -54,6 +54,25 @@ const POSE_PROMPTS: Record<string, string> = {
   Пока: "waving goodbye, soft smile, one hand raised",
 };
 
+// Frame 1 = "anticipation / rest" pose, Frame 2 = full action pose (POSE_PROMPTS above)
+const POSE_FRAME1: Record<string, string> = {
+  Привет: "hand down at side, calm neutral face, about to wave",
+  Окей: "hand relaxed at side, calm expression, about to make OK gesture",
+  Лайк: "hand relaxed, neutral expression, about to give thumbs up",
+  Любовь: "hands apart at chest level, gentle smile, about to form a heart shape",
+  Фейспалм: "hand at chin level, mildly concerned expression, about to facepalm",
+  Работаю: "hands hovering above keyboard, alert expression, about to start typing",
+  Злюсь: "hands at sides, slightly annoyed expression, brows starting to furrow",
+  Думаю: "hand near chin, neutral expression, eyes looking slightly upward",
+  Успех: "hands empty at sides, slight smirk, about to receive money",
+  "Ура!": "arms at sides, excited smile, about to throw arms up in celebration",
+  Сплю: "eyes half-closed, drowsy yawning expression, head tilting to one side",
+  Шок: "neutral face, hands at sides, eyes starting to widen in surprise",
+  Закон: "wearing a black lawyer robe, hands at sides holding nothing, composed neutral courtroom stance",
+  Вперёд: "arm at side relaxed, determined face, about to flex bicep",
+  Пока: "hand at waist level, soft smile, about to wave goodbye",
+};
+
 type IdentityProfile = {
   subjectSummary: string;
   faceShape: string;
