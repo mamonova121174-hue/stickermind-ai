@@ -14,10 +14,10 @@ const STICKER_MODEL = "google/gemini-3-pro-image-preview";
 
 const STYLE_PROMPTS: Record<string, string> = {
   pixar:
-    "premium feature-animation render in the spirit of Pixar, dimensional stylization with believable anatomy, expressive but identity-accurate eyes, soft cinematic lighting, rich material definition, natural skin texture preserved",
+    "Pixar / Disney feature-animation 3D render with STRONG cartoon stylization: oversized expressive eyes, smooth rounded forms, exaggerated proportions, vibrant saturated colors, soft subsurface scattering lighting, the character should look like they belong in a Pixar movie while keeping the same recognizable face",
   gta: "Rockstar Games / GTA V loading-screen illustration language, bold graphic realism, gritty sunlit contrast, angular painted shadows, assertive attitude, sharp poster composition, visible skin grain and rugged human texture",
   ghibli:
-    "Studio Ghibli / Hayao Miyazaki inspired hand-painted cel illustration, watercolor warmth, delicate but character-specific linework, storybook atmosphere, simplified rendering that still keeps exact facial identity",
+    "Studio Ghibli / Hayao Miyazaki hand-painted watercolor illustration with STRONG anime stylization: simplified soft features, large gentle eyes, delicate watercolor washes, warm earthy palette, visible brushstrokes, cel-shading outlines, dreamy storybook atmosphere — the character must look like a Ghibli film character while keeping recognizable facial structure",
   cyberpunk:
     "Cyberpunk 2077 inspired portrait art, rebellious futuristic styling, aggressive neon reflections, razor-sharp contrast, holographic details, rain-slick cinematic tension, edgy defiant attitude, unmistakably cyberpunk",
   lineart:
