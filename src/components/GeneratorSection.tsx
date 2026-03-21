@@ -57,7 +57,11 @@ const GeneratorSection = () => {
   const { balance, setBalance } = useTokens();
   const { toast } = useToast();
 
-  const costPerSticker = animateAll ? 7 : 5;
+  useEffect(() => {
+    localStorage.setItem("stickermind_stickers", JSON.stringify(generatedStickers));
+  }, [generatedStickers]);
+
+
   const totalCost = selectedEmotions.length * costPerSticker;
   const canAfford = balance >= totalCost;
 
