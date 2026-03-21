@@ -336,7 +336,6 @@ serve(async (req) => {
           url,
           animated: !!requestAnimated,
         });
-      }
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);
