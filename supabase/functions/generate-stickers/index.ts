@@ -272,7 +272,7 @@ serve(async (req) => {
         results.push({
           label: emotion,
           url: urlData.publicUrl,
-          animated: false,
+          animated: !!requestAnimated,
         });
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
