@@ -142,7 +142,6 @@ const GeneratorSection = () => {
               style: styleName,
               animated: r.animated,
               imageUrl: r.url,
-              frames: r.frames,
             }));
             setGeneratedStickers((prev) => [...newStickers, ...prev]);
           }
