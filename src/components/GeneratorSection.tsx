@@ -46,6 +46,10 @@ const GeneratorSection = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [animateAll, setAnimateAll] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedStickers, setGeneratedStickers] = useState<
+    { emoji: string; label: string; style: string; animated: boolean }[]
+  >([]);
+  const resultsRef = useRef<HTMLDivElement>(null);
   const { balance, setBalance } = useTokens();
   const { toast } = useToast();
 
