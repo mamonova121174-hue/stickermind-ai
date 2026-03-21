@@ -243,7 +243,7 @@ serve(async (req) => {
       });
     }
 
-    const results: { label: string; url: string; frames?: string[]; animated: boolean }[] = [];
+    const results: { label: string; url: string; animated: boolean }[] = [];
     const identity = await analyzeIdentity(photoBase64, LOVABLE_API_KEY);
 
     async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
@@ -263,56 +263,22 @@ serve(async (req) => {
 
     for (const emotion of emotions) {
       try {
-        if (requestAnimated) {
-          // Generate 2 frames: rest pose (frame1) and action pose (frame2)
-          const frame1Prompt = buildStickerPrompt(style, emotion, identity, true);
-          const frame2Prompt = buildStickerPrompt(style, emotion, identity, false);
+        const prompt = buildStickerPrompt(style, emotion, identity);
+        const imageData = await generateStickerImage(photoBase64, prompt, LOVABLE_API_KEY);
 
-          const [frame1Data, frame2Data] = await Promise.all([
-            generateStickerImage(photoBase64, frame1Prompt, LOVABLE_API_KEY),
-            generateStickerImage(photoBase64, frame2Prompt, LOVABLE_API_KEY),
-          ]);
-
-          const frameUrls: string[] = [];
-          if (frame1Data) {
-            const url = await uploadImage(frame1Data, supabase);
-            if (url) frameUrls.push(url);
-          }
-          if (frame2Data) {
-            const url = await uploadImage(frame2Data, supabase);
-            if (url) frameUrls.push(url);
-          }
-
-          if (frameUrls.length === 0) {
-            console.error(`No frames generated for ${emotion}`);
-            continue;
-          }
-
-          results.push({
-            label: emotion,
-            url: frameUrls[frameUrls.length - 1], // action frame as primary
-            frames: frameUrls,
-            animated: true,
-          });
-        } else {
-          // Static: single frame
-          const prompt = buildStickerPrompt(style, emotion, identity, false);
-          const imageData = await generateStickerImage(photoBase64, prompt, LOVABLE_API_KEY);
-
-          if (!imageData) {
-            console.error(`No image returned for ${emotion}`);
-            continue;
-          }
-
-          const url = await uploadImage(imageData, supabase);
-          if (!url) continue;
-
-          results.push({
-            label: emotion,
-            url,
-            animated: false,
-          });
+        if (!imageData) {
+          console.error(`No image returned for ${emotion}`);
+          continue;
         }
+
+        const url = await uploadImage(imageData, supabase);
+        if (!url) continue;
+
+        results.push({
+          label: emotion,
+          url,
+          animated: !!requestAnimated,
+        });
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);
