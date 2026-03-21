@@ -47,14 +47,11 @@ const AnimatedStickersSection = () => {
               <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
                 <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
                   {s.video ? (
-                    <video
+                    <ChromaKeyVideo
                       src={s.video}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-contain"
-                      style={{ mixBlendMode: "multiply" }}
+                      className="w-full h-full"
+                      tolerance={0.38}
+                      softness={0.1}
                     />
                   ) : (
                     <img
