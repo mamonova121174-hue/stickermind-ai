@@ -428,7 +428,32 @@ const GeneratorSection = () => {
             </ScrollReveal>
             <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3">
               {generatedStickers.map((sticker, i) => (
-                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} />
+                <div
+                  key={`${sticker.label}-${i}`}
+                  className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
+                  style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
+                >
+                  <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
+                    {sticker.imageUrl ? (
+                      <img
+                        src={sticker.imageUrl}
+                        alt={`Стикер ${sticker.label}`}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : (
+                      <span className="text-3xl">{sticker.emoji}</span>
+                    )}
+                  </div>
+                  <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
+                    {sticker.label}
+                  </span>
+                  <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
+                  {sticker.animated && (
+                    <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
+                      TGS
+                    </span>
+                  )}
+                </div>
               ))}
             </div>
           </div>
