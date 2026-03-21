@@ -1,10 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Upload, Sparkles, X, ImageIcon, Film, Check, Download } from "lucide-react";
+import { Upload, Sparkles, X, ImageIcon, Film, Check, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTokens } from "@/components/TokenContext";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
+import { supabase } from "@/integrations/supabase/client";
 
 import stylePixar from "@/assets/style-3d-pixar.png";
 import styleGta from "@/assets/style-gta.png";
@@ -46,8 +47,9 @@ const GeneratorSection = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [animateAll, setAnimateAll] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationProgress, setGenerationProgress] = useState<string>("");
   const [generatedStickers, setGeneratedStickers] = useState<
-    { emoji: string; label: string; style: string; animated: boolean }[]
+    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string }[]
   >(() => {
     try {
       return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
@@ -102,27 +104,94 @@ const GeneratorSection = () => {
     }
 
     setIsGenerating(true);
-    setTimeout(() => {
-      setBalance(balance - totalCost);
+    setGenerationProgress("Подготовка фото...");
+
+    // Convert file to base64
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const photoBase64 = e.target?.result as string;
       const styleName = styles.find((s) => s.id === selectedStyle)?.name ?? selectedStyle;
-      const newStickers = selectedEmotions.map((label) => {
-        const reaction = goldenReactions.find((r) => r.label === label);
-        return {
-          emoji: reaction?.emoji ?? "🎨",
-          label,
-          style: styleName!,
-          animated: animateAll,
-        };
-      });
-      setGeneratedStickers((prev) => [...newStickers, ...prev]);
-      toast({
-        title: "Стикеры готовы! 🎉",
-        description: `Создано ${selectedEmotions.length} стикер(ов). Списано ${totalCost} 🪙`,
-      });
-      setIsGenerating(false);
-      setSelectedEmotions([]);
-      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-    }, 2000);
+
+      try {
+        setGenerationProgress(`Генерируем ${selectedEmotions.length} стикер(ов)... Это займёт 1-2 минуты`);
+
+        const { data, error } = await supabase.functions.invoke("generate-stickers", {
+          body: {
+            photoBase64,
+            style: selectedStyle,
+            emotions: selectedEmotions,
+          },
+        });
+
+        if (error) throw error;
+
+        if (data?.error) {
+          toast({
+            title: "Ошибка генерации",
+            description: data.error,
+            variant: "destructive",
+          });
+          if (data.results?.length) {
+            // Partial results
+            const partialCost = data.results.length * costPerSticker;
+            setBalance(balance - partialCost);
+            const newStickers = data.results.map((r: any) => ({
+              emoji: goldenReactions.find((gr) => gr.label === r.label)?.emoji ?? "🎨",
+              label: r.label,
+              style: styleName,
+              animated: r.animated,
+              imageUrl: r.url,
+            }));
+            setGeneratedStickers((prev) => [...newStickers, ...prev]);
+          }
+          setIsGenerating(false);
+          setGenerationProgress("");
+          return;
+        }
+
+        const results = data?.results || [];
+        if (results.length === 0) {
+          toast({
+            title: "Не удалось сгенерировать",
+            description: "Попробуйте другое фото или стиль",
+            variant: "destructive",
+          });
+          setIsGenerating(false);
+          setGenerationProgress("");
+          return;
+        }
+
+        const actualCost = results.length * costPerSticker;
+        setBalance(balance - actualCost);
+
+        const newStickers = results.map((r: any) => ({
+          emoji: goldenReactions.find((gr) => gr.label === r.label)?.emoji ?? "🎨",
+          label: r.label,
+          style: styleName,
+          animated: r.animated,
+          imageUrl: r.url,
+        }));
+
+        setGeneratedStickers((prev) => [...newStickers, ...prev]);
+        toast({
+          title: "Стикеры готовы! 🎉",
+          description: `Создано ${results.length} стикер(ов). Списано ${actualCost} 🪙`,
+        });
+        setSelectedEmotions([]);
+        setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      } catch (err: any) {
+        console.error("Generation error:", err);
+        toast({
+          title: "Ошибка",
+          description: err?.message || "Не удалось сгенерировать стикеры",
+          variant: "destructive",
+        });
+      } finally {
+        setIsGenerating(false);
+        setGenerationProgress("");
+      }
+    };
+    reader.readAsDataURL(uploadedFile);
   };
 
   const removeFile = () => {
@@ -314,8 +383,8 @@ const GeneratorSection = () => {
               >
                 {isGenerating ? (
                   <span className="flex items-center gap-2">
-                    <span className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                    Генерируем...
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {generationProgress || "Генерируем..."}
                   </span>
                 ) : (
                   <>
@@ -361,8 +430,16 @@ const GeneratorSection = () => {
                   className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
                   style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
                 >
-                  <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center text-3xl mb-2">
-                    {sticker.emoji}
+                  <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
+                    {sticker.imageUrl ? (
+                      <img
+                        src={sticker.imageUrl}
+                        alt={`Стикер ${sticker.label}`}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : (
+                      <span className="text-3xl">{sticker.emoji}</span>
+                    )}
                   </div>
                   <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
                     {sticker.label}
