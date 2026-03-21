@@ -54,6 +54,26 @@ const POSE_PROMPTS: Record<string, string> = {
   Пока: "waving goodbye, soft smile, one hand raised",
 };
 
+// Edit instructions to create a "rest" frame FROM the action-pose sticker
+// These describe what to CHANGE in the existing image — the character stays the same
+const ANIMATION_EDIT_INSTRUCTIONS: Record<string, string> = {
+  Привет: "Lower the raised hand to the side. Keep everything else identical — same face, same style, same background, same clothing.",
+  Окей: "Move the hand making the OK gesture down to the side in a relaxed position. Keep the exact same character, face, style, clothes, and background.",
+  Лайк: "Lower the thumbs-up hand down to a neutral resting position. Keep the exact same character, face, style, clothes, and background.",
+  Любовь: "Move both hands apart from the heart shape to a relaxed position at chest level. Keep the exact same character, face, style, clothes, and background.",
+  Фейспалм: "Move the hand away from the forehead down to the side. Change expression to mildly concerned. Keep the exact same character, style, clothes, and background.",
+  Работаю: "Move the hands to hover just above the keyboard instead of typing. Eyes looking up slightly. Keep the exact same character, style, laptop, clothes, and background.",
+  Злюсь: "Uncross the arms to sides. Relax the brows slightly — still annoyed but not furious. Keep the exact same character, style, clothes, and background.",
+  Думаю: "Move the hand from chin to a neutral position. Eyes looking forward instead of up. Keep the exact same character, style, clothes, and background.",
+  Успех: "Lower the cash/money down. Neutral expression instead of smirk. Keep the exact same character, style, sunglasses, clothes, and background.",
+  "Ура!": "Lower the raised arms to waist level. Still smiling but arms down. Keep the exact same character, style, confetti, clothes, and background.",
+  Сплю: "Open the eyes halfway — drowsy, yawning expression. Keep the exact same character, style, clothes, and background. Remove zzz symbols.",
+  Шок: "Close the mouth, lower the hands from cheeks to sides. Neutral expression. Keep the exact same character, style, clothes, and background.",
+  Закон: "Lower the scales of justice to the side. Relaxed courtroom stance. Keep the exact same character, face, lawyer robe, style, and background.",
+  Вперёд: "Relax the flexing arm down to the side. Keep the determined face but arm relaxed. Keep the exact same character, style, clothes, and background.",
+  Пока: "Lower the waving hand to the side. Keep the soft smile. Keep the exact same character, style, clothes, and background.",
+};
+
 
 type IdentityProfile = {
   subjectSummary: string;
