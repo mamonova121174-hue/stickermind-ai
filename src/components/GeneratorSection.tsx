@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Upload, Sparkles, X, ImageIcon, Film, Check, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { useTokens } from "@/components/TokenContext";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
@@ -40,7 +39,7 @@ const goldenReactions = [
 ];
 
 type StickerData = {
-  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; videoUrl?: string;
+  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; videoUrl?: string; isAnimating?: boolean;
 };
 
 const getFunctionErrorMessage = (error: unknown, fallback: string) => {
@@ -80,6 +79,13 @@ const StickerCard = ({ sticker, index, onAnimate }: { sticker: StickerData; inde
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
+
+        {sticker.isAnimating && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/70 backdrop-blur-sm">
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            <span className="px-2 text-center text-[10px] font-medium text-foreground">AI анимирует MP4…</span>
+          </div>
+        )}
       </div>
       <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{sticker.label}</span>
       <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
@@ -115,7 +121,7 @@ const GeneratorSection = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [animateAll, setAnimateAll] = useState(false);
+  const [animateAll] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState<string>("");
   const [generatedStickers, setGeneratedStickers] = useState<StickerData[]>(() => {
@@ -161,6 +167,14 @@ const GeneratorSection = () => {
 
   const handleAnimateSticker = async (sticker: StickerData) => {
     if (!sticker.imageUrl) return;
+
+    setGeneratedStickers((prev) =>
+      prev.map((s) =>
+        s.imageUrl === sticker.imageUrl && s.label === sticker.label
+          ? { ...s, isAnimating: true }
+          : s
+      )
+    );
     
     toast({
       title: "Оживляем стикер...",
@@ -182,7 +196,7 @@ const GeneratorSection = () => {
         setGeneratedStickers((prev) =>
           prev.map((s) =>
             s.imageUrl === sticker.imageUrl && s.label === sticker.label
-              ? { ...s, animated: true, videoUrl: data.videoUrl }
+              ? { ...s, animated: true, videoUrl: data.videoUrl, isAnimating: false }
               : s
           )
         );
@@ -192,6 +206,13 @@ const GeneratorSection = () => {
         });
       }
     } catch (err: any) {
+      setGeneratedStickers((prev) =>
+        prev.map((s) =>
+          s.imageUrl === sticker.imageUrl && s.label === sticker.label
+            ? { ...s, isAnimating: false }
+            : s
+        )
+      );
       console.error("Animation error:", err);
       toast({
         title: "Ошибка анимации",
@@ -279,6 +300,7 @@ const GeneratorSection = () => {
           style: styleName,
           animated: false,
           imageUrl: r.url,
+          isAnimating: true,
         }));
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
@@ -289,19 +311,27 @@ const GeneratorSection = () => {
           for (const s of newStickers) {
             if (s.imageUrl) {
               try {
-                const { data: animData } = await supabase.functions.invoke("animate-sticker", {
+                const { data: animData, error: animError } = await supabase.functions.invoke("animate-sticker", {
                   body: { imageUrl: s.imageUrl, emotion: s.label },
                 });
+                if (animError) throw animError;
                 if (animData?.videoUrl) {
                   setGeneratedStickers((prev) =>
                     prev.map((existing) =>
                       existing.imageUrl === s.imageUrl && existing.label === s.label
-                        ? { ...existing, animated: true, videoUrl: animData.videoUrl }
+                        ? { ...existing, animated: true, videoUrl: animData.videoUrl, isAnimating: false }
                         : existing
                     )
                   );
                 }
               } catch (animErr) {
+                setGeneratedStickers((prev) =>
+                  prev.map((existing) =>
+                    existing.imageUrl === s.imageUrl && existing.label === s.label
+                      ? { ...existing, isAnimating: false }
+                      : existing
+                  )
+                );
                 console.error(`Animation failed for ${s.label}:`, animErr);
                 toast({
                   title: `Не удалось оживить «${s.label}»`,
@@ -489,19 +519,21 @@ const GeneratorSection = () => {
               </div>
 
               {/* Animation toggle */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-secondary/50 border border-border/50">
+              <div className="flex items-center justify-between gap-4 p-3 rounded-xl bg-secondary/50 border border-border/50">
                 <div className="flex items-center gap-2.5">
                   <Film className="w-4 h-4 text-primary" />
                   <div>
-                    <p className="text-xs font-medium text-foreground">Анимировать весь пак (TGS)</p>
+                    <p className="text-xs font-medium text-foreground">Premium MP4 анимация включена автоматически</p>
                     <p className="text-[10px] text-muted-foreground">
                       {selectedEmotions.length > 0
                         ? `${selectedEmotions.length} × ${costPerSticker} = ${totalCost} 🪙`
-                        : animateAll ? "7 🪙 за стикер" : "5 🪙 за стикер"}
+                        : "7 🪙 за стикер"}
                     </p>
                   </div>
                 </div>
-                <Switch checked={animateAll} onCheckedChange={setAnimateAll} />
+                <span className="rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                  Hands-Free
+                </span>
               </div>
 
               {/* Cost summary */}
