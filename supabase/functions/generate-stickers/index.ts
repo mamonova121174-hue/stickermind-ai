@@ -221,59 +221,6 @@ async function generateStickerImage(photoBase64: string, prompt: string, apiKey:
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
 }
 
-/**
- * Edit an existing sticker image to create a subtle pose variation for animation.
- * Uses the sticker itself as input and applies a tiny change.
- */
-async function editStickerForAnimation(stickerBase64: string, emotion: string, apiKey: string): Promise<string | undefined> {
-  const editInstruction = ANIMATION_EDIT_INSTRUCTIONS[emotion];
-  if (!editInstruction) return undefined;
-
-  const prompt = `You are an expert image editor. You will receive a sticker image. Your job is to create a NEARLY IDENTICAL copy with ONE tiny pose adjustment for animation purposes.
-
-CRITICAL RULES:
-- The output must be 95%+ identical to the input image
-- Same character, same face, same art style, same colors, same background, same composition, same clothing
-- Only make the SPECIFIC tiny change described below
-- Do NOT regenerate the image from scratch — EDIT the existing image
-- Do NOT change the face, hair, skin color, or body proportions
-- Do NOT change the art style or rendering quality
-- The change should be so subtle that you have to look carefully to notice it
-
-SPECIFIC EDIT: ${editInstruction}
-
-OUTPUT: A sticker image that is nearly identical to the input, with only the described micro-adjustment applied.`;
-
-  const response = await fetch(AI_GATEWAY_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: EDIT_MODEL,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: prompt },
-            { type: "image_url", image_url: { url: stickerBase64 } },
-          ],
-        },
-      ],
-      modalities: ["image", "text"],
-    }),
-  });
-
-  if (!response.ok) {
-    const errText = await response.text();
-    console.error(`Animation edit failed: ${response.status} ${errText}`);
-    return undefined;
-  }
-
-  const data = await response.json();
-  return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
-}
 
 async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
   const base64Content = imageData.replace(/^data:image\/\w+;base64,/, "");
