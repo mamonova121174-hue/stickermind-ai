@@ -10,11 +10,11 @@ const corsHeaders = {
 const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const IDENTITY_MODEL = "google/gemini-2.5-pro";
 const STICKER_MODEL = "google/gemini-3-pro-image-preview";
-
+const REMOVE_BG_VERSION = "95fcc2a26d3899cd6c2691c900465aaeff466285a65c14638cc5f36f34befaf1";
 
 const STYLE_PROMPTS: Record<string, string> = {
   pixar:
-    "Pixar / Disney feature-animation 3D render with STRONG cartoon stylization: oversized expressive eyes, smooth rounded forms, exaggerated proportions, vibrant saturated colors, soft subsurface scattering lighting, the character should look like they belong in a Pixar movie while keeping the same recognizable face",
+    "Pixar / Disney feature-animation 3D render with clear Pixar styling, rounded forms, expressive eyes, polished cinematic lighting, stylized but still tightly identity-locked to the real person from the source photo",
   gta: "Rockstar Games / GTA V loading-screen illustration language, bold graphic realism, gritty sunlit contrast, angular painted shadows, assertive attitude, sharp poster composition, visible skin grain and rugged human texture",
   ghibli:
     "Studio Ghibli / Hayao Miyazaki hand-painted watercolor illustration with STRONG anime stylization: simplified soft features, large gentle eyes, delicate watercolor washes, warm earthy palette, visible brushstrokes, cel-shading outlines, dreamy storybook atmosphere — the character must look like a Ghibli film character while keeping recognizable facial structure",
@@ -26,7 +26,7 @@ const STYLE_PROMPTS: Record<string, string> = {
 
 const STYLE_FINISHES: Record<string, string> = {
   pixar:
-    "smooth plastic-like Pixar surface rendering, rounded cartoon proportions, big bright eyes, vibrant color palette, playful dimensional hair, toy-like charm with recognizable face",
+    "premium Pixar-like finish with believable likeness, rounded cartoon appeal, soft dimensional hair, expressive eyes without changing face geometry, no generic doll face",
   gta:
     "hard-edged graphic shadows, satirical action-poster energy, sunbaked color contrast, slightly gritty paint texture instead of airbrushed skin",
   ghibli:
@@ -221,18 +221,67 @@ async function generateStickerImage(photoBase64: string, prompt: string, apiKey:
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
 }
 
+async function replicatePredict(token: string, version: string, input: Record<string, unknown>) {
+  const res = await fetch("https://api.replicate.com/v1/predictions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ version, input }),
+  });
 
-async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
-  const base64Content = imageData.replace(/^data:image\/\w+;base64,/, "");
-  const bytes = Uint8Array.from(atob(base64Content), (c) => c.charCodeAt(0));
+  if (!res.ok) {
+    throw new Error(`Replicate remove-bg failed: ${res.status} ${await res.text()}`);
+  }
+
+  return res.json();
+}
+
+async function pollPrediction(id: string, token: string, maxMs = 120000): Promise<any> {
+  const start = Date.now();
+
+  while (Date.now() - start < maxMs) {
+    const res = await fetch(`https://api.replicate.com/v1/predictions/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const prediction = await res.json();
+
+    if (prediction.status === "succeeded") return prediction;
+    if (prediction.status === "failed" || prediction.status === "canceled") {
+      throw new Error(`Replicate remove-bg ${prediction.status}: ${prediction.error || "unknown"}`);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+  }
+
+  throw new Error("Replicate remove-bg timed out");
+}
+
+async function removeBackground(imageUrl: string, token: string): Promise<string> {
+  const prediction = await replicatePredict(token, REMOVE_BG_VERSION, { image: imageUrl });
+  const result = await pollPrediction(prediction.id, token);
+  return typeof result.output === "string" ? result.output : imageUrl;
+}
+
+async function uploadImageFromUrl(imageUrl: string, supabase: any): Promise<string | null> {
+  const imageRes = await fetch(imageUrl);
+  if (!imageRes.ok) {
+    console.error("Download error:", imageRes.status);
+    return null;
+  }
+
+  const bytes = new Uint8Array(await imageRes.arrayBuffer());
   const fileName = `${crypto.randomUUID()}.png`;
   const { error: uploadError } = await supabase.storage
     .from("stickers")
     .upload(fileName, bytes, { contentType: "image/png", upsert: true });
+
   if (uploadError) {
     console.error("Upload error:", uploadError);
     return null;
   }
+
   const { data: urlData } = supabase.storage.from("stickers").getPublicUrl(fileName);
   return urlData.publicUrl;
 }
@@ -248,6 +297,9 @@ serve(async (req) => {
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const REPLICATE_API_TOKEN = Deno.env.get("REPLICATE_API_TOKEN");
+    if (!REPLICATE_API_TOKEN) throw new Error("REPLICATE_API_TOKEN not configured");
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     const { photoBase64, style, emotions } = await req.json();
@@ -272,7 +324,8 @@ serve(async (req) => {
           continue;
         }
 
-        const mainUrl = await uploadImage(imageData, supabase);
+        const transparentImageUrl = await removeBackground(imageData, REPLICATE_API_TOKEN);
+        const mainUrl = await uploadImageFromUrl(transparentImageUrl, supabase);
         if (!mainUrl) continue;
 
         results.push({ label: emotion, url: mainUrl });
