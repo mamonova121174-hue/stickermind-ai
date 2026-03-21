@@ -5,25 +5,27 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const plans = [
   {
-    name: "Тест-драйв",
+    name: "Старт",
     price: "290",
-    stickers: "3 персональных стикера",
+    stickers: "240 токенов",
     features: [
-      "1 фото → 3 уникальных стикера",
-      "Любой стиль на выбор",
+      "240 токенов (~48 статичных стикеров)",
+      "Для одного идеального стикерпака",
+      "Все 5 стилей на выбор",
       "PNG без фона",
       "Скачивание в 1 клик",
     ],
-    payUrl: "https://checkout.prodamus.ru/pay/test-drive",
+    payUrl: "https://checkout.prodamus.ru/pay/start-pack",
   },
   {
-    name: "Профи-Пак",
+    name: "Профи",
     price: "890",
-    stickers: "15 персональных стикеров",
+    stickers: "1 000 токенов",
     popular: true,
     features: [
-      "До 5 фото → 15 стикеров",
-      "Все 5 стилей доступны",
+      "1 000 токенов (~200 статичных стикеров)",
+      "На все стили и анимации",
+      "Все 5 стилей + анимация TGS",
       "PNG без фона",
       "Готовый пак для Telegram",
       "Приоритетная генерация",
@@ -31,12 +33,13 @@ const plans = [
     payUrl: "https://checkout.prodamus.ru/pay/pro-pack",
   },
   {
-    name: "Бизнес-Бренд",
+    name: "Бизнес",
     price: "2 490",
-    stickers: "50 персональных стикеров",
+    stickers: "3 500 токенов",
     features: [
-      "До 15 фото → 50 стикеров",
-      "Все 5 стилей + микс",
+      "3 500 токенов (~700 статичных стикеров)",
+      "Для максимального продвижения бренда",
+      "Все 5 стилей + анимация TGS + микс",
       "PNG без фона",
       "Пак для Telegram + WhatsApp",
       "Приоритетная генерация",
@@ -54,10 +57,13 @@ const Pricing = () => {
         <div className="container max-w-4xl">
           <ScrollReveal>
             <h1 className="font-display text-3xl sm:text-4xl font-bold text-center mb-3" style={{ textWrap: "balance" }}>
-              Тарифы
+              Магазин токенов
             </h1>
-            <p className="text-muted-foreground text-center mb-12 max-w-md mx-auto">
-              Выберите подходящий план и создайте уникальный стикерпак за считаные секунды
+            <p className="text-muted-foreground text-center mb-4 max-w-md mx-auto">
+              Пополните баланс и создавайте уникальные стикерпаки без ограничений
+            </p>
+            <p className="text-sm text-center text-muted-foreground/70 mb-12">
+              Статичный стикер = 5 🪙 · Анимация TGS = 7 🪙
             </p>
           </ScrollReveal>
 
@@ -71,7 +77,7 @@ const Pricing = () => {
 
           <ScrollReveal delay={400}>
             <p className="text-xs text-muted-foreground/50 text-center mt-10">
-              Оплата через Prodamus. Безопасно. Возврат в течение 24 часов если стикеры не были сгенерированы.
+              Оплата через Prodamus. Безопасно. Возврат в течение 24 часов если токены не были использованы.
             </p>
           </ScrollReveal>
         </div>
