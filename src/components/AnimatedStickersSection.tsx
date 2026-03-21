@@ -107,7 +107,7 @@ const AnimatedStickersSection = () => {
               }}
             >
               <Film className="w-4 h-4 mr-2" />
-              Создать анимированный пак
+              Создать и анимировать пак
             </Button>
             <p className="text-xs text-muted-foreground/50 mt-3">
               Доступно в Профи и Бизнес тарифах · 7 🪙 за анимированный стикер
