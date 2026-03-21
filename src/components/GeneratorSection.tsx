@@ -234,9 +234,10 @@ const GeneratorSection = () => {
                       <button
                         key={r.label}
                         onClick={() => toggleEmotion(r.label)}
-                        className={`relative flex flex-col items-center gap-0.5 p-1.5 rounded-lg border-2 transition-all duration-200 active:scale-95 ${
+                        aria-pressed={isSelected}
+                        className={`relative z-0 flex flex-col items-center gap-0.5 rounded-lg border-2 p-1.5 transition-all duration-200 active:scale-95 ${
                           isSelected
-                            ? "border-primary bg-primary/10 shadow-[0_0_10px_hsl(var(--primary)/0.5),0_0_20px_hsl(var(--primary)/0.25)]"
+                            ? "z-10 border-primary bg-primary/15 ring-2 ring-primary/70 shadow-[0_0_0_1px_hsl(var(--primary)/0.9),0_0_12px_hsl(var(--primary)/0.55),0_0_24px_hsl(var(--primary)/0.3)]"
                             : "border-border/30 bg-secondary/40 hover:border-primary/30 hover:bg-primary/5"
                         }`}
                       >
