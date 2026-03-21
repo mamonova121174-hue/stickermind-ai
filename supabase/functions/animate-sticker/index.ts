@@ -104,7 +104,7 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           // Fallback: Wan 2.1 I2V - good image-to-video model
-          version: "a]d2c29ea10e1c4b97c177e109ea12e1e0e74e6b5e7c50783a1d4871ee8e1cde0",
+          version: "aa535ad6050bb18feee0e0ba99f345b0807b28baa81c95adfc4777f61f3ac41f",
           input: {
             image: imageUrl,
             prompt: motionPrompt,
