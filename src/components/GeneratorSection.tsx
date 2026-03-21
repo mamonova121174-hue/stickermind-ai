@@ -6,11 +6,11 @@ import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 
-import stylePixar from "@/assets/style-3d-pixar.png";
-import styleGta from "@/assets/style-gta.png";
-import styleGhibli from "@/assets/style-ghibli.png";
-import styleCyberpunk from "@/assets/style-cyberpunk.png";
-import styleLineart from "@/assets/style-lineart.png";
+import demoPixar from "@/assets/demo-pixar-hello.png";
+import demoGta from "@/assets/demo-gta-like.png";
+import demoGhibli from "@/assets/demo-ghibli-think.png";
+import demoCyberpunk from "@/assets/demo-cyberpunk-cool.png";
+import demoLineart from "@/assets/demo-lineart-love.png";
 
 const styles = [
   { id: "pixar", name: "3D Pixar", image: stylePixar },
