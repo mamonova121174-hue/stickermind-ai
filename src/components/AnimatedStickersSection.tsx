@@ -2,14 +2,23 @@ import { Film, Sparkles, Play, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 
+import animHello from "@/assets/anim-hello.png";
+import animLike from "@/assets/anim-like.png";
+import animThink from "@/assets/anim-think.png";
+import animParty from "@/assets/anim-party.png";
+import animAngry from "@/assets/anim-angry.png";
+import animStrong from "@/assets/anim-strong.png";
+
 const demoAnimatedStickers = [
-  { id: 1, emoji: "👋", label: "Привет", delay: 0 },
-  { id: 2, emoji: "👍", label: "Лайк", delay: 80 },
-  { id: 3, emoji: "🤔", label: "Думаю", delay: 160 },
-  { id: 4, emoji: "🎉", label: "Ура!", delay: 240 },
-  { id: 5, emoji: "😤", label: "Злюсь", delay: 320 },
-  { id: 6, emoji: "💪", label: "Вперёд", delay: 400 },
+  { id: 1, image: animHello, label: "Привет", delay: 0 },
+  { id: 2, image: animLike, label: "Лайк", delay: 80 },
+  { id: 3, image: animThink, label: "Думаю", delay: 160 },
+  { id: 4, image: animParty, label: "Ура!", delay: 240 },
+  { id: 5, image: animAngry, label: "Злюсь", delay: 320 },
+  { id: 6, image: animStrong, label: "Вперёд", delay: 400 },
 ];
+
+const checkerBg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'8\' height=\'8\' fill=\'%23f0f0f0\'/%3E%3Crect x=\'8\' y=\'8\' width=\'8\' height=\'8\' fill=\'%23f0f0f0\'/%3E%3C/svg%3E")';
 
 const AnimatedStickersSection = () => {
   return (
@@ -29,20 +38,24 @@ const AnimatedStickersSection = () => {
           </div>
           <p className="text-center text-muted-foreground text-sm max-w-lg mx-auto mb-10">
             Оживите свой стикерпак — каждый персонаж двигается, машет рукой
-            и выражает эмоции в формате TGS / MP4
+            и выражает эмоции в формате MP4
           </p>
         </ScrollReveal>
 
-        {/* Demo grid */}
+        {/* Demo grid with real transparent stickers */}
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-10">
           {demoAnimatedStickers.map((s) => (
             <ScrollReveal key={s.id} delay={s.delay}>
               <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
-                {/* Placeholder for future Lottie / MP4 */}
-                <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2 relative animate-[sticker-float_2.5s_ease-in-out_infinite]">
-                  <span className="text-4xl animate-[sticker-wobble_3s_ease-in-out_infinite]">
-                    {s.emoji}
-                  </span>
+                <div
+                  className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative"
+                  style={{ backgroundImage: checkerBg, backgroundColor: '#fff' }}
+                >
+                  <img
+                    src={s.image}
+                    alt={`Анимированный стикер ${s.label}`}
+                    className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
+                  />
                   {/* Play overlay */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-background/40 rounded-lg">
                     <div className="w-8 h-8 rounded-full bg-primary/90 flex items-center justify-center">
@@ -54,7 +67,7 @@ const AnimatedStickersSection = () => {
                   {s.label}
                 </span>
                 <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-                  TGS
+                  MP4
                 </span>
               </div>
             </ScrollReveal>
@@ -72,13 +85,13 @@ const AnimatedStickersSection = () => {
               },
               {
                 icon: Film,
-                title: "TGS & MP4",
-                desc: "Экспорт в формат Telegram animated stickers или видео",
+                title: "Прозрачный фон",
+                desc: "Автоматическое удаление фона — только ваш персонаж, без квадратов",
               },
               {
                 icon: Sparkles,
                 title: "Премиум-качество",
-                desc: "Плавные 60 FPS анимации с сохранением стиля и сходства",
+                desc: "Плавные анимации с сохранением стиля и сходства лица",
               },
             ].map((f) => (
               <div
