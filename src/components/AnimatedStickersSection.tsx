@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Film, Sparkles, Play, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
