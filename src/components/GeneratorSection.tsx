@@ -40,26 +40,44 @@ const goldenReactions = [
 ];
 
 type StickerData = {
-  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string;
+  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[];
 };
 
 const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }) => {
+  const [frameIndex, setFrameIndex] = useState(0);
+  const frames = sticker.frames && sticker.frames.length > 1 ? sticker.frames : null;
+
+  useEffect(() => {
+    if (!frames) return;
+    const interval = setInterval(() => {
+      setFrameIndex((prev) => (prev + 1) % frames.length);
+    }, 600);
+    return () => clearInterval(interval);
+  }, [frames]);
+
+  const displayUrl = frames ? frames[frameIndex] : sticker.imageUrl;
+
   return (
     <div
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
       <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
-        {sticker.imageUrl ? (
-          <img src={sticker.imageUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
+        {displayUrl ? (
+          <img src={displayUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
       </div>
       <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{sticker.label}</span>
       <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
-      {sticker.animated && (
+      {sticker.animated && frames && (
         <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
+          ANIM
+        </span>
+      )}
+      {!frames && sticker.imageUrl && (
+        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-muted/40 text-muted-foreground">
           PNG
         </span>
       )}
