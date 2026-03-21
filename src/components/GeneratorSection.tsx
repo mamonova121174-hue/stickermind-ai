@@ -67,14 +67,14 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
           <video
             ref={videoRef}
             src={sticker.videoUrl}
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-contain rounded-lg"
             loop
             muted
             autoPlay
             playsInline
           />
         ) : sticker.imageUrl ? (
-          <img src={sticker.imageUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
+          <img src={sticker.imageUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-contain rounded-lg" />
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
