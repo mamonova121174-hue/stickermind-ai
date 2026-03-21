@@ -11,9 +11,9 @@ import styleCyberpunk from "@/assets/style-cyberpunk.png";
 import styleLineart from "@/assets/style-lineart.png";
 
 const styles = [
-  { id: "pixar", name: "3D Pixar", image: stylePixar },
-  { id: "gta", name: "GTA Style", image: styleGta },
-  { id: "ghibli", name: "Anime Ghibli", image: styleGhibli },
+  { id: "pixar", name: "3D Pixar", image: stylePixar, premium: true },
+  { id: "gta", name: "GTA Style", image: styleGta, premium: true },
+  { id: "ghibli", name: "Miyazaki", image: styleGhibli, premium: true },
   { id: "cyberpunk", name: "Cyberpunk", image: styleCyberpunk },
   { id: "lineart", name: "Line Art", image: styleLineart },
 ];
