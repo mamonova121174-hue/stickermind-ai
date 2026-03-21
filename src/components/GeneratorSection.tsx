@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Upload, Sparkles, X, ImageIcon } from "lucide-react";
+import { Upload, Sparkles, X, ImageIcon, Film } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useTokens } from "@/components/TokenContext";
 import ScrollReveal from "./ScrollReveal";
 
 import stylePixar from "@/assets/style-3d-pixar.png";
@@ -23,6 +25,8 @@ const GeneratorSection = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [animateAll, setAnimateAll] = useState(false);
+  const { balance } = useTokens();
   const navigate = useNavigate();
 
   const handleFile = useCallback((file: File) => {
@@ -164,8 +168,22 @@ const GeneratorSection = () => {
                 ))}
               </div>
 
+              {/* Animation toggle */}
+              <div className="flex items-center justify-between p-3 rounded-xl bg-secondary/50 border border-border/50">
+                <div className="flex items-center gap-2.5">
+                  <Film className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="text-xs font-medium text-foreground">Анимировать весь пак (TGS)</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {animateAll ? "15 × 7 = 105 🪙" : "Статика: 15 × 5 = 75 🪙"}
+                    </p>
+                  </div>
+                </div>
+                <Switch checked={animateAll} onCheckedChange={setAnimateAll} />
+              </div>
+
               <Button
-                className="w-full mt-4 bg-gradient-primary text-primary-foreground h-12 text-base font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-150 glow-primary"
+                className="w-full mt-2 bg-gradient-primary text-primary-foreground h-12 text-base font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-150 glow-primary"
                 onClick={handleGenerate}
                 disabled={!uploadedFile || !selectedStyle}
               >
