@@ -112,7 +112,6 @@
   .animate-pulse-arrow {
     animation: pulse-arrow 1.5s ease-in-out infinite;
   }
-  }
 
   @keyframes sticker-float {
     0%, 100% { transform: translateY(0) scale(1); }
