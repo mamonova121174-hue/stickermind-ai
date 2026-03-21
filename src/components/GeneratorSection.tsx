@@ -43,6 +43,16 @@ type StickerData = {
   emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; videoUrl?: string;
 };
 
+const getFunctionErrorMessage = (error: unknown, fallback: string) => {
+  const maybeError = error as { message?: string; context?: { json?: { error?: string; details?: { primary?: string; fallback?: string } } }; status?: number };
+  const backendMessage = maybeError?.context?.json?.error;
+
+  if (backendMessage) return backendMessage;
+  if (maybeError?.status === 402) return "На Replicate ещё не активировались кредиты или баланс всё ещё пустой. Подождите 2-5 минут после привязки карты и попробуйте снова.";
+  if (maybeError?.status === 429) return "Слишком много запросов к AI-видео подряд. Подождите немного и попробуйте снова.";
+  return maybeError?.message || fallback;
+};
+
 const StickerCard = ({ sticker, index, onAnimate }: { sticker: StickerData; index: number; onAnimate?: (sticker: StickerData) => void }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -185,7 +195,7 @@ const GeneratorSection = () => {
       console.error("Animation error:", err);
       toast({
         title: "Ошибка анимации",
-        description: err?.message || "Не удалось создать анимацию",
+        description: getFunctionErrorMessage(err, "Не удалось создать анимацию"),
         variant: "destructive",
       });
     }
@@ -293,6 +303,11 @@ const GeneratorSection = () => {
                 }
               } catch (animErr) {
                 console.error(`Animation failed for ${s.label}:`, animErr);
+                toast({
+                  title: `Не удалось оживить «${s.label}»`,
+                  description: getFunctionErrorMessage(animErr, "Анимация временно недоступна"),
+                  variant: "destructive",
+                });
               }
             }
           }
