@@ -40,31 +40,18 @@ const goldenReactions = [
 ];
 
 type StickerData = {
-  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[];
+  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string;
 };
 
 const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }) => {
-  const [frameIdx, setFrameIdx] = useState(0);
-  const hasFrames = sticker.frames && sticker.frames.length > 1;
-
-  useEffect(() => {
-    if (!hasFrames) return;
-    const id = setInterval(() => {
-      setFrameIdx((p) => (p + 1) % sticker.frames!.length);
-    }, 700);
-    return () => clearInterval(id);
-  }, [hasFrames, sticker.frames]);
-
-  const src = hasFrames ? sticker.frames![frameIdx] : sticker.imageUrl;
-
   return (
     <div
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
       <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
-        {src ? (
-          <img src={src} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
+        {sticker.imageUrl ? (
+          <img src={sticker.imageUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
@@ -73,7 +60,7 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
       <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
       {sticker.animated && (
         <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-          TGS
+          PNG
         </span>
       )}
     </div>
@@ -90,7 +77,7 @@ const GeneratorSection = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState<string>("");
   const [generatedStickers, setGeneratedStickers] = useState<
-    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[] }[]
+    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string }[]
   >(() => {
     try {
       return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
@@ -183,7 +170,6 @@ const GeneratorSection = () => {
               style: styleName,
               animated: r.animated,
               imageUrl: r.url,
-              frames: r.frames,
             }));
             setGeneratedStickers((prev) => [...newStickers, ...prev]);
           }
@@ -213,7 +199,6 @@ const GeneratorSection = () => {
           style: styleName,
           animated: r.animated,
           imageUrl: r.url,
-          frames: r.frames,
         }));
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
