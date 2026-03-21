@@ -19,7 +19,7 @@ const ScrollReveal = ({ children, className = "", delay = 0, direction = "up" }:
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.05 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
