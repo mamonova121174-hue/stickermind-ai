@@ -65,19 +65,31 @@ serve(async (req) => {
     for (const emotion of emotions) {
       const posePrompt = POSE_PROMPTS[emotion] || emotion;
 
-      const prompt = `CRITICAL INSTRUCTION: Study the reference photo carefully. Memorize EVERY facial detail: exact face shape, exact nose shape and size, exact eye shape/color/spacing, exact lip shape, exact eyebrow shape, exact hair color/length/texture/style, skin tone, any moles/freckles/scars, ear shape, jawline, chin shape, forehead size, cheekbone structure.
+      const prompt = `You are a portrait artist who specializes in creating character stickers that perfectly capture a person's likeness.
 
-Now create a sticker of THIS EXACT person in ${stylePrompt} style. The pose: ${posePrompt}.
+REFERENCE PHOTO ANALYSIS — before drawing, describe to yourself:
+1. Face shape (round/oval/square/heart)
+2. Eye color, shape, size, spacing
+3. Nose shape and size relative to face
+4. Mouth/lip shape and fullness
+5. Eyebrow thickness, arch, color
+6. Hair: exact color (not approximate), length, texture, parting, style
+7. Skin tone (exact shade)
+8. Distinguishing features: freckles, moles, dimples, scars, glasses, piercings, facial hair
+9. Body build
 
-LIKENESS RULES (non-negotiable):
-- The face MUST be immediately recognizable as the person in the photo
-- Preserve exact hair color, length, and style — do NOT change hairstyle
-- Preserve exact skin tone
-- Preserve all unique facial proportions (eye spacing, nose width, lip fullness)
-- If the person has glasses, keep glasses. If no glasses, no glasses.
-- Same body type and build
+Now draw this SPECIFIC person as a sticker in ${stylePrompt} style.
+Pose: ${posePrompt}.
 
-Format: character on a clean white background, no text, sticker composition. The result must pass a "friend recognition test" — anyone who knows this person should instantly say "that's them!".`;
+ABSOLUTE REQUIREMENTS:
+- The person in the sticker MUST be the same person from the photo — not a similar-looking person, THE SAME person
+- Hair color must be EXACTLY the same (e.g., if auburn/copper, NOT blonde or brown)
+- Do NOT idealize, beautify, or change any features
+- Do NOT change gender presentation, age, or ethnicity
+- Keep glasses if present, keep facial hair if present
+- Maintain the same face proportions — if someone has a wider nose, keep it wider; if thin lips, keep thin
+
+OUTPUT: Single character on clean white background, sticker format, no text, no borders. The person's friends and family must instantly recognize them.`;
 
       try {
         const aiResponse = await fetch(
