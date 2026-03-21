@@ -81,7 +81,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         // Using minimax video-01-live for high quality portrait animation
-        version: "54f6750f9e4de89f5e57e09205376c18a878756087e8f04c5e58b1e0528e4ed3",
+        version: "b3fd893b518666a710738c15185940144fce6987432a31768a8e0ffba7f3359b",
         input: {
           prompt: motionPrompt,
           first_frame_image: imageUrl,
