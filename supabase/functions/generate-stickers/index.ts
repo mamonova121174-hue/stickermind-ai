@@ -300,7 +300,7 @@ serve(async (req) => {
       });
     }
 
-    const results: { label: string; url: string; animated: boolean }[] = [];
+    const results: { label: string; url: string; frames?: string[]; animated: boolean }[] = [];
     const identity = await analyzeIdentity(photoBase64, LOVABLE_API_KEY);
 
     async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
@@ -320,6 +320,7 @@ serve(async (req) => {
 
     for (const emotion of emotions) {
       try {
+        // Step 1: Generate the action-pose sticker
         const prompt = buildStickerPrompt(style, emotion, identity);
         const imageData = await generateStickerImage(photoBase64, prompt, LOVABLE_API_KEY);
 
@@ -328,14 +329,36 @@ serve(async (req) => {
           continue;
         }
 
-        const url = await uploadImage(imageData, supabase);
-        if (!url) continue;
+        const actionUrl = await uploadImage(imageData, supabase);
+        if (!actionUrl) continue;
 
-        results.push({
-          label: emotion,
-          url,
-          animated: !!requestAnimated,
-        });
+        if (requestAnimated) {
+          // Step 2: EDIT the action sticker to create a rest frame
+          const editInstruction = ANIMATION_EDIT_INSTRUCTIONS[emotion] || 
+            "Move the character to a neutral resting pose with arms at sides. Keep the exact same character, face, style, and background.";
+          
+          const restFrameData = await editStickerImage(imageData, editInstruction, LOVABLE_API_KEY);
+          
+          const frames: string[] = [];
+          if (restFrameData) {
+            const restUrl = await uploadImage(restFrameData, supabase);
+            if (restUrl) frames.push(restUrl);
+          }
+          frames.push(actionUrl); // action frame is always last
+
+          results.push({
+            label: emotion,
+            url: actionUrl,
+            frames: frames.length > 1 ? frames : undefined,
+            animated: true,
+          });
+        } else {
+          results.push({
+            label: emotion,
+            url: actionUrl,
+            animated: false,
+          });
+        }
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);
