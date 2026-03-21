@@ -238,40 +238,47 @@ const GeneratorSection = () => {
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
 
-        // If animateAll is on, start animating each sticker via Replicate
+        // Auto-animate each sticker: remove bg + animate via Replicate
         if (animateAll) {
-          setGenerationProgress("Оживляем стикеры через AI-видео... Это займёт ещё 2-5 минут");
-          for (const s of newStickers) {
-            if (s.imageUrl) {
-              try {
-                const { data: animData, error: animError } = await supabase.functions.invoke("animate-sticker", {
-                  body: { imageUrl: s.imageUrl, emotion: s.label },
-                });
-                if (animError) throw animError;
-                if (animData?.videoUrl) {
-                  setGeneratedStickers((prev) =>
-                    prev.map((existing) =>
-                      existing.imageUrl === s.imageUrl && existing.label === s.label
-                        ? { ...existing, animated: true, videoUrl: animData.videoUrl, isAnimating: false }
-                        : existing
-                    )
-                  );
-                }
-              } catch (animErr) {
-                setGeneratedStickers((prev) =>
-                  prev.map((existing) =>
-                    existing.imageUrl === s.imageUrl && existing.label === s.label
-                      ? { ...existing, isAnimating: false }
-                      : existing
-                  )
-                );
-                console.error(`Animation failed for ${s.label}:`, animErr);
-                toast({
-                  title: `Не удалось оживить «${s.label}»`,
-                  description: getFunctionErrorMessage(animErr, "Анимация временно недоступна"),
-                  variant: "destructive",
-                });
-              }
+          setGenerationProgress("Убираем фон и оживляем стикеры через AI... Это займёт 3-7 минут");
+          for (let i = 0; i < newStickers.length; i++) {
+            const s = newStickers[i];
+            if (!s.imageUrl) continue;
+            // Delay between requests to respect rate limits (especially < $5 balance)
+            if (i > 0) await new Promise((r) => setTimeout(r, 12000));
+            try {
+              setGenerationProgress(`Оживляем «${s.label}» (${i + 1}/${newStickers.length})...`);
+              const { data: animData, error: animError } = await supabase.functions.invoke("animate-sticker", {
+                body: { imageUrl: s.imageUrl, emotion: s.label },
+              });
+              if (animError) throw animError;
+              setGeneratedStickers((prev) =>
+                prev.map((existing) =>
+                  existing.imageUrl === s.imageUrl && existing.label === s.label
+                    ? {
+                        ...existing,
+                        animated: !!animData?.videoUrl,
+                        videoUrl: animData?.videoUrl,
+                        imageUrl: animData?.transparentImageUrl || existing.imageUrl,
+                        isAnimating: false,
+                      }
+                    : existing
+                )
+              );
+            } catch (animErr) {
+              setGeneratedStickers((prev) =>
+                prev.map((existing) =>
+                  existing.imageUrl === s.imageUrl && existing.label === s.label
+                    ? { ...existing, isAnimating: false }
+                    : existing
+                )
+              );
+              console.error(`Animation failed for ${s.label}:`, animErr);
+              toast({
+                title: `Не удалось оживить «${s.label}»`,
+                description: getFunctionErrorMessage(animErr, "Анимация временно недоступна"),
+                variant: "destructive",
+              });
             }
           }
         }
