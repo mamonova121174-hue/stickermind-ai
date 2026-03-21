@@ -297,6 +297,9 @@ serve(async (req) => {
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const REPLICATE_API_TOKEN = Deno.env.get("REPLICATE_API_TOKEN");
+    if (!REPLICATE_API_TOKEN) throw new Error("REPLICATE_API_TOKEN not configured");
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     const { photoBase64, style, emotions } = await req.json();
@@ -321,7 +324,8 @@ serve(async (req) => {
           continue;
         }
 
-        const mainUrl = await uploadImage(imageData, supabase);
+        const transparentImageUrl = await removeBackground(imageData, REPLICATE_API_TOKEN);
+        const mainUrl = await uploadImageFromUrl(transparentImageUrl, supabase);
         if (!mainUrl) continue;
 
         results.push({ label: emotion, url: mainUrl });
