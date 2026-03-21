@@ -29,6 +29,11 @@ const Footer = () => {
             © {new Date().getFullYear()} StickerMind AI
           </p>
         </div>
+
+        <p className="text-[10px] text-muted-foreground/30 text-center mt-6 max-w-lg mx-auto leading-relaxed">
+          Сервис для создания стикерпаков в Telegram из фото с помощью нейросети.
+          Как сделать стикер из фото, сделать стикерпак на айфоне, создать стикер лица нейросетью — всё это StickerMind AI.
+        </p>
       </div>
     </footer>
   );
