@@ -144,9 +144,9 @@ Pose/action: ${posePrompt}.
 
 ABSOLUTE PRIORITY ORDER:
 1. recognizably the same person as the uploaded photo
-2. preserve real facial anatomy and natural skin texture
+2. apply artistic style STRONGLY — the result must clearly look stylized, not like a photo
 3. apply requested pose / attire
-4. apply artistic style strongly
+4. preserve real facial structure (bone structure, proportions) even under heavy stylization
 
 FACE IDENTITY RULES:
 - Preserve the exact nose shape, bridge, nostrils, and tip from the source photo
