@@ -6,18 +6,18 @@ import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 
-import stylePixar from "@/assets/style-3d-pixar.png";
-import styleGta from "@/assets/style-gta.png";
-import styleGhibli from "@/assets/style-ghibli.png";
-import styleCyberpunk from "@/assets/style-cyberpunk.png";
-import styleLineart from "@/assets/style-lineart.png";
+import demoPixar from "@/assets/demo-pixar-hello.png";
+import demoGta from "@/assets/demo-gta-like.png";
+import demoGhibli from "@/assets/demo-ghibli-think.png";
+import demoCyberpunk from "@/assets/demo-cyberpunk-cool.png";
+import demoLineart from "@/assets/demo-lineart-love.png";
 
 const styles = [
-  { id: "pixar", name: "3D Pixar", image: stylePixar },
-  { id: "gta", name: "GTA Style", image: styleGta },
-  { id: "ghibli", name: "Miyazaki", image: styleGhibli },
-  { id: "cyberpunk", name: "Cyberpunk", image: styleCyberpunk },
-  { id: "lineart", name: "Line Art", image: styleLineart },
+  { id: "pixar", name: "3D Pixar", image: demoPixar },
+  { id: "gta", name: "GTA Style", image: demoGta },
+  { id: "ghibli", name: "Miyazaki", image: demoGhibli },
+  { id: "cyberpunk", name: "Cyberpunk", image: demoCyberpunk },
+  { id: "lineart", name: "Line Art", image: demoLineart },
 ];
 
 const goldenReactions = [
@@ -62,7 +62,7 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
-      <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative" style={{ backgroundImage: sticker.imageUrl ? 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'8\' height=\'8\' fill=\'%23e5e5e5\'/%3E%3Crect x=\'8\' y=\'8\' width=\'8\' height=\'8\' fill=\'%23e5e5e5\'/%3E%3C/svg%3E")' : undefined, backgroundColor: sticker.imageUrl ? '#fff' : undefined }}>
+      <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative bg-secondary/30">
         {hasVideo ? (
           <video
             ref={videoRef}
@@ -400,11 +400,11 @@ const GeneratorSection = () => {
                         : "border-border/50 hover:border-primary/30"
                     }`}
                   >
-                    <div className="aspect-square overflow-hidden">
+                    <div className="aspect-square overflow-hidden bg-secondary/30">
                       <img
                         src={style.image}
                         alt={`Стикер в стиле ${style.name}`}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 to-transparent p-2">

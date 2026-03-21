@@ -17,7 +17,7 @@ const previewStyles = [
   { id: "lineart", name: "Line Art", image: demoLineart, emotion: "Любовь" },
 ];
 
-const checkerBg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'8\' height=\'8\' fill=\'%23f0f0f0\'/%3E%3Crect x=\'8\' y=\'8\' width=\'8\' height=\'8\' fill=\'%23f0f0f0\'/%3E%3C/svg%3E")';
+
 
 const HowItWorksSection = () => {
   return (
@@ -50,8 +50,7 @@ const HowItWorksSection = () => {
                 {previewStyles.map((style) => (
                   <div key={style.id} className="flex flex-col items-center gap-1.5 group">
                     <div
-                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-border/50 shadow-md transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:scale-105"
-                      style={{ backgroundImage: checkerBg, backgroundColor: '#fff' }}
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-border/50 shadow-md transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:scale-105 bg-secondary/30"
                     >
                       <img src={style.image} alt={`Стикер в стиле ${style.name}`} className="w-full h-full object-contain" />
                     </div>
