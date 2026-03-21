@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Upload, Sparkles, X, ImageIcon } from "lucide-react";
+import { Upload, Sparkles, X, ImageIcon, Film } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useTokens } from "@/components/TokenContext";
 import ScrollReveal from "./ScrollReveal";
 
 import stylePixar from "@/assets/style-3d-pixar.png";
