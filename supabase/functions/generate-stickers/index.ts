@@ -19,7 +19,7 @@ const STYLE_PROMPTS: Record<string, string> = {
   ghibli:
     "Studio Ghibli / Hayao Miyazaki hand-painted watercolor illustration with STRONG anime stylization: simplified soft features, large gentle eyes, delicate watercolor washes, warm earthy palette, visible brushstrokes, cel-shading outlines, dreamy storybook atmosphere — the character must look like a Ghibli film character while keeping recognizable facial structure",
   cyberpunk:
-    "Cyberpunk 2077 inspired portrait art, rebellious futuristic styling, aggressive neon reflections, razor-sharp contrast, holographic details, rain-slick cinematic tension, edgy defiant attitude, unmistakably cyberpunk",
+    "Cyberpunk 2077 inspired portrait art, rebellious futuristic styling, aggressive neon reflections, razor-sharp contrast, holographic details, edgy defiant attitude, unmistakably cyberpunk, NO smoke, NO fog, NO mist, NO particles obscuring the face, clean clear view of the face",
   lineart:
     "editorial fashion line-art illustration, confident ink contour variation, highly recognizable facial structure, selective color fills, clean negative space, premium magazine sketch finish",
 };
