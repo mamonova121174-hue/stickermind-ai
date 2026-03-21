@@ -77,7 +77,7 @@ const GeneratorSection = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState<string>("");
   const [generatedStickers, setGeneratedStickers] = useState<
-    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[] }[]
+    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string }[]
   >(() => {
     try {
       return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
