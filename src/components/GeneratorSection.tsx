@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Upload, Sparkles, X, ImageIcon, Film } from "lucide-react";
+import { Upload, Sparkles, X, ImageIcon, Film, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTokens } from "@/components/TokenContext";
+import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
 
 import stylePixar from "@/assets/style-3d-pixar.png";
@@ -20,14 +20,38 @@ const styles = [
   { id: "lineart", name: "Line Art", image: styleLineart },
 ];
 
+const goldenReactions = [
+  { emoji: "👋", label: "Привет" },
+  { emoji: "👌", label: "Окей" },
+  { emoji: "👍", label: "Лайк" },
+  { emoji: "🫶", label: "Любовь" },
+  { emoji: "🤦‍♂️", label: "Фейспалм" },
+  { emoji: "💻", label: "Работаю" },
+  { emoji: "😤", label: "Злюсь" },
+  { emoji: "🤔", label: "Думаю" },
+  { emoji: "💰", label: "Успех" },
+  { emoji: "🎉", label: "Ура!" },
+  { emoji: "😴", label: "Сплю" },
+  { emoji: "😮", label: "Шок" },
+  { emoji: "⚖️", label: "Закон" },
+  { emoji: "💪", label: "Вперёд" },
+  { emoji: "🙋", label: "Пока" },
+];
+
 const GeneratorSection = () => {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [animateAll, setAnimateAll] = useState(false);
-  const { balance } = useTokens();
-  const navigate = useNavigate();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { balance, setBalance } = useTokens();
+  const { toast } = useToast();
+
+  const costPerSticker = animateAll ? 7 : 5;
+  const totalCost = selectedEmotions.length * costPerSticker;
+  const canAfford = balance >= totalCost;
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) return;
@@ -47,14 +71,43 @@ const GeneratorSection = () => {
     [handleFile]
   );
 
+  const toggleEmotion = (label: string) => {
+    setSelectedEmotions((prev) =>
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
+    );
+  };
+
   const handleGenerate = () => {
-    navigate("/pricing");
+    if (!uploadedFile || !selectedStyle || selectedEmotions.length === 0) return;
+
+    if (!canAfford) {
+      toast({
+        title: "Недостаточно токенов",
+        description: `Нужно ${totalCost} 🪙, у вас ${balance} 🪙. Пополните баланс!`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+    // Simulate generation & deduct tokens
+    setTimeout(() => {
+      setBalance(balance - totalCost);
+      toast({
+        title: "Стикеры готовы! 🎉",
+        description: `Создано ${selectedEmotions.length} стикер(ов). Списано ${totalCost} 🪙`,
+      });
+      setIsGenerating(false);
+      setSelectedEmotions([]);
+    }, 2000);
   };
 
   const removeFile = () => {
     setUploadedFile(null);
     setPreview(null);
   };
+
+  const isReady = uploadedFile && selectedStyle && selectedEmotions.length > 0;
 
   return (
     <section id="generator" className="py-20 scroll-mt-20">
@@ -129,10 +182,11 @@ const GeneratorSection = () => {
             </p>
           </ScrollReveal>
 
-          {/* Style grid */}
+          {/* Right column: style + emotions + generate */}
           <ScrollReveal direction="right" delay={200}>
             <div className="space-y-4">
-              <p className="text-sm font-medium text-muted-foreground" id="styles">Выберите стиль</p>
+              {/* Style picker */}
+              <p className="text-sm font-medium text-muted-foreground">Выберите стиль</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {styles.map((style) => (
                   <button
@@ -147,7 +201,7 @@ const GeneratorSection = () => {
                     <div className="aspect-square overflow-hidden">
                       <img
                         src={style.image}
-                        alt={`Стикер в стиле ${style.name} — пример нейро-стикера`}
+                        alt={`Стикер в стиле ${style.name}`}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
@@ -168,6 +222,44 @@ const GeneratorSection = () => {
                 ))}
               </div>
 
+              {/* Emotion multi-select */}
+              <div>
+                <p className="text-sm font-medium text-muted-foreground mb-2">
+                  Выберите эмоции для стикеров
+                  {selectedEmotions.length > 0 && (
+                    <span className="ml-2 text-primary font-semibold">
+                      ({selectedEmotions.length} выбрано)
+                    </span>
+                  )}
+                </p>
+                <div className="grid grid-cols-5 gap-1.5">
+                  {goldenReactions.map((r) => {
+                    const isSelected = selectedEmotions.includes(r.label);
+                    return (
+                      <button
+                        key={r.label}
+                        onClick={() => toggleEmotion(r.label)}
+                        className={`relative flex flex-col items-center gap-0.5 p-1.5 rounded-lg border-2 transition-all duration-200 active:scale-95 ${
+                          isSelected
+                            ? "border-primary bg-primary/10"
+                            : "border-border/30 bg-secondary/40 hover:border-primary/30 hover:bg-primary/5"
+                        }`}
+                      >
+                        <span className="text-lg">{r.emoji}</span>
+                        <span className="text-[8px] text-muted-foreground truncate w-full text-center">
+                          {r.label}
+                        </span>
+                        {isSelected && (
+                          <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                            <Check className="w-2.5 h-2.5 text-primary-foreground" />
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Animation toggle */}
               <div className="flex items-center justify-between p-3 rounded-xl bg-secondary/50 border border-border/50">
                 <div className="flex items-center gap-2.5">
@@ -175,29 +267,54 @@ const GeneratorSection = () => {
                   <div>
                     <p className="text-xs font-medium text-foreground">Анимировать весь пак (TGS)</p>
                     <p className="text-[10px] text-muted-foreground">
-                      {animateAll ? "15 × 7 = 105 🪙" : "Статика: 15 × 5 = 75 🪙"}
+                      {selectedEmotions.length > 0
+                        ? `${selectedEmotions.length} × ${costPerSticker} = ${totalCost} 🪙`
+                        : animateAll ? "7 🪙 за стикер" : "5 🪙 за стикер"}
                     </p>
                   </div>
                 </div>
                 <Switch checked={animateAll} onCheckedChange={setAnimateAll} />
               </div>
 
+              {/* Cost summary */}
+              {selectedEmotions.length > 0 && (
+                <div className={`text-xs text-center p-2 rounded-lg border ${
+                  canAfford
+                    ? "bg-primary/5 border-primary/20 text-foreground"
+                    : "bg-destructive/5 border-destructive/20 text-destructive"
+                }`}>
+                  Итого: <span className="font-bold">{totalCost} 🪙</span> за {selectedEmotions.length} стикер(ов) · Баланс: <span className="font-bold">{balance} 🪙</span>
+                  {!canAfford && <span className="block mt-0.5 text-destructive">Не хватает {totalCost - balance} 🪙 — пополните баланс</span>}
+                </div>
+              )}
+
               <Button
                 className="w-full mt-2 bg-gradient-primary text-primary-foreground h-12 text-base font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-150 glow-primary"
                 onClick={handleGenerate}
-                disabled={!uploadedFile || !selectedStyle}
+                disabled={!isReady || !canAfford || isGenerating}
               >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Сгенерировать магию
+                {isGenerating ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    Генерируем...
+                  </span>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Сгенерировать магию {totalCost > 0 && `(${totalCost} 🪙)`}
+                  </>
+                )}
               </Button>
 
-              {(!uploadedFile || !selectedStyle) && (
+              {!isReady && (
                 <p className="text-xs text-muted-foreground/50 text-center">
-                  {!uploadedFile && !selectedStyle
-                    ? "Загрузите фото и выберите стиль"
+                  {!uploadedFile && !selectedStyle && selectedEmotions.length === 0
+                    ? "Загрузите фото, выберите стиль и эмоции"
                     : !uploadedFile
                       ? "Загрузите фото"
-                      : "Выберите стиль"}
+                      : !selectedStyle
+                        ? "Выберите стиль"
+                        : "Выберите хотя бы одну эмоцию"}
                 </p>
               )}
             </div>
