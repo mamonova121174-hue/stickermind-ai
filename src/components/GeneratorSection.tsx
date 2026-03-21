@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Upload, Sparkles, X, ImageIcon, Film, Check, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { useTokens } from "@/components/TokenContext";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
@@ -40,7 +39,7 @@ const goldenReactions = [
 ];
 
 type StickerData = {
-  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; videoUrl?: string;
+  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; videoUrl?: string; isAnimating?: boolean;
 };
 
 const getFunctionErrorMessage = (error: unknown, fallback: string) => {
@@ -53,8 +52,7 @@ const getFunctionErrorMessage = (error: unknown, fallback: string) => {
   return maybeError?.message || fallback;
 };
 
-const StickerCard = ({ sticker, index, onAnimate }: { sticker: StickerData; index: number; onAnimate?: (sticker: StickerData) => void }) => {
-  const [isAnimating, setIsAnimating] = useState(false);
+const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const hasVideo = !!sticker.videoUrl;
@@ -80,6 +78,13 @@ const StickerCard = ({ sticker, index, onAnimate }: { sticker: StickerData; inde
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
+
+        {sticker.isAnimating && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/70 backdrop-blur-sm">
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            <span className="px-2 text-center text-[10px] font-medium text-foreground">AI анимирует MP4…</span>
+          </div>
+        )}
       </div>
       <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{sticker.label}</span>
       <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
@@ -94,15 +99,6 @@ const StickerCard = ({ sticker, index, onAnimate }: { sticker: StickerData; inde
           <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-muted/40 text-muted-foreground">
             PNG
           </span>
-          {onAnimate && (
-            <button
-              onClick={() => onAnimate(sticker)}
-              className="absolute bottom-8 right-1.5 text-[8px] font-bold uppercase px-1.5 py-0.5 rounded bg-primary/20 text-primary hover:bg-primary/30 transition-colors active:scale-95"
-            >
-              <Film className="w-3 h-3 inline mr-0.5" />
-              Оживить
-            </button>
-          )}
         </>
       )}
     </div>
@@ -115,7 +111,7 @@ const GeneratorSection = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [animateAll, setAnimateAll] = useState(false);
+  const [animateAll] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState<string>("");
   const [generatedStickers, setGeneratedStickers] = useState<StickerData[]>(() => {
@@ -157,48 +153,6 @@ const GeneratorSection = () => {
     setSelectedEmotions((prev) =>
       prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
     );
-  };
-
-  const handleAnimateSticker = async (sticker: StickerData) => {
-    if (!sticker.imageUrl) return;
-    
-    toast({
-      title: "Оживляем стикер...",
-      description: `Создаём анимацию для "${sticker.label}". Это займёт 1-3 минуты.`,
-    });
-
-    try {
-      const { data, error } = await supabase.functions.invoke("animate-sticker", {
-        body: {
-          imageUrl: sticker.imageUrl,
-          emotion: sticker.label,
-        },
-      });
-
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-
-      if (data?.videoUrl) {
-        setGeneratedStickers((prev) =>
-          prev.map((s) =>
-            s.imageUrl === sticker.imageUrl && s.label === sticker.label
-              ? { ...s, animated: true, videoUrl: data.videoUrl }
-              : s
-          )
-        );
-        toast({
-          title: "Анимация готова! 🎬",
-          description: `Стикер "${sticker.label}" оживлён!`,
-        });
-      }
-    } catch (err: any) {
-      console.error("Animation error:", err);
-      toast({
-        title: "Ошибка анимации",
-        description: getFunctionErrorMessage(err, "Не удалось создать анимацию"),
-        variant: "destructive",
-      });
-    }
   };
 
   const handleGenerate = () => {
@@ -279,6 +233,7 @@ const GeneratorSection = () => {
           style: styleName,
           animated: false,
           imageUrl: r.url,
+          isAnimating: true,
         }));
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
@@ -289,19 +244,27 @@ const GeneratorSection = () => {
           for (const s of newStickers) {
             if (s.imageUrl) {
               try {
-                const { data: animData } = await supabase.functions.invoke("animate-sticker", {
+                const { data: animData, error: animError } = await supabase.functions.invoke("animate-sticker", {
                   body: { imageUrl: s.imageUrl, emotion: s.label },
                 });
+                if (animError) throw animError;
                 if (animData?.videoUrl) {
                   setGeneratedStickers((prev) =>
                     prev.map((existing) =>
                       existing.imageUrl === s.imageUrl && existing.label === s.label
-                        ? { ...existing, animated: true, videoUrl: animData.videoUrl }
+                        ? { ...existing, animated: true, videoUrl: animData.videoUrl, isAnimating: false }
                         : existing
                     )
                   );
                 }
               } catch (animErr) {
+                setGeneratedStickers((prev) =>
+                  prev.map((existing) =>
+                    existing.imageUrl === s.imageUrl && existing.label === s.label
+                      ? { ...existing, isAnimating: false }
+                      : existing
+                  )
+                );
                 console.error(`Animation failed for ${s.label}:`, animErr);
                 toast({
                   title: `Не удалось оживить «${s.label}»`,
@@ -489,19 +452,21 @@ const GeneratorSection = () => {
               </div>
 
               {/* Animation toggle */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-secondary/50 border border-border/50">
+              <div className="flex items-center justify-between gap-4 p-3 rounded-xl bg-secondary/50 border border-border/50">
                 <div className="flex items-center gap-2.5">
                   <Film className="w-4 h-4 text-primary" />
                   <div>
-                    <p className="text-xs font-medium text-foreground">Анимировать весь пак (TGS)</p>
+                    <p className="text-xs font-medium text-foreground">Premium MP4 анимация включена автоматически</p>
                     <p className="text-[10px] text-muted-foreground">
                       {selectedEmotions.length > 0
                         ? `${selectedEmotions.length} × ${costPerSticker} = ${totalCost} 🪙`
-                        : animateAll ? "7 🪙 за стикер" : "5 🪙 за стикер"}
+                        : "7 🪙 за стикер"}
                     </p>
                   </div>
                 </div>
-                <Switch checked={animateAll} onCheckedChange={setAnimateAll} />
+                <span className="rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                  Hands-Free
+                </span>
               </div>
 
               {/* Cost summary */}
@@ -565,7 +530,7 @@ const GeneratorSection = () => {
             </ScrollReveal>
             <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3">
               {generatedStickers.map((sticker, i) => (
-                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} onAnimate={handleAnimateSticker} />
+                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} />
               ))}
             </div>
           </div>
