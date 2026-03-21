@@ -67,7 +67,7 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
           <video
             ref={videoRef}
             src={sticker.videoUrl}
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-contain rounded-lg"
             loop
             muted
             autoPlay
