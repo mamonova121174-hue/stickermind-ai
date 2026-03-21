@@ -25,6 +25,8 @@ const GeneratorSection = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [animateAll, setAnimateAll] = useState(false);
+  const { balance } = useTokens();
   const navigate = useNavigate();
 
   const handleFile = useCallback((file: File) => {
