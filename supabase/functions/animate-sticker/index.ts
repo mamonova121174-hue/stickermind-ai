@@ -14,22 +14,24 @@ function json(body: Record<string, unknown>, status = 200) {
   });
 }
 
+const GREEN_SCREEN_SUFFIX = " The entire background behind the character MUST be a perfectly solid, uniform, bright green color (#00FF00 chroma key green). No gradients, no shadows on the background, no other colors in the background — ONLY pure green (#00FF00). The character should be fully visible against this flat green screen.";
+
 const MOTION_PROMPTS: Record<string, string> = {
-  "Привет": "The person waves hello with their right hand, smiling warmly. Natural arm movement, 2 waves.",
-  "Окей": "The person makes an OK hand gesture, nodding slightly with a confident smile.",
-  "Лайк": "The person raises a thumbs up enthusiastically, with a happy expression and slight head nod.",
-  "Любовь": "The person forms a heart shape with both hands in front of their chest, smiling lovingly.",
-  "Фейспалм": "The person slowly raises their hand to their forehead in a facepalm gesture, looking exasperated.",
-  "Работаю": "The person types on a keyboard with focused expression, fingers moving naturally.",
-  "Злюсь": "The person crosses their arms with an angry expression, furrowing brows and slightly shaking head.",
-  "Думаю": "The person puts their hand on their chin in a thinking pose, looking upward thoughtfully.",
-  "Успех": "The person holds up cash confidently, with a smirk and slight swagger.",
-  "Ура!": "The person throws their arms up in celebration, joyful expression, as if cheering.",
-  "Сплю": "The person slowly closes their eyes, tilts their head to one side, and appears to doze off.",
-  "Шок": "The person's jaw drops open, eyes widen, and hands come up to their cheeks in shock.",
-  "Закон": "The person in a lawyer robe gives a dignified nod, slightly tilting the scales of justice.",
-  "Вперёд": "The person flexes their bicep with a determined motivational expression, pumping their fist.",
-  "Пока": "The person waves goodbye gently with one hand, with a soft farewell smile.",
+  "Привет": "The person waves hello with their right hand, smiling warmly. Natural arm movement, 2 waves." + GREEN_SCREEN_SUFFIX,
+  "Окей": "The person makes an OK hand gesture, nodding slightly with a confident smile." + GREEN_SCREEN_SUFFIX,
+  "Лайк": "The person raises a thumbs up enthusiastically, with a happy expression and slight head nod." + GREEN_SCREEN_SUFFIX,
+  "Любовь": "The person forms a heart shape with both hands in front of their chest, smiling lovingly." + GREEN_SCREEN_SUFFIX,
+  "Фейспалм": "The person slowly raises their hand to their forehead in a facepalm gesture, looking exasperated." + GREEN_SCREEN_SUFFIX,
+  "Работаю": "The person types on a keyboard with focused expression, fingers moving naturally." + GREEN_SCREEN_SUFFIX,
+  "Злюсь": "The person crosses their arms with an angry expression, furrowing brows and slightly shaking head." + GREEN_SCREEN_SUFFIX,
+  "Думаю": "The person puts their hand on their chin in a thinking pose, looking upward thoughtfully." + GREEN_SCREEN_SUFFIX,
+  "Успех": "The person holds up cash confidently, with a smirk and slight swagger." + GREEN_SCREEN_SUFFIX,
+  "Ура!": "The person throws their arms up in celebration, joyful expression, as if cheering." + GREEN_SCREEN_SUFFIX,
+  "Сплю": "The person slowly closes their eyes, tilts their head to one side, and appears to doze off." + GREEN_SCREEN_SUFFIX,
+  "Шок": "The person's jaw drops open, eyes widen, and hands come up to their cheeks in shock." + GREEN_SCREEN_SUFFIX,
+  "Закон": "The person in a lawyer robe gives a dignified nod, slightly tilting the scales of justice." + GREEN_SCREEN_SUFFIX,
+  "Вперёд": "The person flexes their bicep with a determined motivational expression, pumping their fist." + GREEN_SCREEN_SUFFIX,
+  "Пока": "The person waves goodbye gently with one hand, with a soft farewell smile." + GREEN_SCREEN_SUFFIX,
 };
 
 const REMOVE_BG_VERSION = "95fcc2a26d3899cd6c2691c900465aaeff466285a65c14638cc5f36f34befaf1";
