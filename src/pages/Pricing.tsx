@@ -19,7 +19,7 @@ const plans = [
   {
     name: "Профи-Пак",
     price: "890",
-    stickers: "15 стикеров",
+    stickers: "15 персональных стикеров",
     popular: true,
     features: [
       "До 5 фото → 15 стикеров",
