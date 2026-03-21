@@ -13,11 +13,11 @@ import demoCyberpunk from "@/assets/demo-cyberpunk-cool.png";
 import demoLineart from "@/assets/demo-lineart-love.png";
 
 const styles = [
-  { id: "pixar", name: "3D Pixar", image: stylePixar },
-  { id: "gta", name: "GTA Style", image: styleGta },
-  { id: "ghibli", name: "Miyazaki", image: styleGhibli },
-  { id: "cyberpunk", name: "Cyberpunk", image: styleCyberpunk },
-  { id: "lineart", name: "Line Art", image: styleLineart },
+  { id: "pixar", name: "3D Pixar", image: demoPixar },
+  { id: "gta", name: "GTA Style", image: demoGta },
+  { id: "ghibli", name: "Miyazaki", image: demoGhibli },
+  { id: "cyberpunk", name: "Cyberpunk", image: demoCyberpunk },
+  { id: "lineart", name: "Line Art", image: demoLineart },
 ];
 
 const goldenReactions = [
