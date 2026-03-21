@@ -81,7 +81,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         // Using minimax video-01-live for high quality portrait animation
-        version: "54f6750f9e4de89f5e57e09205376c18a878756087e8f04c5e58b1e0528e4ed3",
+        version: "b3fd893b518666a710738c15185940144fce6987432a31768a8e0ffba7f3359b",
         input: {
           prompt: motionPrompt,
           first_frame_image: imageUrl,
@@ -104,7 +104,7 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           // Fallback: Wan 2.1 I2V - good image-to-video model
-          version: "a]d2c29ea10e1c4b97c177e109ea12e1e0e74e6b5e7c50783a1d4871ee8e1cde0",
+          version: "aa535ad6050bb18feee0e0ba99f345b0807b28baa81c95adfc4777f61f3ac41f",
           input: {
             image: imageUrl,
             prompt: motionPrompt,
