@@ -94,15 +94,26 @@ const GeneratorSection = () => {
     }
 
     setIsGenerating(true);
-    // Simulate generation & deduct tokens
     setTimeout(() => {
       setBalance(balance - totalCost);
+      const styleName = styles.find((s) => s.id === selectedStyle)?.name ?? selectedStyle;
+      const newStickers = selectedEmotions.map((label) => {
+        const reaction = goldenReactions.find((r) => r.label === label);
+        return {
+          emoji: reaction?.emoji ?? "🎨",
+          label,
+          style: styleName!,
+          animated: animateAll,
+        };
+      });
+      setGeneratedStickers((prev) => [...newStickers, ...prev]);
       toast({
         title: "Стикеры готовы! 🎉",
         description: `Создано ${selectedEmotions.length} стикер(ов). Списано ${totalCost} 🪙`,
       });
       setIsGenerating(false);
       setSelectedEmotions([]);
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
     }, 2000);
   };
 
