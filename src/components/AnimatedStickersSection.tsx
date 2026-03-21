@@ -45,11 +45,23 @@ const AnimatedStickersSection = () => {
             <ScrollReveal key={s.id} delay={s.delay}>
               <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
                 <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
-                  <img
-                    src={s.image}
-                    alt={`Стикер «${s.label}» в стиле ${s.style}`}
-                    className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
-                  />
+                  {s.video ? (
+                    <video
+                      src={s.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-contain"
+                      style={{ mixBlendMode: "multiply" }}
+                    />
+                  ) : (
+                    <img
+                      src={s.image}
+                      alt={`Стикер «${s.label}» в стиле ${s.style}`}
+                      className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
+                    />
+                  )}
                 </div>
                 <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
                   {s.label}
