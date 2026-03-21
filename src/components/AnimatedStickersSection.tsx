@@ -10,7 +10,7 @@ import animParty from "@/assets/anim-party.png";
 import animAngry from "@/assets/anim-angry.png";
 import animStrong from "@/assets/anim-strong.png";
 
-const DEMO_VIDEO_URL = "https://eijwmmgfeaosvaiqxtip.supabase.co/storage/v1/object/public/stickers/0d5a6aa7-eafd-4b48-b9c2-5a2c67413da4.mp4";
+import animCyberpunkGif from "@/assets/demo-cyberpunk-animated.gif";
 
 const demoAnimatedStickers: { id: number; image: string; label: string; delay: number; videoUrl?: string }[] = [
   { id: 1, image: animHello, label: "Привет", delay: 0 },
