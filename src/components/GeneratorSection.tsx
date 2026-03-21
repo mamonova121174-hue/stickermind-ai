@@ -125,7 +125,7 @@ const GeneratorSection = () => {
   const isReady = uploadedFile && selectedStyle && selectedEmotions.length > 0;
 
   return (
-    <section id="generator" className="py-20 scroll-mt-20">
+    <section id="generator" className="py-10 scroll-mt-20">
       <div className="container">
         <ScrollReveal>
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-center mb-12" style={{ textWrap: "balance" }}>

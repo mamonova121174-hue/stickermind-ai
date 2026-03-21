@@ -4,7 +4,7 @@ import ScrollReveal from "./ScrollReveal";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center pt-24 pb-12 overflow-hidden">
+    <section className="relative min-h-[50vh] flex items-center justify-center pt-24 pb-4 overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
 
       <div className="container relative z-10 text-center max-w-3xl">
