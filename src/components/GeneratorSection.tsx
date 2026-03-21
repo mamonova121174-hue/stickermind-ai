@@ -13,9 +13,9 @@ import styleCyberpunk from "@/assets/style-cyberpunk.png";
 import styleLineart from "@/assets/style-lineart.png";
 
 const styles = [
-  { id: "pixar", name: "3D Pixar", image: stylePixar, premium: true },
-  { id: "gta", name: "GTA Style", image: styleGta, premium: true },
-  { id: "ghibli", name: "Miyazaki", image: styleGhibli, premium: true },
+  { id: "pixar", name: "3D Pixar", image: stylePixar },
+  { id: "gta", name: "GTA Style", image: styleGta },
+  { id: "ghibli", name: "Miyazaki", image: styleGhibli },
   { id: "cyberpunk", name: "Cyberpunk", image: styleCyberpunk },
   { id: "lineart", name: "Line Art", image: styleLineart },
 ];
@@ -205,13 +205,8 @@ const GeneratorSection = () => {
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 to-transparent p-2 flex items-center gap-1.5">
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 to-transparent p-2">
                       <span className="text-xs font-medium text-foreground">{style.name}</span>
-                      {style.premium && (
-                        <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/20 text-primary">
-                          Premium
-                        </span>
-                      )}
                     </div>
                     {selectedStyle === style.id && (
                       <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
