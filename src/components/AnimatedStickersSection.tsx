@@ -3,17 +3,18 @@ import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 
 import demoPixar from "@/assets/demo-pixar-hello-v2.png";
+import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4";
 import demoGta from "@/assets/demo-gta-like-v2.png";
 import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const demoAnimatedStickers = [
-  { id: 1, image: demoPixar, label: "Привет", style: "Pixar", delay: 0 },
-  { id: 2, image: demoGta, label: "Лайк", style: "GTA", delay: 80 },
-  { id: 3, image: demoGhibli, label: "Думаю", style: "Ghibli", delay: 160 },
-  { id: 4, image: demoCyberpunk, label: "Злюсь", style: "Cyberpunk", delay: 240 },
-  { id: 5, image: demoLineart, label: "Любовь", style: "Line Art", delay: 320 },
+  { id: 1, image: demoPixar, video: demoPixarVideo, label: "Привет", style: "Pixar", delay: 0 },
+  { id: 2, image: demoGta, video: undefined as string | undefined, label: "Лайк", style: "GTA", delay: 80 },
+  { id: 3, image: demoGhibli, video: undefined as string | undefined, label: "Думаю", style: "Ghibli", delay: 160 },
+  { id: 4, image: demoCyberpunk, video: undefined as string | undefined, label: "Злюсь", style: "Cyberpunk", delay: 240 },
+  { id: 5, image: demoLineart, video: undefined as string | undefined, label: "Любовь", style: "Line Art", delay: 320 },
 ];
 
 const AnimatedStickersSection = () => {
