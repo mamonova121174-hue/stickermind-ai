@@ -12,12 +12,12 @@ import animStrong from "@/assets/anim-strong.png";
 
 import animCyberpunkGif from "@/assets/demo-cyberpunk-animated.gif";
 
-const demoAnimatedStickers: { id: number; image: string; label: string; delay: number; videoUrl?: string }[] = [
+const demoAnimatedStickers: { id: number; image: string; label: string; delay: number; gifUrl?: string }[] = [
   { id: 1, image: animHello, label: "Привет", delay: 0 },
   { id: 2, image: animLike, label: "Лайк", delay: 80 },
   { id: 3, image: animThink, label: "Думаю", delay: 160 },
   { id: 4, image: animParty, label: "Ура!", delay: 240 },
-  { id: 5, image: animAngry, label: "Злюсь", delay: 320, videoUrl: DEMO_VIDEO_URL },
+  { id: 5, image: animAngry, label: "Злюсь", delay: 320, gifUrl: animCyberpunkGif },
   { id: 6, image: animStrong, label: "Вперёд", delay: 400 },
 ];
 
