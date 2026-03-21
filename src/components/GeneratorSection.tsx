@@ -61,7 +61,7 @@ const GeneratorSection = () => {
     localStorage.setItem("stickermind_stickers", JSON.stringify(generatedStickers));
   }, [generatedStickers]);
 
-
+  const costPerSticker = animateAll ? 7 : 5;
   const totalCost = selectedEmotions.length * costPerSticker;
   const canAfford = balance >= totalCost;
 
