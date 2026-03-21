@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Camera, Palette, Rocket, ChevronRight } from "lucide-react";
+import { Camera, Palette, Rocket, ChevronRight, ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
 import stylePixar from "@/assets/style-3d-pixar.png";
@@ -7,6 +7,7 @@ import styleGta from "@/assets/style-gta.png";
 import styleGhibli from "@/assets/style-ghibli.png";
 import styleCyberpunk from "@/assets/style-cyberpunk.png";
 import styleLineart from "@/assets/style-lineart.png";
+import originalPhoto from "@/assets/original-photo.png";
 
 const previewStyles = [
   { id: "pixar", name: "3D Pixar", image: stylePixar },
