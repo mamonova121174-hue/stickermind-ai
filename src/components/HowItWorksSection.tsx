@@ -17,7 +17,7 @@ const previewStyles = [
   { id: "lineart", name: "Line Art", image: demoLineart, emotion: "Любовь" },
 ];
 
-const checkerBg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'8\' height=\'8\' fill=\'%23f0f0f0\'/%3E%3Crect x=\'8\' y=\'8\' width=\'8\' height=\'8\' fill=\'%23f0f0f0\'/%3E%3C/svg%3E")';
+
 
 const HowItWorksSection = () => {
   return (
