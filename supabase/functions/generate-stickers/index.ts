@@ -233,46 +233,7 @@ async function generateStickerImage(photoBase64: string, prompt: string, apiKey:
     const error = new Error(`AI error: ${response.status} ${errText}`) as Error & { status?: number };
     error.status = response.status;
     throw error;
-}
-
-// Edit an existing sticker image to create an animation frame
-async function editStickerImage(stickerBase64: string, editInstruction: string, apiKey: string) {
-  const response = await fetch(AI_GATEWAY_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: STICKER_MODEL,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: `CRITICAL: This is an IMAGE EDIT, not a new generation. You MUST keep the EXACT same character — same face, same art style, same proportions, same colors, same background. Only make the following small change:\n\n${editInstruction}\n\nDo NOT regenerate or reimagine the character. Do NOT change the face, hair, body shape, clothing style, or art style. The output must look like a slightly different frame of the SAME animation — identical character with a subtle pose change.`,
-            },
-            {
-              type: "image_url",
-              image_url: { url: stickerBase64 },
-            },
-          ],
-        },
-      ],
-      modalities: ["image", "text"],
-    }),
-  });
-
-  if (!response.ok) {
-    const errText = await response.text();
-    console.error(`Edit error: ${response.status} ${errText}`);
-    return undefined;
   }
-
-  const data = await response.json();
-  return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
-}
 
   const data = await response.json();
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
