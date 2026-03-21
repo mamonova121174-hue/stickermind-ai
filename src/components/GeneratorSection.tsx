@@ -120,6 +120,7 @@ const GeneratorSection = () => {
             photoBase64,
             style: selectedStyle,
             emotions: selectedEmotions,
+            animated: animateAll,
           },
         });
 
