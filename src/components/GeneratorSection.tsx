@@ -168,8 +168,22 @@ const GeneratorSection = () => {
                 ))}
               </div>
 
+              {/* Animation toggle */}
+              <div className="flex items-center justify-between p-3 rounded-xl bg-secondary/50 border border-border/50">
+                <div className="flex items-center gap-2.5">
+                  <Film className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="text-xs font-medium text-foreground">Анимировать весь пак (TGS)</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {animateAll ? "15 × 7 = 105 🪙" : "Статика: 15 × 5 = 75 🪙"}
+                    </p>
+                  </div>
+                </div>
+                <Switch checked={animateAll} onCheckedChange={setAnimateAll} />
+              </div>
+
               <Button
-                className="w-full mt-4 bg-gradient-primary text-primary-foreground h-12 text-base font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-150 glow-primary"
+                className="w-full mt-2 bg-gradient-primary text-primary-foreground h-12 text-base font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-150 glow-primary"
                 onClick={handleGenerate}
                 disabled={!uploadedFile || !selectedStyle}
               >
