@@ -62,7 +62,7 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
-      <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative bg-secondary/30">
+      <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
         {hasVideo ? (
           <video
             ref={videoRef}
@@ -400,7 +400,7 @@ const GeneratorSection = () => {
                         : "border-border/50 hover:border-primary/30"
                     }`}
                   >
-                    <div className="aspect-square overflow-hidden bg-secondary/30">
+                    <div className="aspect-square overflow-hidden">
                       <img
                         src={style.image}
                         alt={`Стикер в стиле ${style.name}`}
