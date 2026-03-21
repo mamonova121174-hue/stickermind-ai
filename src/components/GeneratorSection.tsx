@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { Upload, Sparkles, X, ImageIcon, Film, Check } from "lucide-react";
+import { useState, useCallback, useRef } from "react";
+import { Upload, Sparkles, X, ImageIcon, Film, Check, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTokens } from "@/components/TokenContext";
