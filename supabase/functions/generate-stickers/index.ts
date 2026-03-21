@@ -55,25 +55,6 @@ const POSE_PROMPTS: Record<string, string> = {
   Пока: "waving goodbye, soft smile, one hand raised",
 };
 
-// Subtle animation edit instructions — these describe a TINY change from the action pose
-// The goal is to create a second frame that when alternated with the original creates gentle motion
-const ANIMATION_EDIT_INSTRUCTIONS: Record<string, string> = {
-  Привет: "Rotate the raised waving hand about 15 degrees to the right, as if mid-wave. Shift the fingers slightly apart. Do NOT change anything else — same face, same expression, same body position, same style, same background, same clothing, same colors.",
-  Окей: "Tilt the OK-gesture hand about 10 degrees clockwise and shift the wrist slightly upward. Do NOT change anything else — same face, same expression, same body, same style, same background, same clothing.",
-  Лайк: "Move the thumb slightly more upward and tilt the fist about 10 degrees. Do NOT change anything else — same face, expression, body, style, background, clothing, colors.",
-  Любовь: "Slightly widen the heart shape by moving both hands about 5% further apart and tilt them 5 degrees outward. Do NOT change anything else — same face, expression, body, style, background, clothing.",
-  Фейспалм: "Slide the palm on the forehead slightly downward toward the nose bridge, tilt the head 5 degrees forward. Do NOT change anything else — same character, style, clothing, background.",
-  Работаю: "Move both hands slightly upward above the keyboard as if between keystrokes, shift the gaze slightly to the right. Do NOT change anything else — same character, laptop, style, clothing, background.",
-  Злюсь: "Shift the crossed arms slightly higher on the chest and tilt the head 5 degrees to the left. Do NOT change anything else — same character, expression intensity, style, clothing, background.",
-  Думаю: "Move the chin-resting hand slightly away from the chin (2cm gap) and shift the eyes to look slightly more to the upper-left. Do NOT change anything else — same character, style, clothing, background.",
-  Успех: "Tilt the cash/money stack about 10 degrees and shift the smirk slightly wider. Do NOT change anything else — same character, sunglasses, style, clothing, background.",
-  "Ура!": "Lower the raised arms about 15 degrees from their peak position, as if bouncing. Do NOT change anything else — same character, expression, confetti, style, clothing, background.",
-  Сплю: "Shift the head tilt about 10 degrees to the other side, move the zzz symbols slightly higher. Do NOT change anything else — same character, closed eyes, style, clothing, background.",
-  Шок: "Open the mouth slightly wider and raise the hands on cheeks about 1cm higher. Widen the eyes a tiny bit more. Do NOT change anything else — same character, style, clothing, background.",
-  Закон: "Tilt the scales of justice about 15 degrees so one side dips lower, shift the grip hand slightly. Do NOT change anything else — same character, face, lawyer robe, style, background.",
-  Вперёд: "Flex the bicep slightly more (tighten the arm bend by 5 degrees) and shift the fist slightly upward. Do NOT change anything else — same character, expression, style, clothing, background.",
-  Пока: "Rotate the waving hand about 15 degrees to the left (opposite wave position) and slightly spread the fingers. Do NOT change anything else — same character, expression, style, clothing, background.",
-};
 
 type IdentityProfile = {
   subjectSummary: string;
