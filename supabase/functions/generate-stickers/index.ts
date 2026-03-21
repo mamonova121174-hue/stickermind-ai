@@ -65,7 +65,7 @@ serve(async (req) => {
     for (const emotion of emotions) {
       const posePrompt = POSE_PROMPTS[emotion] || emotion;
 
-      const prompt = `This is an IDENTITY-PRESERVATION task, not a generic character design task.
+      const prompt = `This is a STRICT IDENTITY-PRESERVATION task, not a generic character design task.
 
 First, study the uploaded photo and internally lock these identity traits:
 1. exact face shape and jawline
@@ -78,19 +78,33 @@ First, study the uploaded photo and internally lock these identity traits:
 8. any unique details that make friends recognize this person instantly
 9. clothing silhouette and color palette from the original photo unless a pose prop is required
 
-Now create ONE full-body sticker of THIS SAME PERSON in ${stylePrompt} style.
+Now create ONE sticker of THIS SAME PERSON in ${stylePrompt} style.
 Pose: ${posePrompt}.
 
 NON-NEGOTIABLE RULES:
 - The face must remain clearly recognizable as the uploaded person at first glance
 - Use the uploaded photo as the identity source of truth; style only the rendering, never the identity
+- Preserve the exact craniofacial geometry from the photo: face width, jaw shape, cheek volume, eye spacing, nose proportions, lip shape
 - Keep the same hair color exactly; if the photo shows natural red/auburn/copper hair, it must stay natural red/auburn/copper in every style
 - Do not replace the hairstyle, bangs, part, face proportions, eye shape, or nose shape with generic style defaults
 - Do not turn the person into a different model, influencer, doll, emoji, or random anime face
 - Do not make the face slimmer, younger, prettier, more symmetrical, or more generic
 - Keep outfit colors close to the original photo; do not invent a yellow hoodie or random clothing from examples
 - Props are allowed only when required by the pose, but the person must still read as the same individual
-- Style intensity must be strong, but likeness is higher priority than style exaggeration
+- Style intensity must be strong, but likeness is ALWAYS higher priority than style exaggeration
+- If there is any conflict between style and likeness, preserve likeness
+- This must look like a stylized transformation of the uploaded person, not a newly invented character inspired by them
+- Face visibility is critical: compose the sticker so the head and face are prominent and easy to recognize
+- Prefer waist-up or three-quarter composition when possible so the face stays large and readable; use full body only if the pose absolutely requires it
+- Keep the same expression anatomy even when changing the emotion: same eye structure, same smile line shape, same brow structure
+
+HARD NEGATIVE INSTRUCTIONS:
+- no generic beautiful-face replacement
+- no random fashion model face
+- no doll-like symmetry
+- no face swapping to match common style stereotypes
+- no changing hair to blonde, pink, black, or generic brown unless the original photo actually has that color
+- no changing clothing into a random sample outfit from reference examples
 
 STYLE TARGET:
 - Make the style unmistakable and authentic to ${style}, while preserving the same identity across all styles
@@ -101,6 +115,7 @@ OUTPUT:
 - white clean background
 - no text, no border, no extra characters
 - highly recognizable face
+- face should occupy enough of the frame to be recognizable in small gallery cards
 - premium polished render suitable for a professional sticker pack showcase`;
 
       try {
