@@ -331,6 +331,45 @@ const GeneratorSection = () => {
             </div>
           </ScrollReveal>
         </div>
+
+        {/* Generated stickers gallery */}
+        {generatedStickers.length > 0 && (
+          <div ref={resultsRef} className="mt-16 max-w-5xl mx-auto scroll-mt-20">
+            <ScrollReveal>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-display text-xl font-bold text-foreground">
+                  Ваши стикеры ({generatedStickers.length})
+                </h3>
+                <Button variant="outline" size="sm" className="gap-2">
+                  <Download className="w-4 h-4" />
+                  Скачать пак для Telegram
+                </Button>
+              </div>
+            </ScrollReveal>
+            <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3">
+              {generatedStickers.map((sticker, i) => (
+                <div
+                  key={`${sticker.label}-${i}`}
+                  className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
+                  style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
+                >
+                  <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center text-3xl mb-2">
+                    {sticker.emoji}
+                  </div>
+                  <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
+                    {sticker.label}
+                  </span>
+                  <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
+                  {sticker.animated && (
+                    <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
+                      TGS
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
