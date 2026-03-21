@@ -400,7 +400,7 @@ const GeneratorSection = () => {
                         : "border-border/50 hover:border-primary/30"
                     }`}
                   >
-                    <div className="aspect-square overflow-hidden bg-secondary/30">
+                    <div className="aspect-square overflow-hidden">
                       <img
                         src={style.image}
                         alt={`Стикер в стиле ${style.name}`}
