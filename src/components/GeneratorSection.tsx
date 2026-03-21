@@ -241,7 +241,7 @@ const GeneratorSection = () => {
                         onClick={() => toggleEmotion(r.label)}
                         className={`relative flex flex-col items-center gap-0.5 p-1.5 rounded-lg border-2 transition-all duration-200 active:scale-95 ${
                           isSelected
-                            ? "border-primary bg-primary/10"
+                            ? "border-primary bg-primary/10 shadow-[0_0_10px_hsl(var(--primary)/0.5),0_0_20px_hsl(var(--primary)/0.25)]"
                             : "border-border/30 bg-secondary/40 hover:border-primary/30 hover:bg-primary/5"
                         }`}
                       >
