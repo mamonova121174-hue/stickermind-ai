@@ -221,18 +221,67 @@ async function generateStickerImage(photoBase64: string, prompt: string, apiKey:
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
 }
 
+async function replicatePredict(token: string, version: string, input: Record<string, unknown>) {
+  const res = await fetch("https://api.replicate.com/v1/predictions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ version, input }),
+  });
 
-async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
-  const base64Content = imageData.replace(/^data:image\/\w+;base64,/, "");
-  const bytes = Uint8Array.from(atob(base64Content), (c) => c.charCodeAt(0));
+  if (!res.ok) {
+    throw new Error(`Replicate remove-bg failed: ${res.status} ${await res.text()}`);
+  }
+
+  return res.json();
+}
+
+async function pollPrediction(id: string, token: string, maxMs = 120000): Promise<any> {
+  const start = Date.now();
+
+  while (Date.now() - start < maxMs) {
+    const res = await fetch(`https://api.replicate.com/v1/predictions/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const prediction = await res.json();
+
+    if (prediction.status === "succeeded") return prediction;
+    if (prediction.status === "failed" || prediction.status === "canceled") {
+      throw new Error(`Replicate remove-bg ${prediction.status}: ${prediction.error || "unknown"}`);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+  }
+
+  throw new Error("Replicate remove-bg timed out");
+}
+
+async function removeBackground(imageUrl: string, token: string): Promise<string> {
+  const prediction = await replicatePredict(token, REMOVE_BG_VERSION, { image: imageUrl });
+  const result = await pollPrediction(prediction.id, token);
+  return typeof result.output === "string" ? result.output : imageUrl;
+}
+
+async function uploadImageFromUrl(imageUrl: string, supabase: any): Promise<string | null> {
+  const imageRes = await fetch(imageUrl);
+  if (!imageRes.ok) {
+    console.error("Download error:", imageRes.status);
+    return null;
+  }
+
+  const bytes = new Uint8Array(await imageRes.arrayBuffer());
   const fileName = `${crypto.randomUUID()}.png`;
   const { error: uploadError } = await supabase.storage
     .from("stickers")
     .upload(fileName, bytes, { contentType: "image/png", upsert: true });
+
   if (uploadError) {
     console.error("Upload error:", uploadError);
     return null;
   }
+
   const { data: urlData } = supabase.storage.from("stickers").getPublicUrl(fileName);
   return urlData.publicUrl;
 }

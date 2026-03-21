@@ -316,7 +316,7 @@ const GeneratorSection = () => {
       <div className="container">
         <ScrollReveal>
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-center mb-12" style={{ textWrap: "balance" }}>
-            Создай свой стикерпак прямо сейчас
+            Создай и анимируй свой стикерпак прямо сейчас
           </h2>
         </ScrollReveal>
 
