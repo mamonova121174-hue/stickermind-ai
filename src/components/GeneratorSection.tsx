@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Upload, Sparkles, X, ImageIcon, Film, Check, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -48,10 +48,18 @@ const GeneratorSection = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedStickers, setGeneratedStickers] = useState<
     { emoji: string; label: string; style: string; animated: boolean }[]
-  >([]);
+  >(() => {
+    try {
+      return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
+    } catch { return []; }
+  });
   const resultsRef = useRef<HTMLDivElement>(null);
   const { balance, setBalance } = useTokens();
   const { toast } = useToast();
+
+  useEffect(() => {
+    localStorage.setItem("stickermind_stickers", JSON.stringify(generatedStickers));
+  }, [generatedStickers]);
 
   const costPerSticker = animateAll ? 7 : 5;
   const totalCost = selectedEmotions.length * costPerSticker;
@@ -125,7 +133,7 @@ const GeneratorSection = () => {
   const isReady = uploadedFile && selectedStyle && selectedEmotions.length > 0;
 
   return (
-    <section id="generator" className="py-20 scroll-mt-20">
+    <section id="generator" className="py-10 scroll-mt-20">
       <div className="container">
         <ScrollReveal>
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-center mb-12" style={{ textWrap: "balance" }}>

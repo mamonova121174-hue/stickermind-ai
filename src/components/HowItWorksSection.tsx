@@ -47,7 +47,7 @@ const HowItWorksSection = () => {
   const [hoveredStyle, setHoveredStyle] = useState<string | null>(null);
 
   return (
-    <section className="py-24 scroll-mt-20 overflow-hidden">
+    <section className="py-10 scroll-mt-20 overflow-hidden">
       <div className="container max-w-6xl">
         <ScrollReveal>
           <h2
