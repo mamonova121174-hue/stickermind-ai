@@ -1,6 +1,7 @@
 import { Film, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
+import ChromaKeyVideo from "./ChromaKeyVideo";
 
 import demoPixar from "@/assets/demo-pixar-hello-v2.png";
 import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4";
