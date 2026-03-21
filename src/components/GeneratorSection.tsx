@@ -39,6 +39,53 @@ const goldenReactions = [
   { emoji: "🙋", label: "Пока" },
 ];
 
+/** Animated sticker card — cycles through frames for flipbook animation */
+const StickerCard = ({ sticker, index }: {
+  sticker: { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[] };
+  index: number;
+}) => {
+  const [frameIdx, setFrameIdx] = useState(0);
+  const frames = sticker.frames && sticker.frames.length > 1 ? sticker.frames : null;
+
+  useEffect(() => {
+    if (!frames) return;
+    const interval = setInterval(() => {
+      setFrameIdx((prev) => (prev + 1) % frames.length);
+    }, 600); // switch frame every 600ms
+    return () => clearInterval(interval);
+  }, [frames]);
+
+  const currentSrc = frames ? frames[frameIdx] : sticker.imageUrl;
+
+  return (
+    <div
+      className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
+      style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
+    >
+      <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
+        {currentSrc ? (
+          <img
+            src={currentSrc}
+            alt={`Стикер ${sticker.label}`}
+            className="w-full h-full object-cover rounded-lg"
+          />
+        ) : (
+          <span className="text-3xl">{sticker.emoji}</span>
+        )}
+      </div>
+      <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
+        {sticker.label}
+      </span>
+      <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
+      {sticker.animated && (
+        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
+          TGS
+        </span>
+      )}
+    </div>
+  );
+};
+
 const GeneratorSection = () => {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
@@ -49,7 +96,7 @@ const GeneratorSection = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState<string>("");
   const [generatedStickers, setGeneratedStickers] = useState<
-    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string }[]
+    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[] }[]
   >(() => {
     try {
       return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
@@ -142,6 +189,7 @@ const GeneratorSection = () => {
               style: styleName,
               animated: r.animated,
               imageUrl: r.url,
+              frames: r.frames,
             }));
             setGeneratedStickers((prev) => [...newStickers, ...prev]);
           }
@@ -171,6 +219,7 @@ const GeneratorSection = () => {
           style: styleName,
           animated: r.animated,
           imageUrl: r.url,
+          frames: r.frames,
         }));
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
@@ -426,32 +475,7 @@ const GeneratorSection = () => {
             </ScrollReveal>
             <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3">
               {generatedStickers.map((sticker, i) => (
-                <div
-                  key={`${sticker.label}-${i}`}
-                  className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
-                  style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
-                >
-                  <div className={`w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2 ${sticker.animated ? 'animate-[sticker-float_2.5s_ease-in-out_infinite]' : ''}`}>
-                    {sticker.imageUrl ? (
-                      <img
-                        src={sticker.imageUrl}
-                        alt={`Стикер ${sticker.label}`}
-                        className={`w-full h-full object-cover rounded-lg ${sticker.animated ? 'animate-[sticker-wobble_3s_ease-in-out_infinite]' : ''}`}
-                      />
-                    ) : (
-                      <span className="text-3xl">{sticker.emoji}</span>
-                    )}
-                  </div>
-                  <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
-                    {sticker.label}
-                  </span>
-                  <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
-                  {sticker.animated && (
-                    <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-                      TGS
-                    </span>
-                  )}
-                </div>
+                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} />
               ))}
             </div>
           </div>
