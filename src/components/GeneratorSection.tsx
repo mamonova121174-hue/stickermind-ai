@@ -48,7 +48,11 @@ const GeneratorSection = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedStickers, setGeneratedStickers] = useState<
     { emoji: string; label: string; style: string; animated: boolean }[]
-  >([]);
+  >(() => {
+    try {
+      return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
+    } catch { return []; }
+  });
   const resultsRef = useRef<HTMLDivElement>(null);
   const { balance, setBalance } = useTokens();
   const { toast } = useToast();
