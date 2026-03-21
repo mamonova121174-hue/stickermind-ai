@@ -62,7 +62,7 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
-      <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2 relative">
+      <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative" style={{ backgroundImage: sticker.imageUrl ? 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'8\' height=\'8\' fill=\'%23e5e5e5\'/%3E%3Crect x=\'8\' y=\'8\' width=\'8\' height=\'8\' fill=\'%23e5e5e5\'/%3E%3C/svg%3E")' : undefined, backgroundColor: sticker.imageUrl ? '#fff' : undefined }}>
         {hasVideo ? (
           <video
             ref={videoRef}
