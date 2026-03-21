@@ -26,11 +26,11 @@ const STYLE_PROMPTS: Record<string, string> = {
 
 const STYLE_FINISHES: Record<string, string> = {
   pixar:
-    "clean premium surface rendering, dimensional hair forms, believable materials, subtle skin pore texture instead of plastic smoothing",
+    "smooth plastic-like Pixar surface rendering, rounded cartoon proportions, big bright eyes, vibrant color palette, playful dimensional hair, toy-like charm with recognizable face",
   gta:
     "hard-edged graphic shadows, satirical action-poster energy, sunbaked color contrast, slightly gritty paint texture instead of airbrushed skin",
   ghibli:
-    "gentle watercolor paper grain, painterly cel shading, lyrical softness, no generic anime face replacement",
+    "soft watercolor paper texture, gentle cel-shading with visible outlines, warm muted Ghibli palette, dreamy painterly softness, large simplified anime-style eyes while keeping the person's unique facial bone structure",
   cyberpunk:
     "ferocious neon mood, bolder techwear attitude, sharper silhouettes, high-contrast reflections, rebellious futuristic swagger",
   lineart:
