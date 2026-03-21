@@ -9,14 +9,14 @@ const corsHeaders = {
 
 const STYLE_PROMPTS: Record<string, string> = {
   pixar:
-    "3D Pixar/Disney animation style, smooth rounded features, big expressive eyes, soft lighting, subsurface scattering on skin, vibrant saturated colors, studio-quality render",
-  gta: "GTA V loading screen art style, bold black outlines, high-contrast cel-shading, saturated pop colors, exaggerated features, urban attitude, stylized realism",
+    "3D Pixar/Disney animation style, polished animated-film character render, rounded forms, expressive eyes, clean sculpted hair shapes, soft cinematic lighting, vibrant but believable colors, premium family-film finish",
+  gta: "GTA V loading screen illustration style, sharp graphic outlines, assertive cel shading, gritty sunlit contrast, urban swagger, poster-like composition, stylized realism with bold facial planes and confident attitude",
   ghibli:
-    "Studio Ghibli / Hayao Miyazaki anime style, soft watercolor textures, delicate linework, warm gentle lighting, expressive anime eyes, hand-painted background feel",
+    "Studio Ghibli / Hayao Miyazaki character illustration style, hand-painted anime look, soft watercolor texture, delicate linework, gentle warmth, natural facial simplicity, storybook atmosphere",
   cyberpunk:
-    "Cyberpunk 2077 style, neon pink and cyan lighting, cybernetic implants, futuristic tech jacket, holographic UI elements, rain-slicked reflections, dark moody atmosphere",
+    "Cyberpunk 2077 inspired character art, rebellious futuristic streetwear, sharp lighting, magenta and electric blue neon reflections, holographic details, rain-slick cinematic mood, edgy high-contrast attitude",
   lineart:
-    "Minimalist fashion illustration line art, elegant thin ink outlines, very subtle color wash, clean white background, editorial sketch quality",
+    "Editorial fashion line-art illustration, elegant ink contours, recognizable facial structure, selective color accents, clean negative space, premium magazine sketch quality",
 };
 
 const POSE_PROMPTS: Record<string, string> = {
@@ -65,31 +65,43 @@ serve(async (req) => {
     for (const emotion of emotions) {
       const posePrompt = POSE_PROMPTS[emotion] || emotion;
 
-      const prompt = `You are a portrait artist who specializes in creating character stickers that perfectly capture a person's likeness.
+      const prompt = `This is an IDENTITY-PRESERVATION task, not a generic character design task.
 
-REFERENCE PHOTO ANALYSIS — before drawing, describe to yourself:
-1. Face shape (round/oval/square/heart)
-2. Eye color, shape, size, spacing
-3. Nose shape and size relative to face
-4. Mouth/lip shape and fullness
-5. Eyebrow thickness, arch, color
-6. Hair: exact color (not approximate), length, texture, parting, style
-7. Skin tone (exact shade)
-8. Distinguishing features: freckles, moles, dimples, scars, glasses, piercings, facial hair
-9. Body build
+First, study the uploaded photo and internally lock these identity traits:
+1. exact face shape and jawline
+2. eye size, eye spacing, eyelid shape, eyebrow shape
+3. exact nose bridge, width, tip shape
+4. lip shape, mouth width, smile line shape
+5. hairline, exact hair color, hair volume, texture, length, parting
+6. skin tone and facial contrast
+7. age impression, ethnicity, gender presentation
+8. any unique details that make friends recognize this person instantly
+9. clothing silhouette and color palette from the original photo unless a pose prop is required
 
-Now draw this SPECIFIC person as a sticker in ${stylePrompt} style.
+Now create ONE full-body sticker of THIS SAME PERSON in ${stylePrompt} style.
 Pose: ${posePrompt}.
 
-ABSOLUTE REQUIREMENTS:
-- The person in the sticker MUST be the same person from the photo — not a similar-looking person, THE SAME person
-- Hair color must be EXACTLY the same (e.g., if auburn/copper, NOT blonde or brown)
-- Do NOT idealize, beautify, or change any features
-- Do NOT change gender presentation, age, or ethnicity
-- Keep glasses if present, keep facial hair if present
-- Maintain the same face proportions — if someone has a wider nose, keep it wider; if thin lips, keep thin
+NON-NEGOTIABLE RULES:
+- The face must remain clearly recognizable as the uploaded person at first glance
+- Use the uploaded photo as the identity source of truth; style only the rendering, never the identity
+- Keep the same hair color exactly; if the photo shows natural red/auburn/copper hair, it must stay natural red/auburn/copper in every style
+- Do not replace the hairstyle, bangs, part, face proportions, eye shape, or nose shape with generic style defaults
+- Do not turn the person into a different model, influencer, doll, emoji, or random anime face
+- Do not make the face slimmer, younger, prettier, more symmetrical, or more generic
+- Keep outfit colors close to the original photo; do not invent a yellow hoodie or random clothing from examples
+- Props are allowed only when required by the pose, but the person must still read as the same individual
+- Style intensity must be strong, but likeness is higher priority than style exaggeration
 
-OUTPUT: Single character on clean white background, sticker format, no text, no borders. The person's friends and family must instantly recognize them.`;
+STYLE TARGET:
+- Make the style unmistakable and authentic to ${style}, while preserving the same identity across all styles
+- The result should feel like the same woman transformed into another art direction, not five different women
+
+OUTPUT:
+- single character sticker
+- white clean background
+- no text, no border, no extra characters
+- highly recognizable face
+- premium polished render suitable for a professional sticker pack showcase`;
 
       try {
         const aiResponse = await fetch(
@@ -101,7 +113,7 @@ OUTPUT: Single character on clean white background, sticker format, no text, no 
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              model: "google/gemini-2.5-flash-image",
+                model: "google/gemini-3-pro-image-preview",
               messages: [
                 {
                   role: "user",
