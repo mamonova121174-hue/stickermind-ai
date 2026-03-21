@@ -550,7 +550,7 @@ const GeneratorSection = () => {
             </ScrollReveal>
             <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3">
               {generatedStickers.map((sticker, i) => (
-                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} />
+                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} onAnimate={handleAnimateSticker} />
               ))}
             </div>
           </div>
