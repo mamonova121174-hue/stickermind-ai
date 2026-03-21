@@ -10,11 +10,11 @@ const corsHeaders = {
 const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const IDENTITY_MODEL = "google/gemini-2.5-pro";
 const STICKER_MODEL = "google/gemini-3-pro-image-preview";
-
+const REMOVE_BG_VERSION = "95fcc2a26d3899cd6c2691c900465aaeff466285a65c14638cc5f36f34befaf1";
 
 const STYLE_PROMPTS: Record<string, string> = {
   pixar:
-    "Pixar / Disney feature-animation 3D render with STRONG cartoon stylization: oversized expressive eyes, smooth rounded forms, exaggerated proportions, vibrant saturated colors, soft subsurface scattering lighting, the character should look like they belong in a Pixar movie while keeping the same recognizable face",
+    "Pixar / Disney feature-animation 3D render with clear Pixar styling, rounded forms, expressive eyes, polished cinematic lighting, stylized but still tightly identity-locked to the real person from the source photo",
   gta: "Rockstar Games / GTA V loading-screen illustration language, bold graphic realism, gritty sunlit contrast, angular painted shadows, assertive attitude, sharp poster composition, visible skin grain and rugged human texture",
   ghibli:
     "Studio Ghibli / Hayao Miyazaki hand-painted watercolor illustration with STRONG anime stylization: simplified soft features, large gentle eyes, delicate watercolor washes, warm earthy palette, visible brushstrokes, cel-shading outlines, dreamy storybook atmosphere — the character must look like a Ghibli film character while keeping recognizable facial structure",
@@ -26,7 +26,7 @@ const STYLE_PROMPTS: Record<string, string> = {
 
 const STYLE_FINISHES: Record<string, string> = {
   pixar:
-    "smooth plastic-like Pixar surface rendering, rounded cartoon proportions, big bright eyes, vibrant color palette, playful dimensional hair, toy-like charm with recognizable face",
+    "premium Pixar-like finish with believable likeness, rounded cartoon appeal, soft dimensional hair, expressive eyes without changing face geometry, no generic doll face",
   gta:
     "hard-edged graphic shadows, satirical action-poster energy, sunbaked color contrast, slightly gritty paint texture instead of airbrushed skin",
   ghibli:
