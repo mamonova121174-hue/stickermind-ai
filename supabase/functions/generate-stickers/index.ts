@@ -65,7 +65,19 @@ serve(async (req) => {
     for (const emotion of emotions) {
       const posePrompt = POSE_PROMPTS[emotion] || emotion;
 
-      const prompt = `Create a sticker of this person in ${stylePrompt} style. The character must look EXACTLY like the person in the reference photo - same face shape, same hair color and style, same distinctive features. The pose: ${posePrompt}. Sticker format: character on a clean white background, no text, circular/rounded composition suitable for a messaging sticker. The character must be clearly recognizable as the same person from the photo.`;
+      const prompt = `CRITICAL INSTRUCTION: Study the reference photo carefully. Memorize EVERY facial detail: exact face shape, exact nose shape and size, exact eye shape/color/spacing, exact lip shape, exact eyebrow shape, exact hair color/length/texture/style, skin tone, any moles/freckles/scars, ear shape, jawline, chin shape, forehead size, cheekbone structure.
+
+Now create a sticker of THIS EXACT person in ${stylePrompt} style. The pose: ${posePrompt}.
+
+LIKENESS RULES (non-negotiable):
+- The face MUST be immediately recognizable as the person in the photo
+- Preserve exact hair color, length, and style — do NOT change hairstyle
+- Preserve exact skin tone
+- Preserve all unique facial proportions (eye spacing, nose width, lip fullness)
+- If the person has glasses, keep glasses. If no glasses, no glasses.
+- Same body type and build
+
+Format: character on a clean white background, no text, sticker composition. The result must pass a "friend recognition test" — anyone who knows this person should instantly say "that's them!".`;
 
       try {
         const aiResponse = await fetch(
