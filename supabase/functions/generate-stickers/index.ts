@@ -231,7 +231,7 @@ serve(async (req) => {
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    const { photoBase64, style, emotions } = await req.json();
+    const { photoBase64, style, emotions, animated: requestAnimated } = await req.json();
 
     if (!photoBase64 || !style || !emotions?.length) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -272,7 +272,7 @@ serve(async (req) => {
         results.push({
           label: emotion,
           url: urlData.publicUrl,
-          animated: false,
+          animated: !!requestAnimated,
         });
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;

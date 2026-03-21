@@ -120,6 +120,7 @@ const GeneratorSection = () => {
             photoBase64,
             style: selectedStyle,
             emotions: selectedEmotions,
+            animated: animateAll,
           },
         });
 
@@ -430,12 +431,12 @@ const GeneratorSection = () => {
                   className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
                   style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
                 >
-                  <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
+                  <div className={`w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2 ${sticker.animated ? 'animate-[sticker-float_2.5s_ease-in-out_infinite]' : ''}`}>
                     {sticker.imageUrl ? (
                       <img
                         src={sticker.imageUrl}
                         alt={`Стикер ${sticker.label}`}
-                        className="w-full h-full object-cover rounded-lg"
+                        className={`w-full h-full object-cover rounded-lg ${sticker.animated ? 'animate-[sticker-wobble_3s_ease-in-out_infinite]' : ''}`}
                       />
                     ) : (
                       <span className="text-3xl">{sticker.emoji}</span>
