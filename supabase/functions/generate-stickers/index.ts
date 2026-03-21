@@ -10,7 +10,7 @@ const corsHeaders = {
 const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const IDENTITY_MODEL = "google/gemini-2.5-pro";
 const STICKER_MODEL = "google/gemini-3-pro-image-preview";
-const EDIT_MODEL = "google/gemini-3.1-flash-image-preview";
+
 
 const STYLE_PROMPTS: Record<string, string> = {
   pixar:
@@ -55,25 +55,6 @@ const POSE_PROMPTS: Record<string, string> = {
   Пока: "waving goodbye, soft smile, one hand raised",
 };
 
-// Subtle animation edit instructions — these describe a TINY change from the action pose
-// The goal is to create a second frame that when alternated with the original creates gentle motion
-const ANIMATION_EDIT_INSTRUCTIONS: Record<string, string> = {
-  Привет: "Rotate the raised waving hand about 15 degrees to the right, as if mid-wave. Shift the fingers slightly apart. Do NOT change anything else — same face, same expression, same body position, same style, same background, same clothing, same colors.",
-  Окей: "Tilt the OK-gesture hand about 10 degrees clockwise and shift the wrist slightly upward. Do NOT change anything else — same face, same expression, same body, same style, same background, same clothing.",
-  Лайк: "Move the thumb slightly more upward and tilt the fist about 10 degrees. Do NOT change anything else — same face, expression, body, style, background, clothing, colors.",
-  Любовь: "Slightly widen the heart shape by moving both hands about 5% further apart and tilt them 5 degrees outward. Do NOT change anything else — same face, expression, body, style, background, clothing.",
-  Фейспалм: "Slide the palm on the forehead slightly downward toward the nose bridge, tilt the head 5 degrees forward. Do NOT change anything else — same character, style, clothing, background.",
-  Работаю: "Move both hands slightly upward above the keyboard as if between keystrokes, shift the gaze slightly to the right. Do NOT change anything else — same character, laptop, style, clothing, background.",
-  Злюсь: "Shift the crossed arms slightly higher on the chest and tilt the head 5 degrees to the left. Do NOT change anything else — same character, expression intensity, style, clothing, background.",
-  Думаю: "Move the chin-resting hand slightly away from the chin (2cm gap) and shift the eyes to look slightly more to the upper-left. Do NOT change anything else — same character, style, clothing, background.",
-  Успех: "Tilt the cash/money stack about 10 degrees and shift the smirk slightly wider. Do NOT change anything else — same character, sunglasses, style, clothing, background.",
-  "Ура!": "Lower the raised arms about 15 degrees from their peak position, as if bouncing. Do NOT change anything else — same character, expression, confetti, style, clothing, background.",
-  Сплю: "Shift the head tilt about 10 degrees to the other side, move the zzz symbols slightly higher. Do NOT change anything else — same character, closed eyes, style, clothing, background.",
-  Шок: "Open the mouth slightly wider and raise the hands on cheeks about 1cm higher. Widen the eyes a tiny bit more. Do NOT change anything else — same character, style, clothing, background.",
-  Закон: "Tilt the scales of justice about 15 degrees so one side dips lower, shift the grip hand slightly. Do NOT change anything else — same character, face, lawyer robe, style, background.",
-  Вперёд: "Flex the bicep slightly more (tighten the arm bend by 5 degrees) and shift the fist slightly upward. Do NOT change anything else — same character, expression, style, clothing, background.",
-  Пока: "Rotate the waving hand about 15 degrees to the left (opposite wave position) and slightly spread the fingers. Do NOT change anything else — same character, expression, style, clothing, background.",
-};
 
 type IdentityProfile = {
   subjectSummary: string;
@@ -240,59 +221,6 @@ async function generateStickerImage(photoBase64: string, prompt: string, apiKey:
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
 }
 
-/**
- * Edit an existing sticker image to create a subtle pose variation for animation.
- * Uses the sticker itself as input and applies a tiny change.
- */
-async function editStickerForAnimation(stickerBase64: string, emotion: string, apiKey: string): Promise<string | undefined> {
-  const editInstruction = ANIMATION_EDIT_INSTRUCTIONS[emotion];
-  if (!editInstruction) return undefined;
-
-  const prompt = `You are an expert image editor. You will receive a sticker image. Your job is to create a NEARLY IDENTICAL copy with ONE tiny pose adjustment for animation purposes.
-
-CRITICAL RULES:
-- The output must be 95%+ identical to the input image
-- Same character, same face, same art style, same colors, same background, same composition, same clothing
-- Only make the SPECIFIC tiny change described below
-- Do NOT regenerate the image from scratch — EDIT the existing image
-- Do NOT change the face, hair, skin color, or body proportions
-- Do NOT change the art style or rendering quality
-- The change should be so subtle that you have to look carefully to notice it
-
-SPECIFIC EDIT: ${editInstruction}
-
-OUTPUT: A sticker image that is nearly identical to the input, with only the described micro-adjustment applied.`;
-
-  const response = await fetch(AI_GATEWAY_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: EDIT_MODEL,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: prompt },
-            { type: "image_url", image_url: { url: stickerBase64 } },
-          ],
-        },
-      ],
-      modalities: ["image", "text"],
-    }),
-  });
-
-  if (!response.ok) {
-    const errText = await response.text();
-    console.error(`Animation edit failed: ${response.status} ${errText}`);
-    return undefined;
-  }
-
-  const data = await response.json();
-  return data.choices?.[0]?.message?.images?.[0]?.image_url?.url as string | undefined;
-}
 
 async function uploadImage(imageData: string, supabase: any): Promise<string | null> {
   const base64Content = imageData.replace(/^data:image\/\w+;base64,/, "");
@@ -322,7 +250,7 @@ serve(async (req) => {
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    const { photoBase64, style, emotions, animated: requestAnimated } = await req.json();
+    const { photoBase64, style, emotions } = await req.json();
 
     if (!photoBase64 || !style || !emotions?.length) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -331,7 +259,7 @@ serve(async (req) => {
       });
     }
 
-    const results: { label: string; url: string; animated: boolean; frames?: string[] }[] = [];
+    const results: { label: string; url: string }[] = [];
     const identity = await analyzeIdentity(photoBase64, LOVABLE_API_KEY);
 
     for (const emotion of emotions) {
@@ -347,32 +275,7 @@ serve(async (req) => {
         const mainUrl = await uploadImage(imageData, supabase);
         if (!mainUrl) continue;
 
-        // If animated, generate a subtle edit frame
-        if (requestAnimated) {
-          console.log(`Generating animation frame for ${emotion}...`);
-          const editedFrame = await editStickerForAnimation(imageData, emotion, LOVABLE_API_KEY);
-          
-          if (editedFrame) {
-            const editedUrl = await uploadImage(editedFrame, supabase);
-            if (editedUrl) {
-              results.push({
-                label: emotion,
-                url: mainUrl,
-                animated: true,
-                frames: [mainUrl, editedUrl],
-              });
-              continue;
-            }
-          }
-          // Fallback: no animation frame generated
-          console.warn(`Animation edit failed for ${emotion}, using static`);
-        }
-
-        results.push({
-          label: emotion,
-          url: mainUrl,
-          animated: false,
-        });
+        results.push({ label: emotion, url: mainUrl });
       } catch (err) {
         const status = typeof err === "object" && err && "status" in err ? (err as { status?: number }).status : undefined;
         const message = err instanceof Error ? err.message : String(err);

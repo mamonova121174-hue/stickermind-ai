@@ -40,46 +40,60 @@ const goldenReactions = [
 ];
 
 type StickerData = {
-  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; frames?: string[];
+  emoji: string; label: string; style: string; animated: boolean; imageUrl?: string; videoUrl?: string;
 };
 
-const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }) => {
-  const [frameIndex, setFrameIndex] = useState(0);
-  const frames = sticker.frames && sticker.frames.length > 1 ? sticker.frames : null;
+const StickerCard = ({ sticker, index, onAnimate }: { sticker: StickerData; index: number; onAnimate?: (sticker: StickerData) => void }) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    if (!frames) return;
-    const interval = setInterval(() => {
-      setFrameIndex((prev) => (prev + 1) % frames.length);
-    }, 600);
-    return () => clearInterval(interval);
-  }, [frames]);
-
-  const displayUrl = frames ? frames[frameIndex] : sticker.imageUrl;
+  const hasVideo = !!sticker.videoUrl;
 
   return (
     <div
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
-      <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2">
-        {displayUrl ? (
-          <img src={displayUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
+      <div className="w-full aspect-square rounded-lg bg-secondary/60 flex items-center justify-center overflow-hidden mb-2 relative">
+        {hasVideo ? (
+          <video
+            ref={videoRef}
+            src={sticker.videoUrl}
+            className="w-full h-full object-cover rounded-lg"
+            loop
+            muted
+            autoPlay
+            playsInline
+          />
+        ) : sticker.imageUrl ? (
+          <img src={sticker.imageUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-cover rounded-lg" />
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
       </div>
       <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{sticker.label}</span>
       <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
-      {sticker.animated && frames && (
-        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-          ANIM
+      
+      {hasVideo && (
+        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-green-500/20 text-green-400">
+          MP4
         </span>
       )}
-      {!frames && sticker.imageUrl && (
-        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-muted/40 text-muted-foreground">
-          PNG
-        </span>
+      {!hasVideo && sticker.imageUrl && (
+        <>
+          <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-muted/40 text-muted-foreground">
+            PNG
+          </span>
+          {onAnimate && (
+            <button
+              onClick={() => onAnimate(sticker)}
+              className="absolute bottom-8 right-1.5 text-[8px] font-bold uppercase px-1.5 py-0.5 rounded bg-primary/20 text-primary hover:bg-primary/30 transition-colors active:scale-95"
+            >
+              <Film className="w-3 h-3 inline mr-0.5" />
+              Оживить
+            </button>
+          )}
+        </>
       )}
     </div>
   );
@@ -94,9 +108,7 @@ const GeneratorSection = () => {
   const [animateAll, setAnimateAll] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState<string>("");
-  const [generatedStickers, setGeneratedStickers] = useState<
-    { emoji: string; label: string; style: string; animated: boolean; imageUrl?: string }[]
-  >(() => {
+  const [generatedStickers, setGeneratedStickers] = useState<StickerData[]>(() => {
     try {
       return JSON.parse(localStorage.getItem("stickermind_stickers") || "[]");
     } catch { return []; }
@@ -137,6 +149,48 @@ const GeneratorSection = () => {
     );
   };
 
+  const handleAnimateSticker = async (sticker: StickerData) => {
+    if (!sticker.imageUrl) return;
+    
+    toast({
+      title: "Оживляем стикер...",
+      description: `Создаём анимацию для "${sticker.label}". Это займёт 1-3 минуты.`,
+    });
+
+    try {
+      const { data, error } = await supabase.functions.invoke("animate-sticker", {
+        body: {
+          imageUrl: sticker.imageUrl,
+          emotion: sticker.label,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      if (data?.videoUrl) {
+        setGeneratedStickers((prev) =>
+          prev.map((s) =>
+            s.imageUrl === sticker.imageUrl && s.label === sticker.label
+              ? { ...s, animated: true, videoUrl: data.videoUrl }
+              : s
+          )
+        );
+        toast({
+          title: "Анимация готова! 🎬",
+          description: `Стикер "${sticker.label}" оживлён!`,
+        });
+      }
+    } catch (err: any) {
+      console.error("Animation error:", err);
+      toast({
+        title: "Ошибка анимации",
+        description: err?.message || "Не удалось создать анимацию",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleGenerate = () => {
     if (!uploadedFile || !selectedStyle || selectedEmotions.length === 0) return;
 
@@ -152,7 +206,6 @@ const GeneratorSection = () => {
     setIsGenerating(true);
     setGenerationProgress("Подготовка фото...");
 
-    // Convert file to base64
     const reader = new FileReader();
     reader.onload = async (e) => {
       const photoBase64 = e.target?.result as string;
@@ -166,7 +219,7 @@ const GeneratorSection = () => {
             photoBase64,
             style: selectedStyle,
             emotions: selectedEmotions,
-            animated: animateAll,
+            animated: false,
           },
         });
 
@@ -179,16 +232,14 @@ const GeneratorSection = () => {
             variant: "destructive",
           });
           if (data.results?.length) {
-            // Partial results
             const partialCost = data.results.length * costPerSticker;
             setBalance(balance - partialCost);
             const newStickers = data.results.map((r: any) => ({
               emoji: goldenReactions.find((gr) => gr.label === r.label)?.emoji ?? "🎨",
               label: r.label,
               style: styleName,
-              animated: r.animated,
+              animated: false,
               imageUrl: r.url,
-              frames: r.frames,
             }));
             setGeneratedStickers((prev) => [...newStickers, ...prev]);
           }
@@ -216,12 +267,37 @@ const GeneratorSection = () => {
           emoji: goldenReactions.find((gr) => gr.label === r.label)?.emoji ?? "🎨",
           label: r.label,
           style: styleName,
-          animated: r.animated,
+          animated: false,
           imageUrl: r.url,
-          frames: r.frames,
         }));
 
         setGeneratedStickers((prev) => [...newStickers, ...prev]);
+
+        // If animateAll is on, start animating each sticker via Replicate
+        if (animateAll) {
+          setGenerationProgress("Оживляем стикеры через AI-видео... Это займёт ещё 2-5 минут");
+          for (const s of newStickers) {
+            if (s.imageUrl) {
+              try {
+                const { data: animData } = await supabase.functions.invoke("animate-sticker", {
+                  body: { imageUrl: s.imageUrl, emotion: s.label },
+                });
+                if (animData?.videoUrl) {
+                  setGeneratedStickers((prev) =>
+                    prev.map((existing) =>
+                      existing.imageUrl === s.imageUrl && existing.label === s.label
+                        ? { ...existing, animated: true, videoUrl: animData.videoUrl }
+                        : existing
+                    )
+                  );
+                }
+              } catch (animErr) {
+                console.error(`Animation failed for ${s.label}:`, animErr);
+              }
+            }
+          }
+        }
+
         toast({
           title: "Стикеры готовы! 🎉",
           description: `Создано ${results.length} стикер(ов). Списано ${actualCost} 🪙`,
@@ -474,7 +550,7 @@ const GeneratorSection = () => {
             </ScrollReveal>
             <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3">
               {generatedStickers.map((sticker, i) => (
-                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} />
+                <StickerCard key={`${sticker.label}-${i}`} sticker={sticker} index={i} onAnimate={handleAnimateSticker} />
               ))}
             </div>
           </div>
