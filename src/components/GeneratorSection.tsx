@@ -2,12 +2,18 @@ import { useState, useRef } from "react";
 import { Upload, Sparkles, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import demoPixar from "@/assets/demo-pixar-hello-v2.png";
+import demoGta from "@/assets/demo-gta-like-v2.png";
+import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
+import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
+import demoLineart from "@/assets/demo-lineart-love-v2.png";
+
 const styles = [
-  { id: "pixar", name: "3D Pixar", emoji: "🎬" },
-  { id: "gta", name: "GTA Style", emoji: "🚗" },
-  { id: "ghibli", name: "Miyazaki", emoji: "🍃" },
-  { id: "cyberpunk", name: "Cyberpunk", emoji: "🤖" },
-  { id: "lineart", name: "Line Art", emoji: "✏️" },
+  { id: "pixar", name: "3D Pixar", image: demoPixar },
+  { id: "gta", name: "GTA Style", image: demoGta },
+  { id: "ghibli", name: "Miyazaki", image: demoGhibli },
+  { id: "cyberpunk", name: "Cyberpunk", image: demoCyberpunk },
+  { id: "lineart", name: "Line Art", image: demoLineart },
 ];
 
 const reactions = [
@@ -32,82 +38,78 @@ const GeneratorSection = () => {
   };
 
   return (
-    <section id="generator" className="py-12 px-4 scroll-mt-20">
-      <div className="container max-w-5xl bg-card border border-border/50 rounded-[48px] p-8 md:p-12 shadow-2xl backdrop-blur-xl">
-        
-        {/* БЛОК: ФОТО (СЛЕВА) И СТИЛЬ (СПРАВА) */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr,1.4fr] gap-10 mb-12 items-start">
-          
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">1. Загрузите фото</h3>
-            <div 
-              onClick={() => !imageUrl && fileInputRef.current?.click()}
-              className={`aspect-square border-2 border-dashed rounded-[32px] flex flex-col items-center justify-center transition-all cursor-pointer bg-background/40 ${
-                imageUrl ? "border-primary shadow-glow-sm" : "border-border hover:border-primary/50"
-              }`}
-            >
-              {imageUrl ? (
-                <div className="relative w-full h-full p-3">
-                  <img src={imageUrl} className="w-full h-full object-cover rounded-2xl" alt="Ваше фото" />
-                  <button onClick={(e) => { e.stopPropagation(); setImageUrl(null); }} className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-2 shadow-lg"><X className="w-4 h-4" /></button>
-                </div>
-              ) : (
-                <div className="text-center p-6">
-                  <Upload className="w-12 h-12 text-primary/40 mx-auto mb-3" />
-                  <p className="font-bold text-sm uppercase">Загрузить</p>
-                </div>
-              )}
-              <input type="file" ref={fileInputRef} onChange={(e) => e.target.files?.[0] && setImageUrl(URL.createObjectURL(e.target.files[0]))} className="hidden" accept="image/*" />
+    <section id="generator" className="py-20 px-4 scroll-mt-20">
+      <div className="container max-w-5xl">
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-16 uppercase tracking-tight">
+          Создай свой стикерпак прямо сейчас
+        </h2>
+
+        <div className="bg-card/40 border border-border/50 rounded-[48px] p-8 md:p-12 shadow-2xl backdrop-blur-xl">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr,1.3fr] gap-12 mb-12 items-start">
+            
+            {/* ФОТО (СЛЕВА) */}
+            <div className="space-y-4">
+              <div 
+                onClick={() => !imageUrl && fileInputRef.current?.click()}
+                className={`aspect-square border-2 border-dashed rounded-[40px] flex flex-col items-center justify-center transition-all cursor-pointer bg-background/50 ${
+                  imageUrl ? "border-primary shadow-glow-sm" : "border-border hover:border-primary/50"
+                }`}
+              >
+                {imageUrl ? (
+                  <div className="relative w-full h-full p-4">
+                    <img src={imageUrl} className="w-full h-full object-cover rounded-[32px] shadow-2xl" alt="Ваше фото" />
+                    <button onClick={(e) => { e.stopPropagation(); setImageUrl(null); }} className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform"><X className="w-4 h-4" /></button>
+                  </div>
+                ) : (
+                  <div className="text-center p-8 opacity-40">
+                    <Upload className="w-12 h-12 mx-auto mb-4" />
+                    <p className="font-bold text-xs uppercase tracking-widest">Нажмите для загрузки</p>
+                  </div>
+                )}
+                <input type="file" ref={fileInputRef} onChange={(e) => e.target.files?.[0] && setImageUrl(URL.createObjectURL(e.target.files[0]))} className="hidden" accept="image/*" />
+              </div>
+              <p className="text-[10px] text-center text-muted-foreground/60 italic">🔒 Ваши фото удаляются сразу после обработки</p>
+            </div>
+
+            {/* СТИЛИ (СПРАВА) */}
+            <div className="space-y-6">
+              <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground/80">Выберите стиль</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {styles.map((s) => (
+                  <button key={s.id} onClick={() => setSelectedStyle(s.id)} className={`relative group rounded-3xl border-2 transition-all overflow-hidden bg-background ${selectedStyle === s.id ? "border-primary shadow-glow scale-105" : "border-border/40 hover:border-primary/30"}`}>
+                    <div className="aspect-square w-full p-2 overflow-hidden">
+                      <img src={s.image} className="w-full h-full object-contain transition-transform group-hover:scale-110" alt={s.name} />
+                    </div>
+                    <div className="p-2 bg-background/90 border-t border-border/20">
+                      <span className="text-[9px] font-bold uppercase block text-center tracking-tighter">{s.name}</span>
+                    </div>
+                    {selectedStyle === s.id && <div className="absolute top-2 right-2 bg-primary rounded-full p-1 shadow-lg"><Check className="w-3 h-3 text-white" /></div>}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">2. Выберите стиль</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {styles.map((s) => (
-                <button 
-                  key={s.id} 
-                  onClick={() => setSelectedStyle(s.id)} 
-                  className={`relative flex flex-col items-center p-5 rounded-2xl border-2 transition-all ${
-                    selectedStyle === s.id ? "border-primary bg-primary/10 shadow-glow scale-105" : "border-border bg-background"
-                  }`}
-                >
-                  <span className="text-4xl mb-2">{s.emoji}</span>
-                  <span className="text-[10px] font-bold uppercase">{s.name}</span>
-                  {selectedStyle === s.id && <Check className="absolute top-2 right-2 w-4 h-4 text-primary" />}
+          {/* ЭМОЦИИ (НИЖЕ) */}
+          <div className="space-y-6 pt-10 border-t border-border/50">
+            <div className="flex justify-between items-center">
+              <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground/80">Выберите анимации ({selectedEmotions.length})</p>
+            </div>
+            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 gap-3">
+              {reactions.map((r) => (
+                <button key={r.label} onClick={() => toggleEmotion(r.label)} className={`flex flex-col items-center p-3 rounded-2xl border-2 transition-all ${selectedEmotions.includes(r.label) ? "border-primary bg-primary/20 scale-110 shadow-lg ring-2 ring-primary/20" : "border-border/40 bg-secondary/20 opacity-60 hover:opacity-100"}`}>
+                  <span className="text-2xl">{r.emoji}</span>
+                  <span className="text-[8px] mt-1 font-bold text-center uppercase tracking-tighter leading-tight">{r.label}</span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* ЭМОЦИИ (ПОД НИМИ) */}
-        <div className="space-y-6 pt-10 border-t border-border/50">
-          <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground text-center">3. Выберите анимации ({selectedEmotions.length})</h3>
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 gap-3">
-            {reactions.map((r) => (
-              <button 
-                key={r.label} 
-                onClick={() => toggleEmotion(r.label)} 
-                className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all ${
-                  selectedEmotions.includes(r.label) ? "border-primary bg-primary/20 scale-110 shadow-md" : "border-border/40 opacity-50 hover:opacity-100"
-                }`}
-              >
-                <span className="text-2xl">{r.emoji}</span>
-                <span className="text-[9px] mt-1 font-bold text-center leading-tight">{r.label}</span>
-              </button>
-            ))}
-          </div>
+          <Button disabled={!imageUrl || selectedEmotions.length === 0} className="w-full h-20 text-2xl font-bold rounded-3xl mt-12 bg-gradient-primary shadow-2xl shadow-primary/40 hover:scale-[1.02] transition-all group">
+            <Sparkles className="w-6 h-6 mr-3 group-hover:animate-pulse" />
+            Создать и анимировать пак
+          </Button>
         </div>
-
-        {/* КНОПКА (В САМОМ НИЗУ) */}
-        <Button 
-          disabled={!imageUrl || selectedEmotions.length === 0} 
-          className="w-full h-20 text-2xl font-bold rounded-2xl mt-12 bg-primary text-white shadow-2xl shadow-primary/40 hover:scale-[1.01] transition-all"
-        >
-          <Sparkles className="w-6 h-6 mr-3" />
-          Создать {selectedEmotions.length > 0 && selectedEmotions.length} стикеров
-        </Button>
       </div>
     </section>
   );
