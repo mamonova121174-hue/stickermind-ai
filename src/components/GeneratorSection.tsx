@@ -58,3 +58,4 @@ export const GeneratorSection = () => {
     </div>
   );
 };
+export default GeneratorSection;
