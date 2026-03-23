@@ -1,6 +1,6 @@
-import { ArrowDown, Sparkles, Check } from "lucide-react";
+import { useState, useRef } from "react";
+import { Upload, Sparkles, Check, X, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
 
 const STYLES = [
   { id: "pixar", name: "3D Pixar", emoji: "🎬" },
@@ -21,91 +21,119 @@ const EMOTIONS = [
   { emoji: "🙋", label: "Пока" }
 ];
 
-const HeroSection = () => {
+export const GeneratorSection = () => {
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState("pixar");
-  const [selectedEmotion, setSelectedEmotion] = useState("Привет");
+  const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleCreateClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    fileInputRef.current?.click();
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      alert(`Стикер почти готов!\nСтиль: ${selectedStyle}\nЭмоция: ${selectedEmotion}\nФайл: ${file.name}`);
+      setUploadedFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
+  const toggleEmotion = (label: string) => {
+    setSelectedEmotions(prev => 
+      prev.includes(label) ? prev.filter(e => e !== label) : [...prev, label]
+    );
+  };
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-12 px-4 bg-background">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
-      
-      <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
+    <section id="generator" className="py-20 bg-background">
+      <div className="container max-w-4xl">
+        <div className="flex flex-col gap-10">
+          
+          {/* ШАГ 1: ЗАГРУЗКА ФОТО */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold flex items-center gap-2">1. Загрузите ваше фото</h3>
+            <div 
+              onClick={() => !uploadedFile && fileInputRef.current?.click()}
+              className={`relative border-2 border-dashed rounded-3xl p-8 flex flex-col items-center justify-center transition-all cursor-pointer ${
+                uploadedFile ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
+              }`}
+            >
+              {previewUrl ? (
+                <div className="relative w-40 h-40">
+                  <img src={previewUrl} className="w-full h-full object-cover rounded-2xl shadow-md" alt="Превью" />
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setUploadedFile(null); setPreviewUrl(null); }}
+                    className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-1"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mb-4">
+                    <ImageIcon className="w-8 h-8 text-primary" />
+                  </div>
+                  <p className="text-sm font-medium">Нажмите, чтобы выбрать фото</p>
+                  <p className="text-xs text-muted-foreground mt-1">PNG, JPG до 10MB</p>
+                </>
+              )}
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
+            </div>
+          </div>
 
-      <div className="container relative z-10 text-center max-w-4xl">
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-8">
-          Создай свой нейро-стикерпак
-        </h1>
-
-        <div className="grid gap-6 mb-10 text-left bg-card/40 p-6 rounded-3xl border border-border/50 backdrop-blur-md shadow-xl">
-          {/* СТИЛИ */}
-          <div>
-            <p className="text-sm font-medium text-muted-foreground mb-4">1. Выбери стиль</p>
+          {/* ШАГ 2: ВЫБОР СТИЛЯ */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold">2. Выберите стиль стикеров</h3>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
               {STYLES.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => setSelectedStyle(s.id)}
-                  className={`relative flex flex-col items-center p-3 rounded-xl border-2 transition-all ${
-                    selectedStyle === s.id ? 'border-primary bg-primary/10 shadow-lg' : 'border-border bg-background/50 hover:border-primary/30'
+                  className={`flex flex-col items-center p-4 rounded-2xl border-2 transition-all ${
+                    selectedStyle === s.id ? "border-primary bg-primary/10" : "border-border bg-card"
                   }`}
                 >
-                  <span className="text-2xl mb-1">{s.emoji}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-tight">{s.name}</span>
-                  {selectedStyle === s.id && <Check className="absolute top-1 right-1 w-3 h-3 text-primary" />}
+                  <span className="text-3xl mb-2">{s.emoji}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider">{s.name}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* ЭМОЦИИ */}
-          <div>
-            <p className="text-sm font-medium text-muted-foreground mb-4">2. Выбери эмоцию ({selectedEmotion})</p>
-            <div className="grid grid-cols-5 sm:grid-cols-8 gap-2">
-              {EMOTIONS.map((emo) => (
+          {/* ШАГ 3: ВЫБОР ЭМОЦИЙ */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold flex justify-between">
+              3. Выберите анимации <span>({selectedEmotions.length})</span>
+            </h3>
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 gap-2">
+              {EMOTIONS.map((e) => (
                 <button
-                  key={emo.label}
-                  onClick={() => setSelectedEmotion(emo.label)}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-lg border-2 transition-all ${
-                    selectedEmotion === emo.label ? 'border-primary bg-primary/20 scale-105' : 'border-border/30 opacity-60 hover:opacity-100'
+                  key={e.label}
+                  onClick={() => toggleEmotion(e.label)}
+                  className={`flex flex-col items-center p-2 rounded-xl border transition-all ${
+                    selectedEmotions.includes(e.label) ? "border-primary bg-primary/20 scale-105" : "border-border bg-card opacity-60"
                   }`}
                 >
-                  <span className="text-xl">{emo.emoji}</span>
-                  <span className="text-[8px] truncate w-full text-center">{emo.label}</span>
+                  <span className="text-xl">{e.emoji}</span>
+                  <span className="text-[8px] mt-1 truncate w-full text-center">{e.label}</span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <Button
-            onClick={handleCreateClick}
-            className="bg-primary text-primary-foreground h-16 px-10 text-xl font-bold rounded-2xl hover:scale-105 transition-all shadow-2xl shadow-primary/40"
+          {/* КНОПКА ДЕЙСТВИЯ */}
+          <Button 
+            size="lg"
+            disabled={!uploadedFile || selectedEmotions.length === 0}
+            className="h-20 text-xl font-bold rounded-2xl gap-3 shadow-xl shadow-primary/30"
+            onClick={() => alert('Поехали! Нейросеть начала работу над вашим паком.')}
           >
-            <Sparkles className="w-6 h-6 mr-3" />
-            Загрузить фото и оживить
+            <Sparkles className="w-6 h-6" />
+            {!uploadedFile ? "Сначала загрузите фото" : selectedEmotions.length === 0 ? "Выберите хотя бы 1 эмоцию" : `Создать ${selectedEmotions.length} стикеров`}
           </Button>
-          <p className="text-xs text-muted-foreground/60">
-            Выбран стиль: <span className="text-primary font-bold">{selectedStyle}</span> • 
-            Эмоция: <span className="text-primary font-bold">{selectedEmotion}</span>
-          </p>
+          
         </div>
       </div>
     </section>
   );
 };
 
-export default HeroSection;
+export default GeneratorSection;
