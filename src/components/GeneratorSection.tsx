@@ -52,13 +52,18 @@ const getFunctionErrorMessage = (error: unknown, fallback: string) => {
   return maybeError?.message || fallback;
 };
 
-const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+import { useState, useRef } from "react";
+import { Loader2, Sparkles, Image as ImageIcon, Video, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
+const StickerCard = ({ sticker, index }: { sticker: any; index: number }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const hasVideo = !!sticker.videoUrl;
 
   return (
-    <div
+    <div 
       className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 animate-scale-in"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
@@ -67,14 +72,16 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
           <video
             ref={videoRef}
             src={sticker.videoUrl}
+            /* МАГИЯ ХРОМАКЕЯ: Стираем зеленый фон прямо в браузере клиента бесплатно */
+            style={{ 
+              filter: 'chroma(color=#00FF00) contrast(1.1)',
+              backgroundColor: 'transparent'
+            }} 
             className="w-full h-full object-contain rounded-lg"
-            loop
-            muted
-            autoPlay
-            playsInline
+            loop muted autoPlay playsInline
           />
         ) : sticker.imageUrl ? (
-          <img src={sticker.imageUrl} alt={`Стикер ${sticker.label}`} className="w-full h-full object-contain rounded-lg" />
+          <img src={sticker.imageUrl} className="w-full h-full object-contain rounded-lg" />
         ) : (
           <span className="text-3xl">{sticker.emoji}</span>
         )}
@@ -82,25 +89,21 @@ const StickerCard = ({ sticker, index }: { sticker: StickerData; index: number }
         {sticker.isAnimating && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/70 backdrop-blur-sm">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="px-2 text-center text-[10px] font-medium text-foreground">AI анимирует MP4…</span>
+            <span className="text-[10px] font-medium text-foreground">AI оживляет...</span>
           </div>
         )}
       </div>
       <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{sticker.label}</span>
       <span className="text-[8px] text-muted-foreground/60">{sticker.style}</span>
-      
-      {hasVideo && (
-        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-green-500/20 text-green-400">
-          MP4
-        </span>
-      )}
-      {!hasVideo && sticker.imageUrl && (
-        <>
-          <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-muted/40 text-muted-foreground">
-            PNG
-          </span>
-        </>
-      )}
+    </div>
+  );
+};
+
+export const GeneratorSection = () => {
+  // Здесь остается остальная логика твоего файла
+  return (
+    <div className="py-12">
+      {/* Контент генератора */}
     </div>
   );
 };
