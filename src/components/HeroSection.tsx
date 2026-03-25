@@ -79,9 +79,17 @@ const HeroSection = () => {
                 { name: "Line Art", img: demoLineart }
               ].map((style, i) => (
                 <div key={i} className="flex flex-col items-center gap-3 flex-shrink-0">
-                  <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border border-border/50 bg-card/50 shadow-lg transition-all hover:scale-110">
-                    <img src={style.img} alt={style.name} className="w-full h-full object-contain p-1" />
-                  </div>
+                  <div className="w-24 h-24 sm:w-40 sm:h-40 rounded-[32px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-xl transition-all hover:scale-110">
+  <img 
+    src={style.img} 
+    alt={style.name} 
+    className="w-full h-full object-cover" 
+    onError={(e) => {
+      // Это на случай, если картинка не найдется - она не будет пустой
+      e.currentTarget.style.backgroundColor = '#2D2D2D';
+    }}
+  />
+</div>
                   <span className="text-[8px] font-bold uppercase text-muted-foreground">{style.name}</span>
                 </div>
               ))}
