@@ -37,11 +37,12 @@ const HeroSection = () => {
 
           <ScrollReveal delay={200}>
             <div className="flex flex-col items-center gap-6">
-              <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-12 px-8 text-lg font-bold rounded-2xl shadow-xl hover:scale-105 transition-all border-none">
-  <a href="#generator" className="flex items-center">
-    <Sparkles className="w-5 h-5 mr-3" />
-    Создать первый стикер бесплатно
+             <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-12 px-8 text-lg font-bold rounded-2xl shadow-xl hover:scale-105 transition-all border-none">
+  <a href="#generator" className="flex items-center justify-center gap-3">
+    <Sparkles className="w-5 h-5 flex-shrink-0" />
+    <span className="leading-none">Создать первый стикер бесплатно</span>
   </a>
+</Button>
               </Button>
               <div className="text-xs text-gray-500 font-medium flex items-center gap-2">
                 <span className="bg-white/10 px-2 py-1 rounded-md">15</span>
