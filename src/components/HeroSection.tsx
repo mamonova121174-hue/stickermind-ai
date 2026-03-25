@@ -12,7 +12,7 @@ import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden px-4">
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-12 pb-4 overflow-hidden px-4">
       <div className="container relative z-10 text-center max-w-5xl">
         
         {/* ВЕРХНИЙ БЛОК: ТЕКСТ И КНОПКА */}
@@ -20,14 +20,14 @@ const HeroSection = () => {
           <h1 className="font-display text-5xl sm:text-7xl font-bold leading-[1.1] tracking-tight mb-8 uppercase">
             Создавай свои стикеры
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
             Создай стикерпак в 5 премиум стилях за 30 сек.<br />
             Загрузи фото — получи стикеры для Телеграм.
           </p>
         </ScrollReveal>
 
         <ScrollReveal delay={200}>
-          <div className="flex flex-col items-center gap-4 mb-12">
+          <div className="flex flex-col items-center gap-4 mb-4">
             <Button asChild className="bg-gradient-primary text-white h-16 px-10 text-xl font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
               <a href="#generator">
                 <Sparkles className="w-6 h-6 mr-3" />
@@ -44,7 +44,7 @@ const HeroSection = () => {
         </ScrollReveal>
 
         <ScrollReveal delay={300}>
-          <div className="mb-14">
+          <div className="mb-2">
             <a href="#generator" className="inline-flex items-center gap-2 text-md text-primary hover:underline font-bold group">
               Попробовать сейчас
               <ArrowDown className="w-6 h-6 animate-bounce" />
