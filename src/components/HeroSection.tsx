@@ -51,33 +51,12 @@ const HeroSection = () => {
             </a>
           </div>
         </ScrollReveal>
-{/* МАРКЕТИНГОВЫЙ БЛОК: ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ */}
-        <div className="mt-32 mb-16 text-center space-y-8">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic text-white leading-none">
-            Один персонаж — <span className="text-primary">пять стилей</span>
-          </h2>
-          
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-            <span className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary italic">
-              ⚡️ Создавай стикеры для Telegram
-            </span>
-            <span className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary italic">
-              🎨 Сделай стикерпак для WhatsApp
-            </span>
-            <span className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary italic">
-              🤖 Сгенерируй стикеры по фото
-            </span>
-          </div>
-
-          <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed">
-            Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. 
-            Нейросеть StickerMind создаст идеальный пак для твоих мессенджеров за 30 секунд.
-          </p>
+{/* --- СТРЕЛКА-РАЗДЕЛИТЕЛЬ --- */}
+        <div className="flex justify-center -mt-8 mb-20">
+          <ScrollReveal delay={300} repeat={false}>
+            <div className="w-px h-20 bg-gradient-to-b from-primary/80 to-transparent shadow-glow-sm" />
+          </ScrollReveal>
         </div>
-
-        <ScrollReveal delay={400}>
-      <div className="w-full max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1.2fr,2fr] gap-8 lg:gap-12 items-center">
-        
         {/* ЛЕВАЯ ЧАСТЬ: ОРИГИНАЛЬНОЕ ФОТО */}
         <div className="flex flex-col items-center gap-4 group">
           <div className="w-full max-w-[320px] aspect-square rounded-[40px] overflow-hidden border-4 border-primary/20 bg-card shadow-2xl transition-all duration-500 group-hover:border-primary/50 group-hover:scale-105">
