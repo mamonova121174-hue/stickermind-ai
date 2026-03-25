@@ -96,6 +96,68 @@ const HeroSection = () => {
 
           </div>
         </ScrollReveal>
+        {/* --- НАЧАЛО ВСТАВКИ: ВТОРОЙ ЭКРАН --- */}
+<div className="mt-32 mb-20 text-center px-4">
+  <ScrollReveal>
+    {/* ЗАГОЛОВОК С ГРАДИЕНТОМ [cite: 1, 48-50] */}
+    <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
+      Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
+    </h2>
+
+    {/* ФИОЛЕТОВЫЕ КНОПКИ-ПЛАШКИ [cite: 1, 52-57] */}
+    <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20 flex items-center gap-2">
+        ⚡️ Стикеры для Telegram
+      </span>
+      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20 flex items-center gap-2">
+        🤖 Создай стикер для МАКС
+      </span>
+    </div>
+
+    {/* ТЕКСТ ПОД КНОПКАМИ [cite: 1, 59-62] */}
+    <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto font-medium mb-16 leading-relaxed">
+      Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. <br/>
+      StickerMind создаст идеальный пак за 30 секунд. [cite: 1, 60-61]
+    </p>
+  </ScrollReveal>
+
+  {/* ГРАФИКА: ОРИГИНАЛ СЛЕВА + СЕТКА СПРАВА (УКРУПНЕННО) [cite: 1, 64-92] */}
+  <ScrollReveal delay={200}>
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 max-w-7xl mx-auto">
+      
+      {/* Крупный оригинал */}
+      <div className="w-full max-w-[340px] lg:w-[380px] flex flex-col items-center gap-4">
+        <div className="w-full aspect-square rounded-[48px] overflow-hidden border-2 border-purple-500/30 shadow-[0_0_50px_rgba(124,58,237,0.2)] bg-card/50">
+          <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+        </div>
+        <span className="text-xs font-black uppercase tracking-widest text-purple-400 italic">
+          Твой оригинал
+        </span>
+      </div>
+
+      {/* Сетка из 5 стилей [cite: 1, 69-73] */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 md:gap-8">
+        {[
+          { img: demoPixar, label: "3D Pixar" },
+          { img: demoGta, label: "GTA Style" },
+          { img: demoGhibli, label: "Miyazaki" },
+          { img: demoCyberpunk, label: "Cyberpunk" },
+          { img: demoLineart, label: "Line Art" }
+        ].map((s, i) => (
+          <div key={i} className="flex flex-col items-center gap-4 w-[160px] md:w-[200px]">
+            <div className="w-full aspect-square rounded-[36px] overflow-hidden border border-white/10 bg-card/50 shadow-2xl transition-all hover:scale-105 hover:border-purple-500/40">
+              <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+            </div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </ScrollReveal>
+</div>
+{/* --- КОНЕЦ ВСТАВКИ --- */}
 
       </div>
     </section>
