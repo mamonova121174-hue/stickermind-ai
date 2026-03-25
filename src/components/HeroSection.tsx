@@ -49,7 +49,7 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ПЕРВАЯ СЕТКА (МАКСИМАЛЬНО ПОДНЯТА КВЕРХУ - mt-0) */}
+        {/* ПЕРВАЯ СЕТКА (КАРТИНКИ ПОДНЯТЫ ВЫШЕ К ТЕКСТУ) */}
         <ScrollReveal delay={400}>
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
@@ -89,7 +89,7 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (РАССТОЯНИЕ СОХРАНЕНО) */}
+        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД */}
         <div className="mt-16 text-center w-full">
           <ScrollReveal>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
@@ -106,4 +106,45 @@ const HeroSection = () => {
             </div>
 
             <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto font-medium mb-12 leading-relaxed">
-              Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне.
+              Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. <br/>
+              StickerMind создаст идеальный пак за 30 секунд.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={200}>
+            <div className="flex flex-row items-center justify-center gap-2 md:gap-4 w-full">
+              <div className="flex flex-col items-center gap-3 shrink-0">
+                <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50 hover:scale-105 transition-all">
+                  <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+                </div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 italic">Оригинал</span>
+              </div>
+
+              <div className="text-2xl text-purple-500/60 font-bold px-1 md:px-2">→</div>
+
+              <div className="flex flex-row items-center gap-2 md:gap-4 overflow-x-auto py-2">
+                {[
+                  { img: demoPixar, label: "3D Pixar" },
+                  { img: demoGta, label: "GTA Style" },
+                  { img: demoGhibli, label: "Miyazaki" },
+                  { img: demoCyberpunk, label: "Cyberpunk" },
+                  { img: demoLineart, label: "Line Art" }
+                ].map((s, i) => (
+                  <div key={i} className="flex flex-col items-center gap-3 shrink-0">
+                    <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg hover:border-purple-500/40 hover:scale-105 transition-all">
+                      <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+                    </div>
+                    <span className="text-[9px] font-bold uppercase tracking-tight text-white/40">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
