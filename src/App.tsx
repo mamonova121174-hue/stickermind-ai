@@ -20,7 +20,7 @@ const App = () => (
       <TokenProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+      <BrowserRouter basename="/stickermind-ai">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/pricing" element={<Pricing />} />
