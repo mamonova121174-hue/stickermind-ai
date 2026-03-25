@@ -20,16 +20,16 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center pt-24 pb-16 overflow-hidden px-4 bg-[#0a0a0c]">
+    <section className="relative min-h-screen flex flex-col items-center pt-10 pb-4 overflow-hidden px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-6xl">
         
         {/* ВЕРХНИЙ БЛОК: ТЕКСТ И КНОПКА */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-4">
           <ScrollReveal>
-            <h1 className="font-display text-5xl sm:text-7xl font-black leading-[1.1] tracking-tight mb-6 uppercase text-white">
+            <h1 className="font-display text-4xl sm:text-5xl sm:text-7xl font-black leading-[1.1] tracking-tight mb-2 uppercase text-white">
               Создавай свои стикеры
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+            <p className="text-base text-gray-400 max-w-2xl mx-auto mb-4">
               Создай стикерпак в 5 премиум стилях за 30 сек. <br/>
               Загрузи фото — получи стикеры для Телеграм.
             </p>
@@ -37,7 +37,7 @@ const HeroSection = () => {
 
           <ScrollReveal delay={200}>
             <div className="flex flex-col items-center gap-6">
-              <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-16 px-10 text-xl font-bold rounded-2xl shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:scale-105 transition-all border-none">
+              <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-12 px-8 text-lg text-xl font-bold rounded-2xl shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:scale-105 transition-all border-none">
                 <a href="#generator" className="flex items-center">
                   <Sparkles className="w-6 h-6 mr-3" />
                   Создать первый стикер бесплатно
@@ -51,7 +51,7 @@ const HeroSection = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={300}>
-            <div className="mt-12">
+            <div className="mt-4">
               <a href="#generator" className="inline-flex flex-col items-center gap-2 text-sm text-purple-400 font-bold group hover:text-purple-300 transition-colors">
                 Попробовать сейчас
                 <ArrowDown className="w-5 h-5 animate-bounce" />
@@ -62,10 +62,10 @@ const HeroSection = () => {
 
         {/* ОСНОВНОЙ КОНТЕНТ: ОРИГИНАЛ + СЕТКА */}
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 lg:gap-12 mt-10">
+          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 lg:gap-12 mt-4">
             
             {/* Левая колонка: Оригинал */}
-            <div className="w-full lg:w-1/3 flex flex-col items-center gap-4">
+            <div className="w-full lg:w-1/3 flex flex-col items-center gap-2">
               <div className="w-full aspect-square rounded-[40px] overflow-hidden border-2 border-primary/20 shadow-[0_0_40px_rgba(124,58,237,0.15)] bg-card/50">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Твой оригинал" />
               </div>
