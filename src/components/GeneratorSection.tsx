@@ -2,13 +2,11 @@ import { useState, useRef } from "react";
 import { Upload, Sparkles, X, Check, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const styles = [
-  { id: "pixar", name: "3D Pixar", emoji: "🎬" },
-  { id: "gta", name: "GTA Style", emoji: "🚗" },
-  { id: "ghibli", name: "Miyazaki", emoji: "🍃" },
-  { id: "cyberpunk", name: "Cyberpunk", emoji: "🤖" },
-  { id: "lineart", name: "Line Art", emoji: "✏️" },
-];
+import demoPixar from "@/assets/demo-pixar-hello-v2.png";
+import demoGta from "@/assets/demo-gta-like-v2.png";
+import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
+import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
+import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const reactions = [
   { emoji: "👋", label: "Привет" }, { emoji: "👌", label: "Окей" },
