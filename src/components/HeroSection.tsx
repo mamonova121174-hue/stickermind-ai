@@ -53,31 +53,11 @@ const HeroSection = () => {
         </ScrollReveal>
 
         {/* --- СТРЕЛКА-РАЗДЕЛИТЕЛЬ --- */}
-        <div className="flex justify-center mt-8 mb-12">
-          <div className="w-px h-20 bg-gradient-to-b from-primary/80 to-transparent" />
+        <div className="flex justify-center -mt-8 mb-20">
+          <ScrollReveal delay={300} repeat={false}>
+            <div className="w-px h-20 bg-gradient-to-b from-primary/80 to-transparent shadow-glow-sm" />
+          </ScrollReveal>
         </div>
-
-        {/* МАРКЕТИНГОВЫЙ БЛОК: ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ */}
-        <div className="mt-12 mb-16 text-center space-y-6">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-white leading-none">
-            Один персонаж — <span className="text-primary">пять стилей</span>
-          </h2>
-          
-          <div className="flex flex-wrap justify-center gap-3">
-            <span className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary">
-              ⚡️ Создавай стикеры для Telegram
-            </span>
-            <span className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary">
-              🎨 Сделай стикерпак для WhatsApp
-            </span>
-            <span className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary">
-              🤖 Сгенерируй стикеры по фото
-            </span>
-          </div>
-
-          <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed">
-            Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. 
-            StickerMind создаст идеальный пак для твоих мессенджеров за 30 секунд.
           </p>
         </div>
 
