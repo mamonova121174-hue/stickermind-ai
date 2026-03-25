@@ -15,7 +15,7 @@ const HeroSection = () => {
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
         
         {/* ЭКРАН 1: ГЛАВНЫЙ */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
               Создавай свои стикеры
@@ -49,9 +49,9 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ПЕРВАЯ СЕТКА (ПОДТЯНУТА ВВЕРХ) */}
+        {/* ПЕРВАЯ СЕТКА (КАРТИНКИ ПОДНЯТЫ ВЫШЕ К ТЕКСТУ) */}
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-4 mb-10">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-2 mb-24">
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
@@ -89,8 +89,8 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (МАКСИМАЛЬНО ПРИБЛИЖЕН) */}
-        <div className="mt-4 text-center w-full">
+        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (С ЗАПАСОМ РАССТОЯНИЯ СВЕРХУ) */}
+        <div className="mt-16 text-center w-full">
           <ScrollReveal>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
               Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
