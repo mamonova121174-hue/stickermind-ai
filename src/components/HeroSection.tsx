@@ -36,28 +36,26 @@ const HeroSection = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            <div className="flex flex-col items-center gap-6">
-             <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-12 px-8 text-lg font-bold rounded-2xl shadow-xl hover:scale-105 transition-all border-none">
-  <a href="#generator" className="flex items-center justify-center gap-3">
-    <Sparkles className="w-5 h-5 flex-shrink-0" />
-    <span className="leading-none">Создать первый стикер бесплатно</span>
-  </a>
-</Button>
+            <div className="flex flex-col items-center gap-3">
+              <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-12 px-8 text-lg font-bold rounded-2xl shadow-xl hover:scale-105 transition-all border-none">
+                <a href="#generator" className="flex items-center justify-center gap-3">
+                  <Sparkles className="w-5 h-5 flex-shrink-0" />
+                  <span className="leading-none">Создать первый стикер бесплатно</span>
+                </a>
               </Button>
-              <div className="text-xs text-gray-500 font-medium flex items-center gap-2">
-                <span className="bg-white/10 px-2 py-1 rounded-md">15</span>
+              <div className="text-[10px] text-gray-500 font-medium flex items-center gap-2">
+                <span className="bg-white/10 px-1.5 py-0.5 rounded">15</span>
                 бесплатно — хватит на 2 анимации
               </div>
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={300}>
-            <div className="mt-4">
-              <a href="#generator" className="inline-flex flex-col items-center gap-2 text-sm text-purple-400 font-bold group hover:text-purple-300 transition-colors">
-                Попробовать сейчас
-                <ArrowDown className="w-5 h-5 animate-bounce" />
-              </a>
-            </div>
+          <div className="mt-4">
+            <a href="#generator" className="inline-flex flex-col items-center gap-1 text-[10px] text-purple-400 font-bold uppercase tracking-widest opacity-70">
+              Попробовать сейчас
+              <ArrowDown className="w-4 h-4 animate-bounce" />
+            </a>
+          </div>
           </ScrollReveal>
         </div>
 
