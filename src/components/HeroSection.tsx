@@ -14,8 +14,8 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col items-center pt-16 pb-10 overflow-hidden px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
         
-        {/* ЭКРАН 1: ГЛАВНЫЙ */}
-        <div className="text-center mb-6">
+        {/* --- ЭКРАН 1: ГЛАВНЫЙ (КРУПНАЯ СЕТКА) --- */}
+        <div className="text-center mb-8">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
               Создавай свои стикеры
@@ -40,16 +40,8 @@ const HeroSection = () => {
               </div>
             </div>
           </ScrollReveal>
-
-          <div className="mt-4">
-            <a href="#generator" className="inline-flex flex-col items-center gap-1 text-[10px] text-purple-400 font-bold uppercase tracking-widest opacity-70">
-              Попробовать сейчас
-              <ArrowDown className="w-4 h-4 animate-bounce" />
-            </a>
-          </div>
         </div>
 
-        {/* ПЕРВАЯ СЕТКА (КАРТИНКИ ПОДНЯТЫ ВЫШЕ К ТЕКСТУ) */}
         <ScrollReveal delay={400}>
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
@@ -70,76 +62,84 @@ const HeroSection = () => {
               ].map((s, i) => (
                 <div key={i} className="flex flex-col items-center gap-3 shrink-0">
                   <div className={`w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 flex items-center justify-center transition-all ${
-                    s.isMore ? "bg-white/5 border-dashed border-white/20 hover:border-white/30" : "bg-card/50 border-white/5 hover:border-primary/40 hover:scale-105"
+                    s.isMore ? "bg-white/5 border-dashed border-white/20" : "bg-card/50 border-white/5"
                   }`}>
-                    {s.img ? (
-                      <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
-                    ) : (
-                      <span className="text-[10px] text-gray-500 font-bold text-center px-4 uppercase tracking-wider leading-relaxed">{s.label}</span>
-                    )}
+                    {s.img ? <img src={s.img} className="w-full h-full object-cover" /> : <span className="text-[10px] text-gray-500 font-bold text-center px-4 uppercase">{s.label}</span>}
                   </div>
-                  {!s.isMore && (
-                    <span className="text-[12px] font-bold uppercase tracking-widest text-gray-400">
-                      {s.label}
-                    </span>
-                  )}
+                  {!s.isMore && <span className="text-[12px] font-bold uppercase tracking-widest text-gray-400">{s.label}</span>}
                 </div>
               ))}
             </div>
           </div>
         </ScrollReveal>
 
-        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД */}
-        <div className="mt-16 text-center w-full">
+        {/* --- ЭКРАН 2: ЛИНЕЙКА СТИЛЕЙ (ГОРИЗОНТАЛЬНАЯ) --- */}
+        <div className="mt-16 text-center w-full mb-24">
           <ScrollReveal>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
               Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
             </h2>
-
             <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20">
-                ⚡️ Стикеры для Telegram
-              </span>
-              <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20">
-                🤖 Создай стикер для МАКС
-              </span>
+              <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">⚡️ Стикеры для Telegram</span>
+              <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">🤖 Создай стикер для МАКС</span>
             </div>
-
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto font-medium mb-12 leading-relaxed">
-              Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. <br/>
-              StickerMind создаст идеальный пак за 30 секунд.
-            </p>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
             <div className="flex flex-row items-center justify-center gap-2 md:gap-4 w-full">
               <div className="flex flex-col items-center gap-3 shrink-0">
-                <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50 hover:scale-105 transition-all">
+                <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 bg-card/50 shadow-xl">
                   <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
                 </div>
-                <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 italic">Оригинал</span>
+                <span className="text-[9px] font-black uppercase text-purple-400 italic">Оригинал</span>
               </div>
-
               <div className="text-2xl text-purple-500/60 font-bold px-1 md:px-2">→</div>
-
               <div className="flex flex-row items-center gap-2 md:gap-4 overflow-x-auto py-2">
-                {[
-                  { img: demoPixar, label: "3D Pixar" },
-                  { img: demoGta, label: "GTA Style" },
-                  { img: demoGhibli, label: "Miyazaki" },
-                  { img: demoCyberpunk, label: "Cyberpunk" },
-                  { img: demoLineart, label: "Line Art" }
-                ].map((s, i) => (
+                {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
                   <div key={i} className="flex flex-col items-center gap-3 shrink-0">
-                    <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg hover:border-purple-500/40 hover:scale-105 transition-all">
-                      <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+                    <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg">
+                      <img src={img} className="w-full h-full object-cover" />
                     </div>
-                    <span className="text-[9px] font-bold uppercase tracking-tight text-white/40">{s.label}</span>
                   </div>
                 ))}
               </div>
             </div>
           </ScrollReveal>
+        </div>
+
+        {/* --- ЭКРАН 3: КАК СДЕЛАТЬ СТИКЕР (SEO/GEO БЛОК) --- */}
+        <div className="mt-20 mb-16 w-full max-w-6xl mx-auto px-6">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-6">
+                Как сделать <span className="text-primary">свой стикер</span> за 30 секунд?
+              </h2>
+              <p className="text-gray-400 text-lg max-w-2xl mx-auto font-medium">
+                Инструкция, как быстро создать премиум стикерпак из фото с помощью нейросети.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { step: "01", title: "Загрузи фото", desc: "Чтобы сделать стикерпак, выбери качественное селфи. Наш ИИ автоматически удалит фон.", icon: "📸" },
+              { step: "02", title: "Выбери стили", desc: "Создавай премиум стикеры в одном стиле или выбирай разные для каждой эмоции.", icon: "🎨" },
+              { step: "03", title: "Забирай пак", desc: "Сгенерируй анимированные стикеры и добавь их в Telegram в один клик. Пак готов!", icon: "🚀" }
+            ].map((item, i) => (
+              <ScrollReveal key={i} delay={i * 200}>
+                <div className="relative p-10 rounded-[40px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden">
+                  <div className="absolute -right-2 -top-2 text-9xl font-black text-white/[0.03] tracking-tighter group-hover:text-purple-500/10 transition-colors pointer-events-none">
+                    {item.step}
+                  </div>
+                  <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-inner">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">{item.title}</h3>
+                  <p className="text-gray-400 text-base leading-relaxed font-medium">{item.desc}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
 
       </div>
