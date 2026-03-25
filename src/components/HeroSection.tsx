@@ -96,62 +96,44 @@ const HeroSection = () => {
 
           </div>
         </ScrollReveal>
-       {/* --- ЭКРАН 2: ЛИНЕЙНЫЙ РЯД СТИЛЕЙ --- */}
-<div className="mt-32 mb-20 text-center px-4">
-  <ScrollReveal>
-    <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
-      Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
-    </h2>
-
-    <div className="flex flex-wrap justify-center gap-4 mb-8">
-      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20 flex items-center gap-2">
-        ⚡️ Стикеры для Telegram
-      </span>
-      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20 flex items-center gap-2">
-        🤖 Создай стикер для МАКС
-      </span>
-    </div>
-
-    <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto font-medium mb-16 leading-relaxed">
-      Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. <br/>
-      StickerMind создаст идеальный пак за 30 секунд.
-    </p>
-  </ScrollReveal>
-
-  <ScrollReveal delay={200}>
-    <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5 max-w-[1400px] mx-auto">
+<ScrollReveal delay={200}>
+    {/* Контейнер с плотной компоновкой: gap-2 на мобилках и gap-3 на десктопе */}
+    <div className="flex flex-row items-center justify-center gap-2 md:gap-3 max-w-full mx-auto px-2">
       
-      {/* ОРИГИНАЛ (размер 170px) */}
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-[140px] h-[140px] md:w-[170px] md:h-[170px] rounded-[32px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50">
+      {/* ОРИГИНАЛ */}
+      <div className="flex flex-col items-center gap-2 shrink-0">
+        <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50">
           <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
         </div>
-        <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 italic">Оригинал</span>
+        <span className="text-[8px] font-black uppercase tracking-tight text-purple-400 italic">Оригинал</span>
       </div>
 
-      <div className="text-xl md:text-2xl text-purple-500/60 font-bold px-1">
+      {/* ФИОЛЕТОВАЯ СТРЕЛКА (теперь она занимает минимум места) */}
+      <div className="text-lg md:text-xl text-purple-500/60 font-bold">
         →
       </div>
 
-      {/* РЯД СТИЛЕЙ (размер 170px) */}
-      {[
-        { img: demoPixar, label: "3D Pixar" },
-        { img: demoGta, label: "GTA Style" },
-        { img: demoGhibli, label: "Miyazaki" },
-        { img: demoCyberpunk, label: "Cyberpunk" },
-        { img: demoLineart, label: "Line Art" }
-      ].map((s, i) => (
-        <div key={i} className="flex flex-col items-center gap-3">
-          <div className="w-[140px] h-[140px] md:w-[170px] md:h-[170px] rounded-[32px] overflow-hidden border border-white/10 bg-card/50 shadow-lg transition-all hover:scale-105 hover:border-purple-500/40">
-            <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+      {/* РЯД СТИЛЕЙ: ВСЕ В ОДНУ СТРОКУ (flex-nowrap гарантирует это) */}
+      <div className="flex flex-row items-center gap-2 md:gap-3">
+        {[
+          { img: demoPixar, label: "3D Pixar" },
+          { img: demoGta, label: "GTA Style" },
+          { img: demoGhibli, label: "Miyazaki" },
+          { img: demoCyberpunk, label: "Cyberpunk" },
+          { img: demoLineart, label: "Line Art" }
+        ].map((s, i) => (
+          <div key={i} className="flex flex-col items-center gap-2 shrink-0">
+            <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg transition-all hover:scale-105 hover:border-purple-500/40">
+              <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+            </div>
+            <span className="text-[8px] font-bold uppercase tracking-tight text-white/40">{s.label}</span>
           </div>
-          <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">{s.label}</span>
-        </div>
-      ))}
+        ))}
+      </div>
+
     </div>
   </ScrollReveal>
 </div>
-
       </div>
     </section>
   );
