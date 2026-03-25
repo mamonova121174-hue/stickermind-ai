@@ -12,7 +12,7 @@ import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-12 pb-4 overflow-hidden px-4">
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-24 pb-16 overflow-hidden px-4">
       <div className="container relative z-10 text-center max-w-5xl">
         
         {/* ВЕРХНИЙ БЛОК: ТЕКСТ И КНОПКА */}
@@ -27,7 +27,7 @@ const HeroSection = () => {
         </ScrollReveal>
 
         <ScrollReveal delay={200}>
-          <div className="flex flex-col items-center gap-4 mb-4">
+          <div className="flex flex-col items-center gap-4 mb-8">
             <Button asChild className="bg-gradient-primary text-white h-16 px-10 text-xl font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
               <a href="#generator">
                 <Sparkles className="w-6 h-6 mr-3" />
