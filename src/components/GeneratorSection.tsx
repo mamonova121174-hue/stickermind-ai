@@ -15,15 +15,16 @@ const styles = [
   { id: "cyberpunk", name: "Cyberpunk", img: demoCyberpunk },
   { id: "lineart", name: "Line Art", img: demoLineart },
 ];
+
 const reactions = [
   { emoji: "👋", label: "Привет" }, { emoji: "👌", label: "Окей" },
-  { emoji: "👍", label: "Лайк" }, { emoji: "🫶", label: "Любовь" },
+  { emoji: "👍", label: "Лайк" }, { emoji: "❤️", label: "Любовь" },
   { emoji: "🤦‍♂️", label: "Фейспалм" }, { emoji: "💻", label: "Работаю" },
-  { emoji: "😤", label: "Злюсь" }, { emoji: "🤔", label: "Думаю" },
+  { emoji: "😤", label: "Злюсь" }, { emoji: "🧐", label: "Думаю" },
   { emoji: "💰", label: "Успех" }, { emoji: "🎉", label: "Ура!" },
-  { emoji: "😴", label: "Сплю" }, { emoji: "😮", label: "Шок" },
-  { emoji: "⚖️", label: "Закон" }, { emoji: "💪", label: "Вперёд" },
-  { emoji: "🙋", label: "Пока" }
+  { emoji: "😴", label: "Сплю" }, { emoji: "😱", label: "Шок" },
+  { emoji: "⚖️", label: "Закон" }, { emoji: "🚀", label: "Вперёд" },
+  { emoji: "👋", label: "Пока" }
 ];
 
 const GeneratorSection = () => {
@@ -54,7 +55,9 @@ const GeneratorSection = () => {
                 {imageUrl ? (
                   <div className="relative w-full h-full p-4">
                     <img src={imageUrl} className="w-full h-full object-cover rounded-[32px] shadow-2xl" alt="Ваше фото" />
-                    <button onClick={(e) => { e.stopPropagation(); setImageUrl(null); }} className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform"><X className="w-4 h-4" /></button>
+                    <button onClick={(e) => { e.stopPropagation(); setImageUrl(null); }} className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform">
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 ) : (
                   <div className="text-center p-8 opacity-40">
@@ -62,8 +65,8 @@ const GeneratorSection = () => {
                     <p className="font-bold text-xs uppercase tracking-widest">Нажмите для загрузки</p>
                   </div>
                 )}
-                <input type="file" ref={fileInputRef} onChange={(e) => e.target.files?.[0] && setImageUrl(URL.createObjectURL(e.target.files[0]))} className="hidden" accept="image/*" />
               </div>
+              <input type="file" ref={fileInputRef} onChange={(e) => e.target.files?.[0] && setImageUrl(URL.createObjectURL(e.target.files[0]))} className="hidden" accept="image/*" />
             </div>
 
             {/* СТИЛИ СПРАВА */}
@@ -72,26 +75,24 @@ const GeneratorSection = () => {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {styles.map((s) => (
                   <button
-  key={s.id}
-  onClick={() => setSelectedStyle(s.id)}
-  className={`relative flex flex-col items-center p-3 rounded-2xl border-2 transition-all duration-300 bg-card/40 ${
-    selectedStyle === s.id 
-    ? "border-primary shadow-[0_0_15px_rgba(139,92,246,0.3)] scale-105" 
-    : "border-primary/10 hover:border-primary/30 opacity-70 hover:opacity-100"
-  }`}
->
-  <div className="w-14 h-14 rounded-xl overflow-hidden mb-2 border border-primary/10 shadow-inner">
-    <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
-  </div>
-  <span className="text-[10px] font-bold uppercase tracking-tighter text-center leading-tight">
-    {s.name}
-  </span>
-  {selectedStyle === s.id && (
-    <div className="absolute -top-1.5 -right-1.5 bg-primary rounded-full p-1 shadow-lg z-10">
-      <Check className="w-2.5 h-2.5 text-white" />
-    </div>
-  )}
-</button>
+                    key={s.id}
+                    onClick={() => setSelectedStyle(s.id)}
+                    className={`relative flex flex-col items-center p-3 rounded-2xl border-2 transition-all duration-300 bg-card/40 ${
+                      selectedStyle === s.id 
+                      ? "border-primary shadow-[0_0_15px_rgba(139,92,246,0.3)] scale-105" 
+                      : "border-primary/10 hover:border-primary/30 opacity-70 hover:opacity-100"
+                    }`}
+                  >
+                    <div className="w-14 h-14 rounded-xl overflow-hidden mb-2 border border-primary/10 shadow-inner">
+                      <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-tighter text-center leading-tight">{s.name}</span>
+                    {selectedStyle === s.id && (
+                      <div className="absolute -top-1.5 -right-1.5 bg-primary rounded-full p-1 shadow-lg z-10">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </div>
+                    )}
+                  </button>
                 ))}
               </div>
             </div>
@@ -102,15 +103,24 @@ const GeneratorSection = () => {
             <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">3. Выберите анимации ({selectedEmotions.length})</h3>
             <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 gap-3">
               {reactions.map((r) => (
-                <button key={r.label} onClick={() => toggleEmotion(r.label)} className={`flex flex-col items-center p-3 rounded-2xl border-2 transition-all ${selectedEmotions.includes(r.label) ? "border-primary bg-primary/20 scale-110 shadow-lg" : "border-border/40 bg-secondary/20 opacity-60 hover:opacity-100"}`}>
-                  <span className="text-2xl">{r.emoji}</span>
+                <button
+                  key={r.label}
+                  onClick={() => toggleEmotion(r.label)}
+                  className={`flex flex-col items-center p-3 rounded-2xl border-2 transition-all ${
+                    selectedEmotions.includes(r.label) ? "border-primary bg-primary/10" : "border-border hover:border-primary/40 bg-background/30"
+                  }`}
+                >
+                  <span className="text-2xl mb-1">{r.emoji}</span>
                   <span className="text-[8px] mt-1 font-bold text-center uppercase tracking-tighter leading-tight">{r.label}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <Button disabled={!imageUrl || selectedEmotions.length === 0} className="w-full h-20 text-2xl font-bold rounded-3xl mt-12 bg-primary text-white shadow-2xl shadow-primary/40 hover:scale-[1.02] transition-all">
+          <Button 
+            disabled={!imageUrl || selectedEmotions.length === 0} 
+            className="w-full h-20 text-20 text-2xl font-bold rounded-3xl mt-12 bg-primary text-white shadow-2xl shadow-primary/40 hover:scale-[1.02] transition-all"
+          >
             <Sparkles className="w-6 h-6 mr-3" />
             Создать пак
           </Button>
