@@ -15,12 +15,12 @@ const HeroSection = () => {
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
         
         {/* ЭКРАН 1: ГЛАВНЫЙ */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
               Создавай свои стикеры
             </h1>
-            <p className="text-base text-gray-400 max-w-2xl mx-auto mb-6">
+            <p className="text-base text-gray-400 max-w-2xl mx-auto mb-6 leading-relaxed">
               Создай стикерпак в 5 премиум стилях за 30 сек. <br/>
               Загрузи фото — получи стикеры для Телеграм.
             </p>
@@ -41,7 +41,7 @@ const HeroSection = () => {
             </div>
           </ScrollReveal>
 
-          <div className="mt-6">
+          <div className="mt-8">
             <a href="#generator" className="inline-flex flex-col items-center gap-1 text-[10px] text-purple-400 font-bold uppercase tracking-widest opacity-70">
               Попробовать сейчас
               <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -49,17 +49,19 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ПЕРВАЯ СЕТКА (КАК БЫЛО) */}
+        {/* ПЕРВАЯ СЕТКА (ВОССТАНАВЛИВАЕМ КРУПНЫЕ ВЕРТИКАЛЬНЫЕ КАРТОЧКИ) */}
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-10 mt-8 mb-32">
-            <div className="w-full max-w-[280px] flex flex-col items-center gap-3">
-              <div className="w-full aspect-square rounded-[32px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 mt-8 mb-40">
+            {/* Оригинал: Крупный и вертикальный (240x300px) */}
+            <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
+              <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
+              <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {/* Сетка: Крупные вертикальные карточки (200x260px) */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               {[
                 { img: demoPixar, label: "3D Pixar" },
                 { img: demoGta, label: "GTA Style" },
@@ -68,19 +70,28 @@ const HeroSection = () => {
                 { img: demoLineart, label: "Line Art" },
                 { img: null, label: "И еще 10+ стилей", isMore: true }
               ].map((s, i) => (
-                <div key={i} className="flex flex-col items-center gap-2">
-                  <div className={`w-[120px] h-[120px] rounded-[24px] overflow-hidden border-2 flex items-center justify-center ${
-                    s.isMore ? "bg-white/5 border-dashed border-white/20" : "bg-card/50 border-white/5"
+                <div key={i} className="flex flex-col items-center gap-3 shrink-0">
+                  <div className={`w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 flex items-center justify-center transition-all ${
+                    s.isMore ? "bg-white/5 border-dashed border-white/20 hover:border-white/30" : "bg-card/50 border-white/5 hover:border-primary/40 hover:scale-105"
                   }`}>
-                    {s.img ? <img src={s.img} className="w-full h-full object-cover" /> : <span className="text-[8px] text-gray-500 font-bold text-center px-2">{s.label}</span>}
+                    {s.img ? (
+                      <img src={s.img} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-[10px] text-gray-500 font-bold text-center px-4 uppercase tracking-wider leading-relaxed">{s.label}</span>
+                    )}
                   </div>
+                  {!s.isMore && (
+                    <span className="text-[12px] font-bold uppercase tracking-widest text-gray-400">
+                      {s.label}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         </ScrollReveal>
 
-        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД */}
+        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (АККУРАТНЫЙ, В РЯД) */}
         <div className="mt-20 text-center w-full">
           <ScrollReveal>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
@@ -103,39 +114,22 @@ const HeroSection = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
+            {/* Контейнер: gap-2 на мобилках и gap-4 на десктопе */}
             <div className="flex flex-row items-center justify-center gap-2 md:gap-4 w-full">
+              
+              {/* Оригинал: Компактный 150px */}
               <div className="flex flex-col items-center gap-3 shrink-0">
-                <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50">
+                <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50 hover:scale-105 transition-all">
                   <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
                 </div>
-                <span className="text-[8px] font-black uppercase tracking-widest text-purple-400 italic">Оригинал</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 italic">Оригинал</span>
               </div>
 
-              <div className="text-xl text-purple-500/60 font-bold">→</div>
+              {/* Стрелка */}
+              <div className="text-2xl text-purple-500/60 font-bold px-1 md:px-2">→</div>
 
-              <div className="flex flex-row items-center gap-2 md:gap-4">
+              {/* Ряд стилей: Все по 150px */}
+              <div className="flex flex-row items-center gap-2 md:gap-4 overflow-x-auto no-scrollbar py-2">
                 {[
                   { img: demoPixar, label: "3D Pixar" },
-                  { img: demoGta, label: "GTA Style" },
-                  { img: demoGhibli, label: "Miyazaki" },
-                  { img: demoCyberpunk, label: "Cyberpunk" },
-                  { img: demoLineart, label: "Line Art" }
-                ].map((s, i) => (
-                  <div key={i} className="flex flex-col items-center gap-3 shrink-0">
-                    <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg">
-                      <img src={s.img} className="w-full h-full object-cover" />
-                    </div>
-                    <span className="text-[8px] font-bold uppercase tracking-tight text-white/40">{s.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
-export default HeroSection;
+                  { img: demoGta, label:
