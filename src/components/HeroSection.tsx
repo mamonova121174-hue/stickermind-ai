@@ -52,50 +52,53 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        {/* НИЖНИЙ БЛОК: СТИЛИ (ОСТАВЛЯЕМ ТОЛЬКО ЕГО И ПОДНИМАЕМ) */}
-        <ScrollReveal delay={400}>
-          <div className="space-y-12">
-            {/* КРУПНЫЙ ЗАГОЛОВОК СТИЛЕЙ */}
-            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase tracking-tight text-foreground">
-              Один персонаж — пять стилей
-            </h2>
-            
-            {/* СТИЛИ В ОДНУ ЛИНИЮ */}
-            <div className="flex items-center justify-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar py-4">
-              <div className="flex flex-col items-center gap-3 flex-shrink-0">
-                <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-[32px] overflow-hidden border-2 border-primary/20 shadow-2xl transition-transform hover:scale-105">
-                   <img src={originalImg} alt="Оригинал" className="w-full h-full object-cover" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Оригинал</span>
-              </div>
-              
-              <div className="text-primary/40 text-4xl font-light select-none">→</div>
-
-              {[
-                { name: "3D Pixar", img: demoPixar },
-                { name: "GTA Style", img: demoGta },
-                { name: "Miyazaki", img: demoGhibli },
-                { name: "Cyberpunk", img: demoCyberpunk },
-                { name: "Line Art", img: demoLineart }
-              ].map((style, i) => (
-                <div key={i} className="flex flex-col items-center gap-3 flex-shrink-0">
-                  <div className="w-24 h-24 sm:w-40 sm:h-40 rounded-[32px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-xl transition-all hover:scale-110">
-  <img 
-    src={style.img} 
-    alt={style.name} 
-    className="w-full h-full object-cover" 
-    onError={(e) => {
-      // Это на случай, если картинка не найдется - она не будет пустой
-      e.currentTarget.style.backgroundColor = '#2D2D2D';
-    }}
-  />
-</div>
-                  <span className="text-[8px] font-bold uppercase text-muted-foreground">{style.name}</span>
-                </div>
-              ))}
-            </div>
+       {/* --- НОВАЯ СЕТКА: ФОТО + СТИЛИ --- */}
+    <ScrollReveal delay={400}>
+      <div className="w-full max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1.2fr,2fr] gap-8 lg:gap-12 items-center">
+        
+        {/* ЛЕВАЯ ЧАСТЬ: ОРИГИНАЛЬНОЕ ФОТО */}
+        <div className="flex flex-col items-center gap-4 group">
+          <div className="w-full max-w-[320px] aspect-square rounded-[40px] overflow-hidden border-4 border-primary/20 bg-card shadow-2xl transition-all duration-500 group-hover:border-primary/50 group-hover:scale-105">
+            <img 
+              src={originalImg} 
+              alt="Original" 
+              className="w-full h-full object-cover" 
+            />
           </div>
-        </ScrollReveal>
+          <span className="text-sm font-bold uppercase tracking-widest text-primary/60">Твой оригинал</span>
+        </div>
+
+        {/* ПРАВАЯ ЧАСТЬ: СЕТКА 5 СТИЛЕЙ */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+          {[
+            { name: "3D Pixar", img: demoPixar },
+            { name: "GTA Style", img: demoGta },
+            { name: "Miyazaki", img: demoGhibli },
+            { name: "Cyberpunk", img: demoCyberpunk },
+            { name: "Line Art", img: demoLineart },
+          ].map((style, i) => (
+            <div key={i} className="group flex flex-col items-center gap-3">
+              <div className="w-full aspect-square rounded-[32px] overflow-hidden border-2 border-primary/10 bg-card/50 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:border-primary/40 group-hover:shadow-primary/20">
+                <img 
+                  src={style.img} 
+                  alt={style.name} 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                {style.name}
+              </span>
+            </div>
+          ))}
+          
+          {/* Пустая шестая ячейка для красоты сетки на десктопе */}
+          <div className="hidden sm:flex flex-col items-center justify-center rounded-[32px] border-2 border-dashed border-primary/5 bg-primary/5 p-4">
+            <span className="text-[10px] font-bold text-primary/40 uppercase text-center">И еще 10+ стилей</span>
+          </div>
+        </div>
+
+      </div>
+    </ScrollReveal>
 
       </div>
     </section>
