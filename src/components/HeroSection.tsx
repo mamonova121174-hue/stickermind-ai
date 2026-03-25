@@ -11,11 +11,11 @@ import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center pt-24 pb-20 overflow-hidden px-4 bg-[#0a0a0c]">
+    <section className="relative min-h-screen flex flex-col items-center pt-16 pb-10 overflow-hidden px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
         
-        {/* ЭКРАН 1: ГЛАВНЫЙ (КРУПНЫЕ КАРТОЧКИ) */}
-        <div className="text-center mb-16">
+        {/* ЭКРАН 1: ГЛАВНЫЙ */}
+        <div className="text-center mb-8">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
               Создавай свои стикеры
@@ -41,7 +41,7 @@ const HeroSection = () => {
             </div>
           </ScrollReveal>
 
-          <div className="mt-8">
+          <div className="mt-4">
             <a href="#generator" className="inline-flex flex-col items-center gap-1 text-[10px] text-purple-400 font-bold uppercase tracking-widest opacity-70">
               Попробовать сейчас
               <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -49,9 +49,9 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ПЕРВАЯ СЕТКА (ВОССТАНОВЛЕНЫ КРУПНЫЕ ВЕРТИКАЛЬНЫЕ КАРТОЧКИ) */}
+        {/* ПЕРВАЯ СЕТКА (ПОДТЯНУТА ВВЕРХ) */}
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 mt-8 mb-40">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-4 mb-10">
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
@@ -89,8 +89,8 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (АККУРАТНЫЙ) */}
-        <div className="mt-20 text-center w-full">
+        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (МАКСИМАЛЬНО ПРИБЛИЖЕН) */}
+        <div className="mt-4 text-center w-full">
           <ScrollReveal>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
               Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
@@ -105,7 +105,7 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto font-medium mb-16 leading-relaxed">
+            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto font-medium mb-12 leading-relaxed">
               Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. <br/>
               StickerMind создаст идеальный пак за 30 секунд.
             </p>
