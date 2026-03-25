@@ -37,7 +37,7 @@ const HeroSection = () => {
         </ScrollReveal>
 
         <ScrollReveal delay={300}>
-          <div className="mb-20">
+          <div className="mb-20 text-center">
             <a href="#generator" className="inline-flex items-center gap-2 text-md text-primary font-bold group hover:underline">
               Попробовать сейчас
               <ArrowDown className="w-6 h-6 animate-bounce" />
@@ -50,7 +50,7 @@ const HeroSection = () => {
           <div className="w-px h-20 bg-gradient-to-b from-primary/80 to-transparent shadow-glow-sm" />
         </div>
 
-        {/* МАРКЕТИНГОВЫЙ БЛОК: ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ */}
+        {/* МАРКЕТИНГОВЫЙ БЛОК: ОПУЩЕН К КАРТИНКАМ */}
         <div className="mt-16 mb-20 text-center space-y-8">
           <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-white leading-none">
             Один персонаж — <span className="text-primary">пять стилей</span>
@@ -71,9 +71,9 @@ const HeroSection = () => {
           </p>
         </div>
 
-        {/* БОЛЬШАЯ СЕТКА КАРТИНОК (2х3), КАК НА РЕФЕРЕНСЕ */}
+        {/* БОЛЬШАЯ СЕТКА КАРТИНОК (2х3) */}
         <ScrollReveal delay={400}>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 mb-16">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 mb-16 text-center">
             {[
               { img: originalImg, label: "Твой оригинал", isSpecial: true },
               { img: demoPixar, label: "3D Pixar" },
@@ -82,13 +82,14 @@ const HeroSection = () => {
               { img: demoCyberpunk, label: "Cyberpunk" },
               { img: demoLineart, label: "Line Art" }
             ].map((s, i) => (
-              <div key={i} className={`group relative aspect-[3/4] rounded-[48px] overflow-hidden border-2 bg-card/50 shadow-2xl transition-all duration-500 hover:scale-[1.03] ${
-                s.isSpecial ? "border-primary/40 shadow-primary/10" : "border-white/10 hover:border-primary/30"
-              }`}>
-                <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
-                {/* ПЛАШКА С НАЗВАНИЕМ СТИЛЯ */}
-                <div className={`absolute bottom-6 left-6 px-4 py-2 backdrop-blur-md rounded-full border ${
-                  s.isSpecial ? "bg-primary/20 border-primary/30" : "bg-black/20 border-white/10"
+              <div key={i} className="group flex flex-col items-center gap-4">
+                <div className={`w-full aspect-[3/4] rounded-[48px] overflow-hidden border-2 bg-card/50 shadow-2xl transition-all duration-500 hover:scale-[1.03] ${
+                  s.isSpecial ? "border-primary/40 shadow-primary/10" : "border-white/10 hover:border-primary/30"
+                }`}>
+                  <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+                </div>
+                <div className={`px-4 py-2 backdrop-blur-md rounded-full border ${
+                  s.isSpecial ? "bg-primary/10 border-primary/20" : "bg-white/5 border-white/10"
                 }`}>
                   <span className={`text-[10px] font-bold uppercase tracking-widest ${
                     s.isSpecial ? "text-primary italic" : "text-white"
@@ -107,3 +108,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+// Ревизия от 25.03.2026 - Финальная сборка для Лены
