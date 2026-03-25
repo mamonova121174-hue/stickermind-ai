@@ -8,6 +8,13 @@ import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
+const styles = [
+  { id: "pixar", name: "3D Pixar", img: demoPixar },
+  { id: "gta", name: "GTA Style", img: demoGta },
+  { id: "ghibli", name: "Miyazaki", img: demoGhibli },
+  { id: "cyberpunk", name: "Cyberpunk", img: demoCyberpunk },
+  { id: "lineart", name: "Line Art", img: demoLineart },
+];
 const reactions = [
   { emoji: "👋", label: "Привет" }, { emoji: "👌", label: "Окей" },
   { emoji: "👍", label: "Лайк" }, { emoji: "🫶", label: "Любовь" },
@@ -64,11 +71,27 @@ const GeneratorSection = () => {
               <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">2. Выберите стиль</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {styles.map((s) => (
-                  <button key={s.id} onClick={() => setSelectedStyle(s.id)} className={`relative flex flex-col items-center p-6 rounded-3xl border-2 transition-all bg-background ${selectedStyle === s.id ? "border-primary bg-primary/10 shadow-glow scale-105" : "border-border/40 hover:border-primary/30"}`}>
-                    <span className="text-4xl mb-2">{s.emoji}</span>
-                    <span className="text-[10px] font-bold uppercase block text-center tracking-tighter">{s.name}</span>
-                    {selectedStyle === s.id && <div className="absolute top-2 right-2 bg-primary rounded-full p-1 shadow-lg"><Check className="w-3 h-3 text-white" /></div>}
-                  </button>
+                  <button
+  key={s.id}
+  onClick={() => setSelectedStyle(s.id)}
+  className={`relative flex flex-col items-center p-3 rounded-2xl border-2 transition-all duration-300 bg-card/40 ${
+    selectedStyle === s.id 
+    ? "border-primary shadow-[0_0_15px_rgba(139,92,246,0.3)] scale-105" 
+    : "border-primary/10 hover:border-primary/30 opacity-70 hover:opacity-100"
+  }`}
+>
+  <div className="w-14 h-14 rounded-xl overflow-hidden mb-2 border border-primary/10 shadow-inner">
+    <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
+  </div>
+  <span className="text-[10px] font-bold uppercase tracking-tighter text-center leading-tight">
+    {s.name}
+  </span>
+  {selectedStyle === s.id && (
+    <div className="absolute -top-1.5 -right-1.5 bg-primary rounded-full p-1 shadow-lg z-10">
+      <Check className="w-2.5 h-2.5 text-white" />
+    </div>
+  )}
+</button>
                 ))}
               </div>
             </div>
