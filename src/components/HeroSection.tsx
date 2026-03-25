@@ -21,14 +21,14 @@ const HeroSection = () => {
             Создавай свои стикеры
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
-            Создай стикерпак в 5 премиум стилях за 30 сек.<br />
+            Создай стикерпак в 5 премиум стилях за 30 сек.
             Загрузи фото — получи стикеры для Телеграм.
           </p>
         </ScrollReveal>
 
         <ScrollReveal delay={200}>
           <div className="flex flex-col items-center gap-4 mb-8">
-            <Button asChild className="bg-gradient-primary text-white h-16 px-10 text-xl font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+            <Button asChild className="bg-gradient-to-r from-primary to-purple-600 text-white h-16 px-10 text-xl font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
               <a href="#generator">
                 <Sparkles className="w-6 h-6 mr-3" />
                 Создать первый стикер бесплатно
@@ -51,12 +51,12 @@ const HeroSection = () => {
             </a>
           </div>
         </ScrollReveal>
-{/* --- СТРЕЛКА-РАЗДЕЛИТЕЛЬ --- */}
-        <div className="flex justify-center -mt-8 mb-20">
-          <ScrollReveal delay={300} repeat={false}>
-            <div className="w-px h-20 bg-gradient-to-b from-primary/80 to-transparent shadow-glow-sm" />
-          </ScrollReveal>
+
+        {/* --- СТРЕЛКА-РАЗДЕЛИТЕЛЬ --- */}
+        <div className="flex justify-center mt-8 mb-12">
+          <div className="w-px h-20 bg-gradient-to-b from-primary/80 to-transparent" />
         </div>
+
         {/* МАРКЕТИНГОВЫЙ БЛОК: ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ */}
         <div className="mt-12 mb-16 text-center space-y-6">
           <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-white leading-none">
@@ -80,49 +80,45 @@ const HeroSection = () => {
             StickerMind создаст идеальный пак для твоих мессенджеров за 30 секунд.
           </p>
         </div>
-        <div className="flex flex-col items-center gap-4 group">
-          <div className="w-full max-w-[320px] aspect-square rounded-[40px] overflow-hidden border-4 border-primary/20 bg-card shadow-2xl transition-all duration-500 group-hover:border-primary/50 group-hover:scale-105">
-            <img 
-              src={originalImg} 
-              alt="Original" 
-              className="w-full h-full object-cover" 
-            />
-          </div>
-          <span className="text-sm font-bold uppercase tracking-widest text-primary/60">Твой оригинал</span>
-        </div>
 
-        {/* ПРАВАЯ ЧАСТЬ: СЕТКА 5 СТИЛЕЙ */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-          {[
-            { name: "3D Pixar", img: demoPixar },
-            { name: "GTA Style", img: demoGta },
-            { name: "Miyazaki", img: demoGhibli },
-            { name: "Cyberpunk", img: demoCyberpunk },
-            { name: "Line Art", img: demoLineart },
-          ].map((style, i) => (
-            <div key={i} className="group flex flex-col items-center gap-3">
-              <div className="w-full aspect-square rounded-[32px] overflow-hidden border-2 border-primary/10 bg-card/50 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:border-primary/40 group-hover:shadow-primary/20">
-                <img 
-                  src={style.img} 
-                  alt={style.name} 
-                  className="w-full h-full object-cover" 
-                />
+        {/* НОВАЯ СЕТКА: ФОТО + СТИЛИ */}
+        <ScrollReveal delay={400}>
+          <div className="w-full max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1.2fr,2fr] gap-8 lg:gap-12 items-center">
+            
+            {/* ЛЕВАЯ ЧАСТЬ: ОРИГИНАЛЬНОЕ ФОТО */}
+            <div className="flex flex-col items-center gap-4 group">
+              <div className="w-full max-w-[320px] aspect-square rounded-[40px] overflow-hidden border-4 border-primary/20 bg-card shadow-2xl transition-all duration-500 group-hover:border-primary/50">
+                <img src={originalImg} alt="Original" className="w-full h-full object-cover" />
               </div>
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
-                {style.name}
-              </span>
+              <span className="text-sm font-bold uppercase tracking-widest text-primary/60 italic">Твой оригинал</span>
             </div>
-          ))}
-          
-          {/* Пустая шестая ячейка для красоты сетки на десктопе */}
-          <div className="hidden sm:flex flex-col items-center justify-center rounded-[32px] border-2 border-dashed border-primary/5 bg-primary/5 p-4">
-            <span className="text-[10px] font-bold text-primary/40 uppercase text-center">И еще 10+ стилей</span>
+
+            {/* ПРАВАЯ ЧАСТЬ: СЕТКА 5 СТИЛЕЙ */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+              {[
+                { name: "3D Pixar", img: demoPixar },
+                { name: "GTA Style", img: demoGta },
+                { name: "Miyazaki", img: demoGhibli },
+                { name: "Cyberpunk", img: demoCyberpunk },
+                { name: "Line Art", img: demoLineart },
+              ].map((style, i) => (
+                <div key={i} className="group flex flex-col items-center gap-3">
+                  <div className="w-full aspect-square rounded-[32px] overflow-hidden border-2 border-primary/10 bg-card/50 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:border-primary/40">
+                    <img src={style.img} alt={style.name} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                    {style.name}
+                  </span>
+                </div>
+              ))}
+              
+              {/* Пустая шестая ячейка для красоты */}
+              <div className="hidden sm:flex flex-col items-center justify-center rounded-[32px] border-2 border-dashed border-primary/5 bg-primary/5 p-4 text-center">
+                <span className="text-[10px] font-bold text-primary/40 uppercase tracking-center">И еще 10+ стилей</span>
+              </div>
+            </div>
           </div>
-        </div>
-
-      </div>
-    </ScrollReveal>
-
+        </ScrollReveal>
       </div>
     </section>
   );
