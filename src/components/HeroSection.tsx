@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 
 // Твои правильные картинки
-const originalImg = "";
-const demoPixar = "";
-const demoGta = "";
-const demoGhibli = "";
-const demoCyberpunk = "";
-const demoLineart = "";
+import originalImg from "@/assets/original-photo.png";
+import demoPixar from "@/assets/demo-pixar-hello-v2.png";
+import demoGta from "@/assets/demo-gta-like-v2.png";
+import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
+import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
+import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const HeroSection = () => {
   return (
