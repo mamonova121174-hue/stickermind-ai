@@ -20,13 +20,13 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center pt-10 pb-4 overflow-hidden px-4 bg-[#0a0a0c]">
+    <section className="relative min-h-screen flex flex-col items-center pt-20 pb-4 overflow-hidden px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-6xl flex flex-col items-center">
         
         {/* ВЕРХНИЙ БЛОК */}
         <div className="text-center mb-4">
           <ScrollReveal>
-            <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight mb-2 uppercase text-white">
+            <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-2 uppercase text-white">
               Создавай свои стикеры
             </h1>
             <p className="text-base text-gray-400 max-w-2xl mx-auto mb-4">
@@ -60,7 +60,7 @@ const HeroSection = () => {
 
         {/* СЕТКА КАРТИНОК */}
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 mt-4">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 mt-8">
             
             {/* Левая колонка: Оригинал */}
             <div className="w-full max-w-[280px] lg:w-1/3 flex flex-col items-center gap-2">
