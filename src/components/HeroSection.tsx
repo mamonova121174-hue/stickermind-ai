@@ -20,13 +20,13 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center pt-14 pb-4 overflow-hidden px-4 bg-[#0a0a0c]">
-      <div className="container relative z-10 max-w-6xl">
+    <section className="relative min-h-screen flex flex-col items-center pt-10 pb-4 overflow-hidden px-4 bg-[#0a0a0c]">
+      <div className="container relative z-10 max-w-6xl flex flex-col items-center">
         
-        {/* ВЕРХНИЙ БЛОК: ТЕКСТ И КНОПКА */}
+        {/* ВЕРХНИЙ БЛОК */}
         <div className="text-center mb-4">
           <ScrollReveal>
-            <h1 className="font-display text-4xl sm:text-5xl sm:text-7xl font-black leading-[1.1] tracking-tight mb-2 uppercase text-white">
+            <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight mb-2 uppercase text-white">
               Создавай свои стикеры
             </h1>
             <p className="text-base text-gray-400 max-w-2xl mx-auto mb-4">
@@ -56,19 +56,18 @@ const HeroSection = () => {
               <ArrowDown className="w-4 h-4 animate-bounce" />
             </a>
           </div>
-          </ScrollReveal>
         </div>
 
-        {/* ОСНОВНОЙ КОНТЕНТ: ОРИГИНАЛ + СЕТКА */}
+        {/* СЕТКА КАРТИНОК */}
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 lg:gap-12 mt-4">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 mt-4">
             
             {/* Левая колонка: Оригинал */}
-            <div className="w-full lg:w-1/3 flex flex-col items-center gap-2">
-              <div className="w-full aspect-square rounded-[40px] overflow-hidden border-2 border-primary/20 shadow-[0_0_40px_rgba(124,58,237,0.15)] bg-card/50">
+            <div className="w-full max-w-[280px] lg:w-1/3 flex flex-col items-center gap-2">
+              <div className="w-full aspect-square rounded-[32px] overflow-hidden border-2 border-primary/20 bg-card/50">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Твой оригинал" />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary italic">
+              <span className="text-[9px] font-black uppercase tracking-widest text-primary italic">
                 Твой оригинал
               </span>
             </div>
@@ -76,18 +75,18 @@ const HeroSection = () => {
             {/* Правая колонка: Сетка стилей */}
             <div className="w-full lg:w-2/3 grid grid-cols-2 sm:grid-cols-3 gap-4">
               {styles.map((s, i) => (
-                <div key={i} className="flex flex-col items-center gap-3 group">
-                  <div className={`w-full aspect-square rounded-[32px] overflow-hidden border-2 transition-all duration-300 hover:scale-[1.05] flex items-center justify-center ${
+                <div key={i} className="flex flex-col items-center gap-2 group">
+                  <div className={`w-full aspect-square rounded-[24px] overflow-hidden border-2 transition-all duration-300 hover:scale-[1.05] flex items-center justify-center ${
                     s.isMore ? "bg-white/5 border-dashed border-white/20" : "bg-card/50 border-white/5 hover:border-primary/40"
                   }`}>
                     {s.img ? (
                       <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
                     ) : (
-                      <span className="text-[10px] text-gray-500 text-center px-4 font-bold uppercase">{s.label}</span>
+                      <span className="text-[9px] text-gray-500 text-center px-2 font-bold uppercase">{s.label}</span>
                     )}
                   </div>
                   {!s.isMore && (
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
+                    <span className="text-[8px] font-bold uppercase tracking-widest text-gray-400">
                       {s.label}
                     </span>
                   )}
