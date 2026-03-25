@@ -67,11 +67,11 @@ const HeroSection = () => {
 
           <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed">
             Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне. 
-            StickerMind создаст идеальный пак для твоих мессенджеров за 30 секунд.
+            StickerMind создаст идеальный пак за 30 секунд.
           </p>
         </div>
 
-        {/* БОЛЬШАЯ СЕТКА КАРТИНОК (2х3) */}
+        {/* БОЛЬШАЯ СЕТКА КАРТИНОК (2х3), КАК НА РЕФЕРЕНСЕ */}
         <ScrollReveal delay={400}>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 mb-16">
             {[
@@ -86,6 +86,7 @@ const HeroSection = () => {
                 s.isSpecial ? "border-primary/40 shadow-primary/10" : "border-white/10 hover:border-primary/30"
               }`}>
                 <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+                {/* ПЛАШКА С НАЗВАНИЕМ СТИЛЯ */}
                 <div className={`absolute bottom-6 left-6 px-4 py-2 backdrop-blur-md rounded-full border ${
                   s.isSpecial ? "bg-primary/20 border-primary/30" : "bg-black/20 border-white/10"
                 }`}>
