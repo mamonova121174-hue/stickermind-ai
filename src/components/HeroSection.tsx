@@ -14,7 +14,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col items-center pt-24 pb-20 overflow-hidden px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
         
-        {/* ЭКРАН 1: ГЛАВНЫЙ */}
+        {/* ЭКРАН 1: ГЛАВНЫЙ (КРУПНЫЕ КАРТОЧКИ) */}
         <div className="text-center mb-16">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
@@ -49,10 +49,9 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ПЕРВАЯ СЕТКА (ВОССТАНАВЛИВАЕМ КРУПНЫЕ ВЕРТИКАЛЬНЫЕ КАРТОЧКИ) */}
+        {/* ПЕРВАЯ СЕТКА (ВОССТАНОВЛЕНЫ КРУПНЫЕ ВЕРТИКАЛЬНЫЕ КАРТОЧКИ) */}
         <ScrollReveal delay={400}>
           <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 mt-8 mb-40">
-            {/* Оригинал: Крупный и вертикальный (240x300px) */}
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
@@ -60,7 +59,6 @@ const HeroSection = () => {
               <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
             </div>
 
-            {/* Сетка: Крупные вертикальные карточки (200x260px) */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               {[
                 { img: demoPixar, label: "3D Pixar" },
@@ -75,7 +73,7 @@ const HeroSection = () => {
                     s.isMore ? "bg-white/5 border-dashed border-white/20 hover:border-white/30" : "bg-card/50 border-white/5 hover:border-primary/40 hover:scale-105"
                   }`}>
                     {s.img ? (
-                      <img src={s.img} className="w-full h-full object-cover" />
+                      <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
                     ) : (
                       <span className="text-[10px] text-gray-500 font-bold text-center px-4 uppercase tracking-wider leading-relaxed">{s.label}</span>
                     )}
@@ -91,7 +89,7 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (АККУРАТНЫЙ, В РЯД) */}
+        {/* ЭКРАН 2: ЛИНЕЙНЫЙ РЯД (АККУРАТНЫЙ) */}
         <div className="mt-20 text-center w-full">
           <ScrollReveal>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-white mb-6 leading-tight">
@@ -114,10 +112,7 @@ const HeroSection = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            {/* Контейнер: gap-2 на мобилках и gap-4 на десктопе */}
             <div className="flex flex-row items-center justify-center gap-2 md:gap-4 w-full">
-              
-              {/* Оригинал: Компактный 150px */}
               <div className="flex flex-col items-center gap-3 shrink-0">
                 <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shadow-xl bg-card/50 hover:scale-105 transition-all">
                   <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
@@ -125,11 +120,31 @@ const HeroSection = () => {
                 <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 italic">Оригинал</span>
               </div>
 
-              {/* Стрелка */}
               <div className="text-2xl text-purple-500/60 font-bold px-1 md:px-2">→</div>
 
-              {/* Ряд стилей: Все по 150px */}
-              <div className="flex flex-row items-center gap-2 md:gap-4 overflow-x-auto no-scrollbar py-2">
+              <div className="flex flex-row items-center gap-2 md:gap-4 overflow-x-auto py-2">
                 {[
                   { img: demoPixar, label: "3D Pixar" },
-                  { img: demoGta, label:
+                  { img: demoGta, label: "GTA Style" },
+                  { img: demoGhibli, label: "Miyazaki" },
+                  { img: demoCyberpunk, label: "Cyberpunk" },
+                  { img: demoLineart, label: "Line Art" }
+                ].map((s, i) => (
+                  <div key={i} className="flex flex-col items-center gap-3 shrink-0">
+                    <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg hover:border-purple-500/40 hover:scale-105 transition-all">
+                      <img src={s.img} className="w-full h-full object-cover" alt={s.label} />
+                    </div>
+                    <span className="text-[9px] font-bold uppercase tracking-tight text-white/40">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
