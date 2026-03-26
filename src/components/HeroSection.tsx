@@ -21,10 +21,10 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col items-center pt-16 pb-10 overflow-hidden px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
 
-        {/* --- ЭКРАН 1: ГЛАВНЫЙ (ОФФЕР + СЕТКА) --- */}
-        <div className="text-center mb-12">
+        {/* --- ЭКРАН 1: ГЛАВНЫЙ --- */}
+        <div className="text-center mb-12 text-white">
           <ScrollReveal>
-            <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
+            <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase">
               Создавай свои стикеры
             </h1>
             <p className="text-base text-gray-400 max-w-2xl mx-auto mb-6 leading-relaxed">
@@ -51,6 +51,7 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
+        {/* --- ГРИД СТИЛЕЙ --- */}
         <ScrollReveal delay={400}>
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
@@ -71,10 +72,10 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        {/* --- ЭКРАН 2: ЛИНЕЙКА (ВОССТАНОВЛЕНО) --- */}
-        <div className="mt-10 text-center w-full mb-24">
+        {/* --- ЭКРАН 2: ЛИНЕЙКА --- */}
+        <div className="mt-10 text-center w-full mb-24 text-white">
           <ScrollReveal>
-            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
+            <h2 className="text-4xl md:text-5xl font-black uppercase mb-8">
               Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
             </h2>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -102,26 +103,24 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
-        {/* --- ЭКРАН 3: КАК СДЕЛАТЬ --- */}
-        <div className="mt-12 mb-20 w-full max-w-6xl mx-auto px-6">
+        {/* --- ЭКРАН 3: ИНСТРУКЦИЯ --- */}
+        <div className="mt-12 mb-20 w-full max-w-6xl mx-auto px-6 text-white text-center">
           <ScrollReveal>
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-4">
-                Как сделать <span className="text-primary">свой стикер</span> за 30 секунд?
-              </h2>
-            </div>
+            <h2 className="text-4xl md:text-5xl font-black uppercase mb-12">
+              Как сделать <span className="text-primary">свой стикер</span> за 30 секунд?
+            </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: "01", title: "Загрузи фото", desc: "Выбери селфи. ИИ автоматически удалит фон.", icon: "📸" },
-              { step: "02", title: "Выбери стили", desc: "Создавай стикеры в одном стиле или разные для эмоций.", icon: "🎨" },
-              { step: "03", title: "Забирай пак", desc: "Сгенерируй стикеры и добавь их в Telegram.", icon: "🚀" }
+              { step: "01", title: "Загрузи фото", desc: "Выбери качественное селфи. ИИ автоматически удалит фон.", icon: "📸" },
+              { step: "02", title: "Выбери стили", desc: "Создавай премиум стикеры в одном стиле или выбирай разные для эмоций.", icon: "🎨" },
+              { step: "03", title: "Забирай пак", desc: "Сгенерируй анимированные стикеры и добавь их в Telegram.", icon: "🚀" }
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 200}>
-                <div className="relative p-8 rounded-[36px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden">
+                <div className="relative p-8 rounded-[36px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden text-left">
                   <div className="absolute -right-2 -top-2 text-9xl font-black text-white/[0.03] tracking-tighter group-hover:text-purple-500/10 transition-colors pointer-events-none">{item.step}</div>
                   <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center text-3xl mb-5 shadow-inner">{item.icon}</div>
-                  <h3 className="text-xl font-black text-white mb-3 uppercase tracking-tight">{item.title}</h3>
+                  <h3 className="text-xl font-black mb-3 uppercase tracking-tight">{item.title}</h3>
                   <p className="text-gray-400 text-sm leading-relaxed font-medium">{item.desc}</p>
                 </div>
               </ScrollReveal>
@@ -129,10 +128,10 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* --- ЭКРАН 4: ГЕНЕРАТОР (ВОССТАНОВЛЕНО ПОЛНОСТЬЮ) --- */}
-        <div id="generator" className="mt-12 mb-24 w-full max-w-6xl mx-auto px-4 text-center">
+        {/* --- ЭКРАН 4: ГЕНЕРАТОР --- */}
+        <div id="generator" className="mt-12 mb-24 w-full max-w-6xl mx-auto px-4 text-center text-white">
           <ScrollReveal>
-            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-6">Создать <span className="text-primary text-shadow-glow">стикер</span></h2>
+            <h2 className="text-4xl md:text-5xl font-black uppercase mb-10">Создать <span className="text-primary text-shadow-glow">стикер</span></h2>
           </ScrollReveal>
           <ScrollReveal delay={200}>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white/[0.02] border border-white/10 rounded-[40px] p-6 md:p-10 mb-10 backdrop-blur-md">
@@ -140,7 +139,7 @@ const HeroSection = () => {
                 <span className="text-[10px] font-black uppercase text-purple-500 text-left ml-2">1. Ваше фото</span>
                 <div className="flex-1 min-h-[250px] border-2 border-dashed border-white/10 rounded-[24px] flex flex-col items-center justify-center gap-3 cursor-pointer bg-white/[0.01]">
                   <div className="text-4xl">📤</div>
-                  <span className="text-white font-bold text-xs uppercase">Нажмите для загрузки</span>
+                  <span className="font-bold text-xs uppercase">Нажмите для загрузки</span>
                 </div>
               </div>
               <div className="lg:col-span-5 flex flex-col gap-3">
@@ -149,7 +148,7 @@ const HeroSection = () => {
                   {[ { img: demoPixar, name: "Pixar" }, { img: demoGta, name: "GTA" }, { img: demoGhibli, name: "Miyazaki" }, { img: demoCyberpunk, name: "Cyberpunk" }, { img: demoLineart, name: "Line Art" } ].map((s, i) => (
                     <div key={i} className="relative aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-purple-500/50 transition-all cursor-pointer group">
                       <img src={s.img} className="w-full h-full object-cover opacity-60 group-hover:opacity-100" alt={s.name} />
-                      <div className="absolute inset-x-0 bottom-0 bg-black/60 p-1"><span className="text-[8px] font-bold text-white uppercase">{s.name}</span></div>
+                      <div className="absolute inset-x-0 bottom-0 bg-black/60 p-1"><span className="text-[8px] font-bold uppercase">{s.name}</span></div>
                     </div>
                   ))}
                   <div className="aspect-square rounded-xl border-2 border-dashed border-white/5 flex items-center justify-center text-[7px] font-bold text-gray-600 uppercase">Soon</div>
@@ -175,12 +174,35 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
-        {/* --- FAQ БЛОК --- */}
-        <div className="w-full max-w-3xl mx-auto mb-20">
+        {/* --- ЭКРАН 5: ЧАСТЫЕ ВОПРОСЫ (ИНТЕГРАЦИЯ СТАРОГО И НОВОГО) --- */}
+        <div className="w-full max-w-4xl mx-auto mb-20 text-white">
           <ScrollReveal>
-            <div className="flex items-center justify-center gap-3 mb-10">
-              <HelpCircle className="w-8 h-8 text-purple-500" />
-              <h2 className="text-3xl md:text-4xl font-black uppercase text-white">FAQ</h2>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-black uppercase mb-4">Частые вопросы</h2>
+              <p className="text-gray-400">Как сделать стикерпак для Telegram с помощью нейросети</p>
             </div>
           </ScrollReveal>
-          <Accordion type="single" collapsible className="
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            <AccordionItem value="item-1" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 overflow-hidden transition-all hover:border-purple-500/30">
+              <AccordionTrigger className="font-bold hover:no-underline text-left py-5">Как сделать стикер в Телеграм без фона?</AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-5 leading-relaxed">
+                Загрузите ваше фото в наш генератор. Нейросеть автоматически определит человека на фото и удалит фон с идеальной точностью, подготовив стикер к добавлению в Telegram.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 overflow-hidden transition-all hover:border-purple-500/30">
+              <AccordionTrigger className="font-bold hover:no-underline text-left py-5">Как сделать 3D стикеры или стили Pixar/GTA?</AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-5 leading-relaxed">
+                В блоке генератора выберите один из премиум-стилей: Pixar для 3D-эффекта, GTA для стиля игрового арта или Miyazaki для аниме-стилистики. Наш ИИ перерисует ваше лицо, сохраняя узнаваемость.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 overflow-hidden transition-all hover:border-purple-500/30">
+              <AccordionTrigger className="font-bold hover:no-underline text-left py-5">Сколько стоит генерация и что такое токены (монеты)?</AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-5 leading-relaxed">
+                Мы дарим <span className="text-purple-400 font-bold">15 приветственных монет</span> каждому. Одна генерация стикерпака стоит несколько монет. Вы всегда можете пополнить баланс в разделе Тарифы.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4" className="border-white/
