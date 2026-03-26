@@ -272,7 +272,6 @@ const HeroSection = () => {
     Хотите еще больше генераций? <span className="text-white font-bold">Оставьте отзыв</span> о нашем сервисе в соцсетях или Telegram-канале и получите бонусный пакет токенов на свой баланс! Подробности в личном кабинете после создания первого пака.
   </AccordionContent>
 </AccordionItem>
-
 </Accordion>
 
 
