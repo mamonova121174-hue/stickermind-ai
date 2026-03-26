@@ -250,7 +250,6 @@ const HeroSection = () => {
     </AccordionContent>
   </AccordionItem>
 </Accordion>
-  </AccordionContent>
-</AccordionItem>
+
 
 export default HeroSection;
