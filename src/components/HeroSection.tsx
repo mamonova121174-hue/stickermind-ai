@@ -58,61 +58,74 @@ const HeroSection = () => {
           </div>
         </ScrollReveal>
 
-        <div className="text-center w-full mb-24 text-white">
-          <ScrollReveal><h2 className="text-4xl md:text-5xl font-black uppercase mb-8">Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span></h2></ScrollReveal>
-          <ScrollReveal delay={200}>
-            <div className="flex flex-row items-center justify-center gap-4 w-full">
-              <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 bg-card/50 shadow-xl shrink-0">
-                <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
-              </div>
-              <div className="text-2xl text-purple-500/60 font-bold">→</div>
-              <div className="flex flex-row items-center gap-3 overflow-x-auto no-scrollbar">
-                {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
-                  <div key={i} className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shrink-0">
-                    <img src={img} className="w-full h-full object-cover" alt="Результат" />
-                  </div>
-                ))}
-              </div>
-            </div>
+{/* --- ЭКРАН 3: ИНСТРУКЦИЯ 01-03 (ВОЗВРАЩАЕМ ТЕКСТЫ) --- */}
+        <div className="mt-12 mb-24 w-full max-w-6xl mx-auto px-6 text-white text-center">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase mb-16">
+              Как сделать <span className="text-primary text-shadow-glow">свой стикер</span> за 30 секунд?
+            </h2>
           </ScrollReveal>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 text-left">
+            <div className="relative p-10 rounded-[40px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden">
+              <div className="absolute -right-4 -top-2 text-[120px] font-black text-white/[0.03] leading-none pointer-events-none group-hover:text-purple-500/10 transition-colors">01</div>
+              <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-inner">📸</div>
+              <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">Загрузи фото</h3>
+              <p className="text-gray-400 text-sm leading-relaxed font-medium">Чтобы сделать стикерпак, выбери качественное селфи. ИИ автоматически удалит фон.</p>
+            </div>
+
+            <div className="relative p-10 rounded-[40px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden">
+              <div className="absolute -right-4 -top-2 text-[120px] font-black text-white/[0.03] leading-none pointer-events-none group-hover:text-purple-500/10 transition-colors">02</div>
+              <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-inner">🎨</div>
+              <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">Выбери стили</h3>
+              <p className="text-gray-400 text-sm leading-relaxed font-medium">Создавай премиум стикеры в одном стиле или выбирай разные для каждой эмоции.</p>
+            </div>
+
+            <div className="relative p-10 rounded-[40px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden">
+              <div className="absolute -right-4 -top-2 text-[120px] font-black text-white/[0.03] leading-none pointer-events-none group-hover:text-purple-500/10 transition-colors">03</div>
+              <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-inner">🚀</div>
+              <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">Забирай пак</h3>
+              <p className="text-gray-400 text-sm leading-relaxed font-medium">Сгенерируй анимированные стикеры и добавь их в Telegram в один клик.</p>
+            </div>
+          </div>
         </div>
 
-        <div id="generator" className="mb-24 w-full max-w-6xl mx-auto px-4 text-center text-white">
-          <ScrollReveal><h2 className="text-4xl md:text-5xl font-black uppercase mb-10">Создать <span className="text-primary">стикер</span></h2></ScrollReveal>
+        {/* --- ЭКРАН 4: ГЕНЕРАТОР (ВОЗВРАЩАЕМ ЦВЕТА) --- */}
+        <div id="generator" className="mt-12 mb-24 w-full max-w-6xl mx-auto px-4 text-center text-white">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase mb-10">Создать <span className="text-primary text-shadow-glow">стикер</span></h2>
+          </ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white/[0.02] border border-white/10 rounded-[40px] p-10 mb-10 backdrop-blur-md">
             <div className="lg:col-span-4 flex flex-col gap-3">
-              <span className="text-[10px] font-black uppercase text-purple-500 text-left">1. Фото</span>
-              <div className="flex-1 min-h-[250px] border-2 border-dashed border-white/10 rounded-[24px] flex flex-col items-center justify-center bg-white/[0.01]">📤</div>
+              <span className="text-[10px] font-black uppercase text-purple-500 text-left ml-2 tracking-widest italic">1. Ваше фото</span>
+              <div className="flex-1 min-h-[250px] border-2 border-dashed border-white/10 rounded-[24px] flex flex-col items-center justify-center gap-3 cursor-pointer bg-white/[0.01] hover:bg-white/[0.03] transition-colors group">
+                <div className="text-4xl group-hover:scale-110 transition-transform italic">📤</div>
+                <span className="font-bold text-xs uppercase italic opacity-50">Нажмите для загрузки</span>
+              </div>
             </div>
-            <div className="lg:col-span-5 flex flex-col gap-3">
-              <span className="text-[10px] font-black uppercase text-purple-500 text-left">2. Стиль</span>
+            <div className="lg:col-span-5 flex flex-col gap-3 text-left">
+              <span className="text-[10px] font-black uppercase text-purple-500 ml-2 tracking-widest italic font-bold">2. Выберите стиль</span>
               <div className="grid grid-cols-3 gap-2">
                 {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
-                  <div key={i} className="aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-purple-500/50 cursor-pointer group">
-                    <img src={img} className="w-full h-full object-cover opacity-60 group-hover:opacity-100" alt="Стиль" />
+                  <div key={i} className="relative aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-purple-500/50 transition-all cursor-pointer group">
+                    <img src={img} className="w-full h-full object-cover opacity-60 group-hover:opacity-100" alt="Style" />
                   </div>
                 ))}
               </div>
             </div>
-            <div className="lg:col-span-3 flex flex-col gap-3">
-              <span className="text-[10px] font-black uppercase text-purple-500 text-left">3. Эмоции</span>
-              <div className="grid grid-cols-4 gap-2 p-3 bg-black/20 rounded-[24px]">
+            <div className="lg:col-span-3 flex flex-col gap-3 text-left">
+              <span className="text-[10px] font-black uppercase text-purple-500 ml-2 tracking-widest italic font-bold">3. Эмоции</span>
+              <div className="grid grid-cols-4 gap-2 p-3 bg-black/20 rounded-[24px] border border-white/5">
                 {['😊', '😎', '😡', '😱', '😭', '🤩', '🤔', '🔥', '😇', '🤡', '🤮', '😴', '👍', '❤️', '👀', '✨'].map((emoji, i) => (
-                  <button key={i} className="aspect-square flex items-center justify-center text-xl hover:bg-white/10 rounded-lg">{emoji}</button>
+                  <button key={i} className="aspect-square flex items-center justify-center text-xl hover:bg-white/10 rounded-lg transition-colors leading-none">{emoji}</button>
                 ))}
               </div>
             </div>
           </div>
-          <Button size="lg" className="bg-gradient-to-r from-indigo-600 to-pink-600 text-white h-16 px-12 text-xl font-black rounded-2xl shadow-2xl">СОЗДАТЬ СТИКЕРПАК</Button>
+          <Button size="lg" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-16 px-12 text-xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all border-none">
+            <Sparkles className="w-6 h-6 mr-3" /><span>СОЗДАТЬ СТИКЕРПАК</span>
+          </Button>
         </div>
-        {/* --- FAQ СЕКЦИЯ --- */}
-        <div className="w-full max-w-4xl mx-auto mb-20 text-white text-left">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-black uppercase mb-4">Частые вопросы</h2>
-              <p className="text-gray-400 italic">Всё о создании премиум стикеров</p>
-            </div>
-          </ScrollReveal>
           
           <Accordion type="single" collapsible className="w-full space-y-4">
             {/* SEO БЛОК 1: Премиум стикеры тг (13к) + тг/телеграм (1.7к/128) */}
