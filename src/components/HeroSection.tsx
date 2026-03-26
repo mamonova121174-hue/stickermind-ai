@@ -115,31 +115,48 @@ const HeroSection = () => {
           </ScrollReveal>
           
           <Accordion type="single" collapsible className="w-full space-y-4">
-            <AccordionItem value="item-1" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6">
-              <AccordionTrigger className="font-bold py-5 uppercase text-xs">Где взять премиум стикеры тг бесплатно?</AccordionTrigger>
+            {/* SEO БЛОК 1: Премиум стикеры тг (13к) + тг/телеграм (1.7к/128) */}
+            <AccordionItem value="item-1" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 transition-all hover:border-purple-500/30">
+              <AccordionTrigger className="font-bold py-5 uppercase text-xs tracking-wider">Где взять премиум стикеры тг бесплатно?</AccordionTrigger>
               <AccordionContent className="text-gray-400 pb-5 text-sm leading-relaxed">
-                Вы можете создать их сами! Наш генератор — лучший способ получить <span className="text-white font-bold italic underline">премиум стикер тг</span> из фото. Телеграм премиум стикеры будут в формате ВебП (WebP) с идеальной анимацией.
+                Наш генератор — лучший способ получить <span className="text-white font-bold italic underline">премиум стикер тг</span> из фото. Вы узнаете, <span className="text-purple-400 font-bold">как сделать стикерпак в тг</span> или телеграм всего за 30 секунд. Результат выдается в формате ВебП (WebP) с идеальной анимацией.
               </AccordionContent>
             </AccordionItem>
 
+            {/* SEO БЛОК 2: МАКС (73к) + Инструкция */}
             <AccordionItem value="item-2" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6">
-              <AccordionTrigger className="font-bold py-5 uppercase text-xs">Как создать и добавить свои стикеры в МАКС?</AccordionTrigger>
+              <AccordionTrigger className="font-bold py-5 uppercase text-xs tracking-wider">Как создать и добавить свои стикеры в МАКС?</AccordionTrigger>
               <AccordionContent className="text-gray-400 pb-5 text-sm leading-relaxed">
-                Чтобы <span className="text-white font-bold italic underline">создать стикеры в макс</span>, загрузите фото и выберите стиль. Отправьте файл в бот мессенджера <span className="text-purple-400 font-bold uppercase">МАКС</span>. В максе можно создавать стикеры самостоятельно или перенести свои наборы.
+                Чтобы <span className="text-white font-bold italic underline">создать стикеры в макс</span>, загрузите фото и выберите стиль. Готовый файл отправьте в бот мессенджера <span className="text-purple-400 font-bold uppercase tracking-widest">МАКС</span>. В максе можно создавать стикеры самостоятельно или перенести свои наборы из ТГ.
               </AccordionContent>
             </AccordionItem>
 
+            {/* SEO БЛОК 3: 3D и Лицо */}
             <AccordionItem value="item-3" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6">
-              <AccordionTrigger className="font-bold py-5 uppercase text-xs">Как сделать 3д стикер лица в стиле Пиксар?</AccordionTrigger>
+              <AccordionTrigger className="font-bold py-5 uppercase text-xs tracking-wider">Как сделать 3д стикер лица в стиле Пиксар?</AccordionTrigger>
               <AccordionContent className="text-gray-400 pb-5 text-sm leading-relaxed">
-                Выберите стиль 'Пиксар' (Pixar). Наш <span className="text-white font-bold italic underline">стикер лицо</span> нейросеть отрисует в объеме. Это лучший путь, <span className="text-purple-400 font-bold uppercase">как сделать 3d стикер</span> с вашим сходством.
+                Выберите стиль 'Пиксар' (Pixar). Наш <span className="text-white font-bold italic underline">стикер лицо</span> нейросеть отрисует в объеме. Это кратчайший путь, <span className="text-purple-400 font-bold uppercase">как сделать 3d стикер</span> с вашим полным сходством.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-4" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 border-purple-500/50 bg-purple-500/5 shadow-xl">
-              <AccordionTrigger className="font-bold py-5 uppercase text-xs text-purple-400">🎁 Получить бесплатные монеты за отзыв</AccordionTrigger>
+            {/* СЕРВИС: Токены и Сервер (Privacy) */}
+            <AccordionItem value="item-4" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6">
+              <AccordionTrigger className="font-bold py-5 uppercase text-[10px] tracking-widest text-gray-500">Сколько стоит генерация и хранятся ли фото на сервере?</AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-5 text-sm leading-relaxed">
+                Вы получаете <span className="text-white font-bold italic">15 бесплатных токенов</span> при регистрации. Ваши исходные фото <span className="text-white font-bold underline">удаляются автоматически</span> сразу после создания пака. Мы не храним личные данные на сервере.
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* ПОДАРКИ И ЛИЧНЫЙ КАБИНЕТ */}
+            <AccordionItem value="item-5" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 border-purple-500/50 bg-purple-500/5 shadow-xl">
+              <AccordionTrigger className="font-bold py-5 uppercase text-xs text-purple-400 italic">🎁 Как получить бесплатные монеты за отзыв?</AccordionTrigger>
               <AccordionContent className="text-gray-400 pb-5 text-sm">
-                Оставьте отзыв в соцсетях или ТГ и получите бонус на баланс! Подробности в личном кабинете.
+                Оставьте отзыв в соцсетях или ТГ и получите бонус на баланс! 
+                <div className="mt-3">
+                   <Button asChild variant="outline" size="sm" className="border-purple-500/50 text-purple-400 hover:bg-purple-500/10 h-8 rounded-xl text-[10px] uppercase font-bold">
+                     <a href="/dashboard">Перейти в личный кабинет</a>
+                   </Button>
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
