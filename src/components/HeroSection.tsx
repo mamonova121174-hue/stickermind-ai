@@ -214,5 +214,22 @@ const HeroSection = () => {
     </section>
   );
 };
+{/* ... блоки SEO про ТГ и МАКС ... */}
+
+{/* Блок 5: Доверие и Безопасность (Privacy) */}
+<AccordionItem value="item-5" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 overflow-hidden transition-all hover:border-purple-500/30">
+  <AccordionTrigger className="font-bold hover:no-underline py-5 uppercase text-[10px] tracking-widest text-gray-400">Безопасность: хранятся ли мои фото на сервере?</AccordionTrigger>
+  <AccordionContent className="text-gray-400 pb-5 leading-relaxed text-sm">
+    Конфиденциальность — наш приоритет. Ваши исходные селфи <span className="text-white font-bold">удаляются автоматически</span> сразу после создания стикерпака. Мы не храним личные данные, а используем их только для работы нейросети в моменте.
+  </AccordionContent>
+</AccordionItem>
+
+{/* Блок 6: Монетизация и Подарок (Мотивация) */}
+<AccordionItem value="item-6" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 overflow-hidden transition-all border-purple-500/50 bg-purple-500/5 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+  <AccordionTrigger className="font-bold hover:no-underline py-5 uppercase text-[10px] tracking-widest text-purple-400 italic">🎁 Как получить бесплатные монеты за отзыв?</AccordionTrigger>
+  <AccordionContent className="text-gray-400 pb-5 leading-relaxed text-sm">
+    Хотите еще больше генераций? <span className="text-white font-bold">Оставьте отзыв</span> о нашем сервисе в соцсетях или Telegram-канале и получите бонусный пакет токенов на свой баланс! Подробности в личном кабинете после создания первого пака.
+  </AccordionContent>
+</AccordionItem>
 
 export default HeroSection;
