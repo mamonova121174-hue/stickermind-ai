@@ -210,5 +210,9 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
+      </div>
+    </section>
+  );
+};
 
 export default HeroSection;
