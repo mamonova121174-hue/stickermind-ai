@@ -210,6 +210,52 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
+        {/* ЭКРАН 5: ПОЛНЫЙ SEO FAQ */}
+        <div className="w-full max-w-4xl mx-auto text-left mb-32 px-4">
+          <h2 className="text-5xl md:text-6xl font-black uppercase mb-20 text-center tracking-tighter italic">FAQ</h2>
+          <Accordion type="single" collapsible className="w-full space-y-6">
+            
+            <AccordionItem value="1" className="border-white/10 bg-white/[0.02] rounded-[40px] px-12 border transition-all hover:border-purple-500/30 backdrop-blur-md">
+              <AccordionTrigger className="font-black py-10 uppercase text-sm tracking-[0.2em] hover:no-underline leading-tight">
+                Где взять премиум стикеры тг бесплатно?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-10 text-base leading-relaxed">
+                Наш генератор — лучший способ получить <span className="text-white font-bold italic underline">премиум стикер тг</span> из вашего фото. Вы узнаете, <span className="text-purple-400 font-bold uppercase">как сделать стикерпак в тг</span> за 30 секунд в формате WebP.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="2" className="border-white/10 bg-white/[0.02] rounded-[40px] px-12 border transition-all hover:border-purple-500/30">
+              <AccordionTrigger className="font-black py-10 uppercase text-sm tracking-[0.2em] hover:no-underline leading-tight">
+                Как сделать стикеры в МАКС и 3D лица?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-10 text-base leading-relaxed">
+                Чтобы <span className="text-white font-bold italic underline">создать стикеры в макс</span>, загрузите селфи и выберите 3D-стиль. Наш ИИ создаст <span className="text-purple-400 font-bold uppercase italic">3D стикер лица</span> с вашим полным сходством.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="3" className="border-white/10 bg-white/[0.02] rounded-[40px] px-12 border transition-all hover:border-purple-500/30">
+              <AccordionTrigger className="font-black py-10 text-[11px] uppercase text-gray-500 italic tracking-[0.3em] hover:no-underline leading-tight">
+                Privacy: Безопасность данных и фото
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-10 text-base leading-relaxed">
+                Безопасность — наш приоритет. Все ваши фото <span className="text-white font-bold underline">удаляются автоматически</span> сразу после генерации. Мы не храним личные данные и не используем ваши селфи.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="4" className="border-white/10 bg-white/[0.02] rounded-[40px] px-12 border-purple-500/50 bg-purple-500/5 shadow-2xl">
+              <AccordionTrigger className="font-black py-10 uppercase text-sm text-purple-400 italic hover:no-underline flex items-center gap-4">
+                🎁 Подарок за отзыв
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-10 text-base leading-relaxed">
+                Оставьте отзыв о нашем сервисе и получите бонусные токены на баланс! <br/>
+                <a href="/dashboard" className="inline-block mt-8 px-10 py-4 bg-purple-500/20 text-purple-400 rounded-2xl font-black uppercase text-[11px] tracking-widest border border-purple-500/30 hover:bg-purple-500/40 transition-all italic underline decoration-1 underline-offset-4">
+                  Личный кабинет →
+                </a>
+              </AccordionContent>
+            </AccordionItem>
+
+          </Accordion>
+        </div>
       </div>
     </section>
   );
