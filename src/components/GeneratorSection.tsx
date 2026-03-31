@@ -38,7 +38,7 @@ const GeneratorSection = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { balance, useTokens } = useTokens();
+ const { balance, useTokens: subtractTokens } = useTokens();
 
   // ДИНАМИЧЕСКАЯ ЦЕНА: 5 токенов за каждый выбранный эмодзи
   const PRICE_PER_ITEM = 5;
@@ -58,7 +58,7 @@ const GeneratorSection = () => {
     }
     setIsGenerating(true);
     
-    const success = useTokens(totalCost);
+    const success = subtractTokens(totalCost);
     if (success) {
       // Имитация запроса к Replicate
       setTimeout(() => {
