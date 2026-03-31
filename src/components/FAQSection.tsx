@@ -98,6 +98,6 @@ const FAQSection = () => {
         </ScrollReveal>
       </div>
     </section>
+);
 };
-
 export default FAQSection;
