@@ -1,7 +1,7 @@
 import { Sparkles, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
-import { useTokens } from "@/components/TokenContext"; // Подключаем твой кошелек
+import { useTokens } from "@/components/TokenContext"; // Подключаем баланс
 
 // Импорты ассетов
 import originalImg from "@/assets/original-photo.png";
@@ -12,7 +12,7 @@ import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const HeroSection = () => {
-  const { balance } = useTokens(); // Берем реальный баланс
+  const { balance } = useTokens(); // Получаем баланс из системы
 
   return (
     <section className="relative min-h-screen flex flex-col items-center pt-16 pb-10 overflow-hidden px-4 bg-[#0a0a0c]">
@@ -22,11 +22,11 @@ const HeroSection = () => {
         <div className="text-center mb-12">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
-              Создавай свои стикеры
+              Создавай свои стикеры [cite: 19]
             </h1>
             <p className="text-base text-gray-400 max-w-2xl mx-auto mb-6 leading-relaxed">
-              Создай стикерпак в 5 премиум стилях за 30 сек. <br/>
-              Загрузи фото — получи стикеры для Телеграм.
+              Создай стикерпак в 5 премиум стилях за 30 сек. [cite: 22] <br/>
+              Загрузи фото — получи стикеры для Телеграм. [cite: 23]
             </p>
           </ScrollReveal>
 
@@ -34,38 +34,36 @@ const HeroSection = () => {
             <div className="flex flex-col items-center gap-4">
               <Button asChild className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-12 px-8 text-lg font-bold rounded-2xl shadow-xl hover:scale-105 transition-all border-none">
                 <a href="#generator" className="flex items-center gap-3">
-                  <Sparkles className="w-5 h-5 flex-shrink-0" />
-                  <span className="leading-none">Создать первый стикер бесплатно</span>
+                  <Sparkles className="w-5 h-5 flex-shrink-0" /> [cite: 30]
+                  <span className="leading-none">Создать первый стикер бесплатно</span> [cite: 31]
                 </a>
               </Button>
               
-              {/* БЛОК С МОНЕТКОЙ — ТЕПЕРЬ С РЕАЛЬНЫМ БАЛАНСОМ */}
               <div className="text-[10px] text-gray-500 font-bold flex items-center gap-2 uppercase tracking-widest">
                 <span className="bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full flex items-center gap-1">
-                  <Coins className="w-3 h-3" /> {balance}
+                  <Coins className="w-3 h-3" /> {balance} [cite: 37, 38]
                 </span>
-                бесплатно — хватит на {Math.floor(balance / 7)} анимации
+                бесплатно — хватит на {Math.floor(balance / 7)} анимации [cite: 39]
               </div>
             </div>
           </ScrollReveal>
         </div>
 
+        {/* --- СЕТКА СТИЛЕЙ --- */}
         <ScrollReveal delay={400}>
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
-            {/* Крупный оригинал */}
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
-                <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+                <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" /> [cite: 49]
               </div>
-              <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
+              <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span> [cite: 51]
             </div>
 
-            {/* Сетка стилей */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
                 <div key={i} className="flex flex-col items-center shrink-0">
                   <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
-                    <img src={img} className="w-full h-full object-cover" alt="Стиль стикера" />
+                    <img src={img} className="w-full h-full object-cover" alt="Стиль стикера" /> [cite: 58]
                   </div>
                 </div>
               ))}
@@ -77,27 +75,22 @@ const HeroSection = () => {
         <div className="mt-10 text-center w-full mb-24">
           <ScrollReveal>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
-              Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
+              Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span> [cite: 69]
             </h2>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">⚡️ Стикеры для Telegram</span>
-              <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">🤖 Создай стикер для МАКС</span>
-            </div>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
             <div className="flex flex-row items-center justify-center gap-4 w-full">
               <div className="flex flex-col items-center gap-3 shrink-0">
                 <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 bg-card/50 shadow-xl">
-                  <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+                  <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" /> [cite: 80]
                 </div>
-                <span className="text-[9px] font-black uppercase text-purple-400 italic">Оригинал</span>
               </div>
-              <div className="text-2xl text-purple-500/60 font-bold">→</div>
+              <div className="text-2xl text-purple-500/60 font-bold">→</div> [cite: 84]
               <div className="flex flex-row items-center gap-3 overflow-x-auto py-2 no-scrollbar">
                 {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
                   <div key={i} className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg shrink-0">
-                    <img src={img} className="w-full h-full object-cover" />
+                    <img src={img} className="w-full h-full object-cover" /> [cite: 88]
                   </div>
                 ))}
               </div>
@@ -110,31 +103,93 @@ const HeroSection = () => {
           <ScrollReveal>
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-4">
-                Как сделать <span className="text-primary">свой стикер</span>?
+                Как сделать <span className="text-primary">свой стикер</span> за 30 секунд? [cite: 100]
               </h2>
             </div>
           </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: "01", title: "Загрузи фото", desc: "Чтобы сделать стикерпак, выбери селфи. ИИ автоматически удалит фон.", icon: "📸" },
-              { step: "02", title: "Выбери стили", desc: "Создавай премиум стикеры в одном стиле или выбирай разные для каждой эмоции.", icon: "🎨" },
-              { step: "03", title: "Забирай пак", desc: "Сгенерируй анимированные стикеры и добавь их в Telegram в один клик.", icon: "🚀" }
+              { step: "01", title: "Загрузи фото", desc: "Чтобы сделать стикерпак, выбери качественное селфи. ИИ автоматически удалит фон.", icon: "📸" }, [cite: 109]
+              { step: "02", title: "Выбери стили", desc: "Создавай премиум стикеры в одном стиле или выбирай разные для каждой эмоции.", icon: "🎨" }, [cite: 110]
+              { step: "03", title: "Забирай пак", desc: "Сгенерируй анимированные стикеры и добавь их в Telegram в один клик. Пак готов!", icon: "🚀" } [cite: 111]
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 200}>
                 <div className="relative p-8 rounded-[36px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden text-left">
                   <div className="absolute -right-2 -top-2 text-9xl font-black text-white/[0.03] tracking-tighter group-hover:text-purple-500/10 transition-colors pointer-events-none">
-                    {item.step}
+                    {item.step} [cite: 116]
                   </div>
                   <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center text-3xl mb-5 shadow-inner">
-                    {item.icon}
+                    {item.icon} [cite: 119]
                   </div>
-                  <h3 className="text-xl font-black text-white mb-3 uppercase tracking-tight">{item.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed font-medium">{item.desc}</p>
+                  <h3 className="text-xl font-black text-white mb-3 uppercase tracking-tight">{item.title}</h3> [cite: 121]
+                  <p className="text-gray-400 text-sm leading-relaxed font-medium">{item.desc}</p> [cite: 122]
                 </div>
               </ScrollReveal>
             ))}
           </div>
+        </div>
+
+        {/* --- ЭКРАН 4: ТВОЙ ГЕНЕРАТОР (КОТОРЫЙ ТЫ ХОТЕЛА ОСТАВИТЬ) --- */}
+        <div id="generator" className="mt-12 mb-16 w-full max-w-6xl mx-auto px-4 text-center">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-6">
+              Создать <span className="text-primary text-shadow-glow">стикер</span> [cite: 132]
+            </h2>
+          </ScrollReveal>
+
+          <ScrollReveal delay={200}>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white/[0.02] border border-white/10 rounded-[40px] p-6 md:p-10 mb-10 backdrop-blur-md">
+              <div className="lg:col-span-4 flex flex-col gap-3">
+                <span className="text-[10px] font-black uppercase tracking-widest text-purple-500 text-left ml-2">1. Ваше фото</span> [cite: 142]
+                <div className="flex-1 min-h-[250px] border-2 border-dashed border-white/10 rounded-[24px] flex flex-col items-center justify-center gap-3 group hover:border-purple-500/50 transition-all cursor-pointer bg-white/[0.01]">
+                  <div className="text-4xl group-hover:scale-110 transition-transform">📤</div> [cite: 144]
+                  <span className="text-white font-bold text-xs uppercase">Нажмите для загрузки</span> [cite: 145]
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 flex flex-col gap-3">
+                <span className="text-[10px] font-black uppercase tracking-widest text-purple-500 text-left ml-2">2. Выберите стиль</span> [cite: 150]
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { img: demoPixar, name: "Pixar" }, [cite: 153]
+                    { img: demoGta, name: "GTA" }, [cite: 154]
+                    { img: demoGhibli, name: "Miyazaki" }, [cite: 155]
+                    { img: demoCyberpunk, name: "Cyberpunk" }, [cite: 156]
+                    { img: demoLineart, name: "Line Art" } [cite: 157]
+                  ].map((s, i) => (
+                    <div key={i} className="relative aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-purple-500/50 transition-all cursor-pointer group">
+                      <img src={s.img} className="w-full h-full object-cover opacity-60 group-hover:opacity-100" alt={s.name} /> [cite: 160]
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-3 flex flex-col gap-3">
+                <span className="text-[10px] font-black uppercase tracking-widest text-purple-500 text-left ml-2">3. Эмоции</span> [cite: 171]
+                <div className="grid grid-cols-4 gap-2 p-3 bg-black/20 rounded-[24px] border border-white/5">
+                  {['😊', '😎', '😡', '😱', '😭', '🤩', '🤔', '🔥', '😇', '🤡', '🤮', '😴', '👍', '❤️', '👀', '✨'].map((emoji, i) => (
+                    <button key={i} className="aspect-square flex items-center justify-center text-xl hover:bg-white/10 rounded-lg transition-colors">
+                      {emoji} [cite: 175]
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={400}>
+            <div className="flex flex-col items-center gap-4">
+              <Button size="lg" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-16 px-12 text-xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all border-none group">
+                <Sparkles className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" /> [cite: 186]
+                <span>СОЗДАТЬ СТИКЕРПАК</span> [cite: 187]
+              </Button>
+              {/* РЕАЛЬНЫЙ БАЛАНС ЗДЕСЬ ТОЖЕ */}
+              <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest opacity-50">
+                Бесплатно — осталось {balance} генераций [cite: 190]
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
 
       </div>
@@ -142,4 +197,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default HeroSection; [cite: 199]
