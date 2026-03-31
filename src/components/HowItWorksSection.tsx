@@ -1,108 +1,154 @@
-import { Film, Sparkles, Zap, Coins } from "lucide-react";
+import { useState } from "react";
+import { Sparkles, Coins, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
-import ChromaKeyVideo from "./ChromaKeyVideo";
 import { useTokens } from "@/components/TokenContext"; // Подключаем кошелек
 
+// Импорты ассетов
+import originalImg from "@/assets/original-photo.png";
 import demoPixar from "@/assets/demo-pixar-hello-v2.png";
-import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4";
 import demoGta from "@/assets/demo-gta-like-v2.png";
 import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
-const demoAnimatedStickers = [
-  { id: 1, image: demoPixar, video: demoPixarVideo, label: "Привет", style: "Pixar", delay: 0 },
-  { id: 2, image: demoGta, video: undefined as string | undefined, label: "Лайк", style: "GTA", delay: 80 },
-  { id: 3, image: demoGhibli, video: undefined as string | undefined, label: "Думаю", style: "Ghibli", delay: 160 },
-  { id: 4, image: demoCyberpunk, video: undefined as string | undefined, label: "Злюсь", style: "Cyberpunk", delay: 240 },
-  { id: 5, image: demoLineart, video: undefined as string | undefined, label: "Любовь", style: "Line Art", delay: 320 },
-];
+const HowItWorksSection = () => {
+  // --- ЛОГИКА КОШЕЛЬКА ---
+  const { balance, useTokens } = useTokens();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]); // Для примера, как мы считаем
+  
+  // Стоимость пака: 25 токенов за 5 штук (статику)
+  const PACK_COST = 25; 
+  const canAfford = balance >= PACK_COST;
 
-const AnimatedStickersSection = () => {
-  const { balance } = useTokens(); // Берем баланс из контекста
+  const handleCreatePack = async () => {
+    if (!canAfford) {
+      // Здесь открыть PricingModal, если он подключен
+      alert("Недостаточно токенов!");
+      return;
+    }
+
+    setIsGenerating(true);
+    
+    // Пытаемся списать токены
+    const success = useTokens(PACK_COST);
+    
+    if (success) {
+      console.log(`Запуск генерации пака: стиль, эмоции. Стоимость: ${PACK_COST}`);
+      
+      // Имитация работы нейросети
+      setTimeout(() => {
+        setIsGenerating(false);
+        alert(`Списано ${PACK_COST} токенов. Генерация началась! Проверьте галерею.`);
+      }, 2000);
+    } else {
+      setIsGenerating(false);
+    }
+  };
 
   return (
-    <section className="py-16 scroll-mt-20 overflow-hidden">
-      <div className="container max-w-5xl">
-        <ScrollReveal>
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
-              <Film className="w-5 h-5 text-primary" />
-            </div>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground">
-              Анимированные стикеры
-            </h2>
-          </div>
-          <p className="text-center text-muted-foreground text-sm max-w-lg mx-auto mb-10 text-balance">
-            Оживите свой стикерпак — каждый персонаж двигается, машет рукой и выражает эмоции в формате MP4
-          </p>
-        </ScrollReveal>
+    <section id="generator" className="py-20 scroll-mt-20 overflow-hidden bg-[#0a0a0c]">
+      <div className="container max-w-7xl flex flex-col items-center">
+        
+        {/* --- ЭКРАН 1: ОФФЕР И ДЕМО-СЕТКА --- */}
+        <div className="text-center mb-16">
+          <ScrollReveal>
+            <h1 className="font-display text-5xl md:text-7xl font-black leading-tight mb-6 uppercase text-white tracking-tighter">
+              Создавай свои <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">стикеры</span>
+            </h1>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+              Создай стикерпак в 5 премиум стилях за 30 сек. <br/>
+              Загрузи фото — получи стикеры для Телеграм.
+            </p>
+          </ScrollReveal>
 
-        {/* Demo grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
-          {demoAnimatedStickers.map((s) => (
-            <ScrollReveal key={s.id} delay={s.delay}>
-              <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
-                <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
-                  {s.video ? (
-                    <ChromaKeyVideo src={s.video} className="w-full h-full" tolerance={0.38} softness={0.1} />
-                  ) : (
-                    <img src={s.image} alt={s.label} className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]" />
-                  )}
+          <ScrollReveal delay={200}>
+            <div className="flex flex-col items-center gap-6">
+              <Button 
+                onClick={handleCreatePack}
+                className={`bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-16 px-10 text-xl font-black rounded-2xl shadow-xl hover:scale-105 transition-all border-none group ${
+                   canAfford ? "glow-primary shadow-primary/20" : "grayscale opacity-80"
+                }`}
+              >
+                {isGenerating ? (
+                  <Loader2 className="w-6 h-6 mr-3 animate-spin" />
+                ) : (
+                  <Sparkles className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
+                )}
+                <span>{isGenerating ? "ОБРАБОТКА..." : "СОЗДАТЬ ПАК СТИКЕРОВ"}</span>
+              </Button>
+              
+              {/* НАШ НОВЫЙ УМНЫЙ БАЛАНС В ЭТОМ БЛОКЕ */}
+              <div className={`flex items-center gap-3 bg-white/5 border px-5 py-2 rounded-fullbackdrop-blur-sm shadow-xl ${
+                !canAfford ? "border-red-500 animate-pulse bg-red-500/10" : "border-white/10 bg-white/5"
+              }`}>
+                <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-black ${
+                  !canAfford ? "bg-red-500/20 text-red-500" : "bg-purple-500/20 text-purple-400"
+                }`}>
+                  <Coins className={`w-3.5 h-3.5 ${!canAfford ? "text-red-500" : "text-yellow-500"}`} /> 
+                  <span className="tabular-nums">{balance}</span>
                 </div>
-                <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{s.label}</span>
-                <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
-                <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">MP4</span>
+                <span className={`text-[10px] font-bold uppercase tracking-widest ${
+                   !canAfford ? "text-red-500" : "text-gray-400 opacity-50"
+                }`}>
+                   {!canAfford 
+                     ? `Не хватает ${PACK_COST - balance} токенов` 
+                     : `Стоимость пака (5 шт) — ${PACK_COST} 🪙`}
+                </span>
               </div>
-            </ScrollReveal>
-          ))}
+            </div>
+          </ScrollReveal>
         </div>
 
-        {/* Features */}
-        <ScrollReveal delay={200}>
-          <div className="grid sm:grid-cols-3 gap-4 mb-10">
-            {[
-              { icon: Zap, title: "AI-анимация", desc: "Нейросеть создаёт естественные движения" },
-              { icon: Film, title: "Прозрачный фон", desc: "Автоматическое удаление фона" },
-              { icon: Sparkles, title: "Премиум-качество", desc: "Плавные движения и сходство лица" },
-            ].map((f) => (
-              <div key={f.title} className="flex items-start gap-3 p-4 rounded-xl bg-card/40 border border-border/30">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <f.icon className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{f.title}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-
-        {/* Фиолетовая кнопка с твоим балансом */}
-        <ScrollReveal delay={300}>
-          <div className="text-center flex flex-col items-center">
-            <Button
-              className="bg-gradient-primary text-primary-foreground h-14 px-10 text-lg font-bold rounded-2xl hover:opacity-90 active:scale-[0.97] transition-all duration-150 glow-primary shadow-xl shadow-primary/20"
-              onClick={() => document.getElementById("generator")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              <Film className="w-5 h-5 mr-2" />
-              Создать и анимировать пак
-            </Button>
-            
-            {/* Наша новая умная подпись */}
-            <div className="mt-4 flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
-              <Coins className="w-3 h-3 text-yellow-500" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                Ваш баланс: <span className="text-white">{balance} 🪙</span> — Анимация стикера: 7 🪙
-              </span>
+        {/* --- ЭКРАН 2: ЛИНЕЙКА (ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ) --- */}
+        <div className="w-full mb-32 text-center bg-white/[0.01] p-10 rounded-3xl border border-white/5">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
+              Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
+            </h2>
+            <div className="flex flex-row items-center justify-center gap-4">
+               <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 shrink-0">
+                  <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+               </div>
+               <ArrowRight className="w-8 h-8 text-purple-500 animate-pulse hidden md:block" />
+               <div className="flex gap-3 overflow-x-auto no-scrollbar">
+                  {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
+                    <div key={i} className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 shrink-0 bg-card">
+                      <img src={img} className="w-full h-full object-contain" alt="Стиль" />
+                    </div>
+                  ))}
+               </div>
             </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
+
+        {/* --- ЭКРАН 3: ИНСТРУКЦИЯ (ШАГИ 01, 02, 03) --- */}
+        <div className="w-full mb-20 text-center">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-12 tracking-tight">
+              Как быстро <span className="text-primary text-shadow-glow">создать</span> стикеры?
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+              {[
+                { step: "01", title: "Загрузи фото", desc: "Выбери качественное селфи. ИИ удалит фон автоматически.", icon: "📸" },
+                { step: "02", title: "Выбери стили", desc: "Создавай в одном стиле или в разных для каждой эмоции.", icon: "🎨" },
+                { step: "03", title: "Забирай пак", desc: "Добавляй анимированные стикеры в Telegram в один клик.", icon: "🚀" }
+              ].map((item, i) => (
+                <div key={i} className="relative p-8 rounded-[36px] bg-white/[0.02] border border-white/10 group hover:border-purple-500/50 transition-all backdrop-blur-sm overflow-hidden text-left">
+                  <div className="absolute -right-2 -top-2 text-9xl font-black text-white/[0.03] group-hover:text-purple-500/10 transition-colors pointer-events-none">{item.step}</div>
+                  <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center text-3xl mb-5 shadow-inner">{item.icon}</div>
+                  <h3 className="text-xl font-black text-white mb-3 uppercase tracking-tight">{item.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed font-medium">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+
       </div>
     </section>
   );
 };
 
-export default AnimatedStickersSection;
+export default HowItWorksSection;
