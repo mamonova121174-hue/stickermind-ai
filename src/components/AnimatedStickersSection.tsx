@@ -13,11 +13,15 @@ import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const demoAnimatedStickers = [
-  { id: 1, image: demoPixar, video: demoPixarVideo, label: "Привет", style: "Pixar", delay: 0 },
-  { id: 2, image: demoGta, video: undefined, label: "Лайк", style: "GTA", delay: 80 },
-  { id: 3, image: demoGhibli, video: undefined, label: "Думаю", style: "Ghibli", delay: 160 },
-  { id: 4, image: demoCyberpunk, video: undefined, label: "Злюсь", style: "Cyberpunk", delay: 240 },
-  { id: 5, image: demoLineart, video: undefined, label: "Любовь", style: "Line Art", delay: 320 },
+  { 
+    id: 1, 
+    image: demoPixar, // Проверь, что здесь именно demoPixar [cite: 6]
+    video: demoPixarVideo, 
+    label: "Привет", 
+    style: "Pixar", 
+    delay: 0 
+  },
+  // ... остальные стикеры 
 ];
 
 const AnimatedStickersSection = () => {
