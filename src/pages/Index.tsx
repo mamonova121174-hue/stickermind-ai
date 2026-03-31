@@ -1,24 +1,20 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection"; // ЭТО НАШ ГЕНЕРАТОР
-import AnimatedStickersSection from "@/components/AnimatedStickersSection"; // ГАЛЕРЕЯ ДЕМО/RESULTS
+import HowItWorksSection from "@/components/HowItWorksSection";
+import GeneratorSection from "@/components/GeneratorSection";
+import AnimatedStickersSection from "@/components/AnimatedStickersSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#0a0a0c]">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main>
-        {/* 1. Главный экран (Заголовок "СОЗДАЙ СТИКЕР") */}
         <HeroSection />
-
-        {/* 2. НАШ РАБОЧИЙ ГЕНЕРАТОР (с фиолетовой кнопкой и умным балансом) */}
-        <HowItWorksSection /> 
-        
-        {/* 3. Галерея (Сначала демо, потом - готовые стикеры юзера) */}
+        <HowItWorksSection />
+        <GeneratorSection /> 
         <AnimatedStickersSection />
-
         <FAQSection />
       </main>
       <Footer />
