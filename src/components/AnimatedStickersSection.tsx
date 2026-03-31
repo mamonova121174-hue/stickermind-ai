@@ -10,7 +10,7 @@ const AnimatedStickersSection = ({ results }: { results: string[] | null }) => {
   const { balance } = useTokens();
 
   return (
-    <section className="py-16 scroll-mt-20 overflow-hidden">
+    <section className="py-20 scroll-mt-20 overflow-hidden mt-10">
       <div className="container max-w-5xl">
         <ScrollReveal>
           <div className="flex flex-col items-center mb-10 text-center">
