@@ -71,26 +71,52 @@ const HeroSection = () => {
         </ScrollReveal>
 
         {/* ЭКРАН 2: ЛИНЕЙКА */}
-        {/* Обновленная линейка стилей в HeroSection.tsx */}
-<div className="flex flex-row items-center gap-3 overflow-x-auto py-2 no-scrollbar">
-  {[
-    { img: demoPixar, name: "Pixar" },
-    { img: demoGta, name: "GTA" },
-    { img: demoGhibli, name: "Miyazaki" },
-    { img: demoCyberpunk, name: "Cyberpunk" },
-    { img: demoLineart, name: "Line Art" }
-  ].map((s, i) => (
-    <div key={i} className="flex flex-col items-center gap-2 shrink-0">
-      <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg">
-        <img src={s.img} className="w-full h-full object-cover" alt={s.name} />
-      </div>
-      
-      {/* Просто подпись текста внизу без плашки */}
-      <span className="text-[10px] md:text-[12px] font-bold text-gray-400 uppercase tracking-tighter">
-        {s.name}
-      </span>
+        {/* --- ЭКРАН 2: ЛИНЕЙКА (ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ) --- */}
+<div className="mt-10 text-center w-full mb-24">
+  <ScrollReveal>
+    <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
+      Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
+    </h2>
+    <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">⚡️ Стикеры для Telegram</span>
+      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">🤖 Создай стикер для МАКС</span>
     </div>
-  ))}
+  </ScrollReveal>
+
+  <ScrollReveal delay={200}>
+    <div className="flex flex-row items-center justify-center gap-4 w-full">
+      {/* Возвращаем ОРИГИНАЛ */}
+      <div className="flex flex-col items-center gap-3 shrink-0">
+        <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 bg-card/50 shadow-xl">
+          <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+        </div>
+        <span className="text-[9px] font-black uppercase text-purple-400 italic">Оригинал</span>
+      </div>
+
+      <div className="text-2xl text-purple-500/60 font-bold">→</div>
+
+      {/* СТИЛИ С ВАШИМИ ПОДПИСЯМИ */}
+      <div className="flex flex-row items-center gap-3 overflow-x-auto py-2 no-scrollbar">
+        {[
+          { img: demoPixar, name: "Pixar" },
+          { img: demoGta, name: "GTA" },
+          { img: demoGhibli, name: "Miyazaki" },
+          { img: demoCyberpunk, name: "Cyberpunk" },
+          { img: demoLineart, name: "Line Art" }
+        ].map((s, i) => (
+          <div key={i} className="flex flex-col items-center gap-2 shrink-0">
+            <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg">
+              <img src={s.img} className="w-full h-full object-cover" alt={s.name} />
+            </div>
+            {/* Ваша подпись внизу */}
+            <span className="text-[10px] md:text-[12px] font-bold text-gray-400 uppercase tracking-tighter">
+              {s.name}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </ScrollReveal>
 </div>
 
         {/* ЭКРАН 3: ИНСТРУКЦИЯ */}
