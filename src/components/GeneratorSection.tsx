@@ -58,7 +58,7 @@ const GeneratorSection = () => {
     }
     setIsGenerating(true);
     
-    const success = useTokens(totalCost);
+    const success = subtractTokens(totalCost);
     if (success) {
       // Имитация запроса к Replicate
       setTimeout(() => {
