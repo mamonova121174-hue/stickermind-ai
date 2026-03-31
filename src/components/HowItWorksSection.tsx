@@ -1,63 +1,102 @@
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { Film, Sparkles, Zap, Coins } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
+import ChromaKeyVideo from "./ChromaKeyVideo";
+import { useTokens } from "@/components/TokenContext"; // Подключаем кошелек
 
-import originalPhoto from "@/assets/original-photo.png";
 import demoPixar from "@/assets/demo-pixar-hello-v2.png";
+import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4";
 import demoGta from "@/assets/demo-gta-like-v2.png";
 import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
-const previewStyles = [
-  { id: "pixar", name: "3D Pixar", image: demoPixar, emotion: "Привет" },
-  { id: "gta", name: "GTA", image: demoGta, emotion: "Лайк" },
-  { id: "ghibli", name: "Miyazaki", image: demoGhibli, emotion: "Думаю" },
-  { id: "cyberpunk", name: "Cyberpunk", image: demoCyberpunk, emotion: "Злюсь" },
-  { id: "lineart", name: "Line Art", image: demoLineart, emotion: "Любовь" },
+const demoAnimatedStickers = [
+  { id: 1, image: demoPixar, video: demoPixarVideo, label: "Привет", style: "Pixar", delay: 0 },
+  { id: 2, image: demoGta, video: undefined as string | undefined, label: "Лайк", style: "GTA", delay: 80 },
+  { id: 3, image: demoGhibli, video: undefined as string | undefined, label: "Думаю", style: "Ghibli", delay: 160 },
+  { id: 4, image: demoCyberpunk, video: undefined as string | undefined, label: "Злюсь", style: "Cyberpunk", delay: 240 },
+  { id: 5, image: demoLineart, video: undefined as string | undefined, label: "Любовь", style: "Line Art", delay: 320 },
 ];
 
+const AnimatedStickersSection = () => {
+  const { balance } = useTokens(); // Берем баланс из контекста
 
-
-const HowItWorksSection = () => {
   return (
-    <section className="py-10 scroll-mt-20 overflow-hidden">
-      <div className="container max-w-6xl">
-        <ScrollReveal delay={100}>
-          <div className="mt-14">
-            <h3 className="font-display text-lg sm:text-xl font-bold text-center mb-2" style={{ textWrap: "balance" }}>
-              Один персонаж — пять стилей
-            </h3>
-            <p className="text-xs text-muted-foreground text-center mb-8 max-w-sm mx-auto">
-              Посмотри, как одно фото превращается в уникальных персонажей на прозрачном фоне
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center">
-              {/* Original photo */}
-              <div className="flex flex-col items-center gap-2 shrink-0">
-                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-border shadow-lg">
-                  <img src={originalPhoto} alt="Оригинальное фото" className="w-full h-full object-cover" />
+    <section className="py-16 scroll-mt-20 overflow-hidden">
+      <div className="container max-w-5xl">
+        <ScrollReveal>
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
+              <Film className="w-5 h-5 text-primary" />
+            </div>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground">
+              Анимированные стикеры
+            </h2>
+          </div>
+          <p className="text-center text-muted-foreground text-sm max-w-lg mx-auto mb-10 text-balance">
+            Оживите свой стикерпак — каждый персонаж двигается, машет рукой и выражает эмоции в формате MP4
+          </p>
+        </ScrollReveal>
+
+        {/* Demo grid */}
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
+          {demoAnimatedStickers.map((s) => (
+            <ScrollReveal key={s.id} delay={s.delay}>
+              <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
+                <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
+                  {s.video ? (
+                    <ChromaKeyVideo src={s.video} className="w-full h-full" tolerance={0.38} softness={0.1} />
+                  ) : (
+                    <img src={s.image} alt={s.label} className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]" />
+                  )}
                 </div>
-                <span className="text-xs font-medium text-muted-foreground">Оригинал</span>
+                <span className="text-[10px] font-medium text-foreground truncate w-full text-center">{s.label}</span>
+                <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
+                <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">MP4</span>
               </div>
+            </ScrollReveal>
+          ))}
+        </div>
 
-              {/* Arrow */}
-              <div className="flex items-center text-primary/50">
-                <ArrowRight className="w-8 h-8 animate-pulse" />
+        {/* Features */}
+        <ScrollReveal delay={200}>
+          <div className="grid sm:grid-cols-3 gap-4 mb-10">
+            {[
+              { icon: Zap, title: "AI-анимация", desc: "Нейросеть создаёт естественные движения" },
+              { icon: Film, title: "Прозрачный фон", desc: "Автоматическое удаление фона" },
+              { icon: Sparkles, title: "Премиум-качество", desc: "Плавные движения и сходство лица" },
+            ].map((f) => (
+              <div key={f.title} className="flex items-start gap-3 p-4 rounded-xl bg-card/40 border border-border/30">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <f.icon className="w-4 h-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{f.title}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{f.desc}</p>
+                </div>
               </div>
+            ))}
+          </div>
+        </ScrollReveal>
 
-              {/* Style results grid - transparent stickers */}
-              <div className="grid grid-cols-5 gap-2 sm:gap-3">
-                {previewStyles.map((style) => (
-                  <div key={style.id} className="flex flex-col items-center gap-1.5 group">
-                    <div
-                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-border/50 shadow-md transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:scale-105"
-                    >
-                      <img src={style.image} alt={`Стикер в стиле ${style.name}`} className="w-full h-full object-contain" />
-                    </div>
-                    <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">{style.name}</span>
-                  </div>
-                ))}
-              </div>
+        {/* Фиолетовая кнопка с твоим балансом */}
+        <ScrollReveal delay={300}>
+          <div className="text-center flex flex-col items-center">
+            <Button
+              className="bg-gradient-primary text-primary-foreground h-14 px-10 text-lg font-bold rounded-2xl hover:opacity-90 active:scale-[0.97] transition-all duration-150 glow-primary shadow-xl shadow-primary/20"
+              onClick={() => document.getElementById("generator")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              <Film className="w-5 h-5 mr-2" />
+              Создать и анимировать пак
+            </Button>
+            
+            {/* Наша новая умная подпись */}
+            <div className="mt-4 flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
+              <Coins className="w-3 h-3 text-yellow-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Ваш баланс: <span className="text-white">{balance} 🪙</span> — Анимация стикера: 7 🪙
+              </span>
             </div>
           </div>
         </ScrollReveal>
@@ -66,4 +105,4 @@ const HowItWorksSection = () => {
   );
 };
 
-export default HowItWorksSection;
+export default AnimatedStickersSection;
