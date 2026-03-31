@@ -58,7 +58,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
- <section id="faq" className="py-20 scroll-mt-20">
+    <section id="faq" className="py-20 scroll-mt-20">
       <div className="container max-w-2xl">
         <ScrollReveal>
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-center mb-2">
@@ -72,19 +72,19 @@ const FAQSection = () => {
         <ScrollReveal delay={100}>
           <Accordion type="single" collapsible className="w-full space-y-4">
             
-            {/* Этот блок автоматически выведет все вопросы из твоего списка faqData */}
-            {faqData.map((item, index) => (
+            {/* Отрисовываем вопросы из массива faqs */}
+            {faqs.map((item, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left font-medium py-4">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
+                <AccordionContent className="text-muted-foreground whitespace-pre-line">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
             ))}
 
-            {/* Твой специальный выделяющийся блок с подарком */}
+            {/* Твой кастомный блок с подарком */}
             <AccordionItem value="special-item" className="border-white/10 bg-white/[0.02] rounded-[24px] px-6 overflow-hidden transition-all border-purple-500/50 bg-purple-500/5 shadow-[0_0_20px_rgba(168,85,247,0.15)]">
               <AccordionTrigger className="font-bold hover:no-underline py-5 uppercase text-[10px] tracking-widest text-purple-400 italic">
                 🎁 Как получить бесплатные монеты за отзыв?
@@ -98,6 +98,7 @@ const FAQSection = () => {
         </ScrollReveal>
       </div>
     </section>
-);
+  );
 };
+
 export default FAQSection;
