@@ -1,25 +1,25 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
+// УДАЛИЛИ GeneratorSection, чтобы не было дубля!
 import AnimatedStickersSection from "@/components/AnimatedStickersSection";
-import GeneratorSection from "@/components/GeneratorSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
-import CookieConsent from "@/components/CookieConsent";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
+        {/* Здесь теперь ВСЕ 4 экрана, включая твой любимый генератор */}
         <HeroSection />
-        <HowItWorksSection />
-        <GeneratorSection />
+
+        {/* Галерея анимированных стикеров */}
         <AnimatedStickersSection />
+
+        {/* Вопросы */}
         <FAQSection />
       </main>
       <Footer />
-      <CookieConsent />
     </div>
   );
 };
