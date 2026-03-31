@@ -1,25 +1,28 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import AnimatedStickersSection from "@/components/AnimatedStickersSection";
-import GeneratorSection from "@/components/GeneratorSection";
+import HowItWorksSection from "@/components/HowItWorksSection"; 
+import AnimatedStickersSection from "@/components/AnimatedStickersSection"; 
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
-import CookieConsent from "@/components/CookieConsent";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
+        {/* 1. Главный экран */}
         <HeroSection />
+
+        {/* 2. Блок "Один персонаж — пять стилей" (HowItWorks) */}
         <HowItWorksSection />
-        <GeneratorSection />
+
+        {/* 3. Блок "Анимированные стикеры" С НАШЕЙ НОВОЙ КНОПКОЙ И БАЛАНСОМ */}
         <AnimatedStickersSection />
+
+        {/* 4. Вопросы */}
         <FAQSection />
       </main>
       <Footer />
-      <CookieConsent />
     </div>
   );
 };
