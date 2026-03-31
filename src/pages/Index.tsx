@@ -1,7 +1,8 @@
+// src/pages/Index.tsx
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection"; 
-import AnimatedStickersSection from "@/components/AnimatedStickersSection"; 
+import GeneratorSection from "@/components/GeneratorSection"; // Рабочая зона
+import AnimatedStickersSection from "@/components/AnimatedStickersSection"; // Галерея результатов
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 
@@ -10,21 +11,18 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        {/* 1. Главный экран */}
+        {/* 1. Главный экран (Заголовок "СОЗДАЙ СТИКЕР") */}
         <HeroSection />
 
-        {/* 2. Блок "Один персонаж — пять стилей" (HowItWorks) */}
-        <HowItWorksSection />
-
-        {/* 3. Блок "Анимированные стикеры" С НАШЕЙ НОВОЙ КНОПКОЙ И БАЛАНСОМ */}
+        {/* 2. Сама зона генерации (Где кнопка "Создать стикерпак") */}
+        <GeneratorSection /> 
+        
+        {/* 3. Галерея (Сначала демо, потом - готовые стикеры юзера) */}
         <AnimatedStickersSection />
 
-        {/* 4. Вопросы */}
         <FAQSection />
       </main>
       <Footer />
     </div>
   );
 };
-
-export default Index;
