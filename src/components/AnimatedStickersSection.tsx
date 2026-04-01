@@ -5,8 +5,8 @@ import ChromaKeyVideo from "./ChromaKeyVideo";
 import { useTokens } from "@/components/TokenContext";
 
 // Импорты демо-ассетов (проверь, что пути верные)
-import demoPixar from "@/assets/demo-pixar-hello-v2.png";
-import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4";
+import demoPixar from "@/assets/demo-pixar-hello-v2.png"; // 
+import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4"; //
 import demoGta from "@/assets/demo-gta-like-v2.png";
 import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
@@ -15,13 +15,44 @@ import demoLineart from "@/assets/demo-lineart-love-v2.png";
 const demoAnimatedStickers = [
   { 
     id: 1, 
-    image: demoPixar, // Проверь, что здесь именно demoPixar [cite: 6]
-    video: demoPixarVideo, 
-    label: "Привет", 
-    style: "Pixar", 
+    image: demoPixar, // 
+    video: demoPixarVideo, // 
+    label: "Привет", // [cite: 1]
+    style: "Pixar", // 
     delay: 0 
   },
-  // ... остальные стикеры 
+  { 
+    id: 2, 
+    image: demoGta, // [cite: 7]
+    video: undefined, 
+    label: "Лайк", // [cite: 1]
+    style: "GTA", // [cite: 7]
+    delay: 80 
+  },
+  { 
+    id: 3, 
+    image: demoGhibli, // [cite: 8]
+    video: undefined, 
+    label: "Думаю", // [cite: 1]
+    style: "Ghibli", // [cite: 8]
+    delay: 160 
+  },
+  { 
+    id: 4, 
+    image: demoCyberpunk, // [cite: 9]
+    video: undefined, 
+    label: "Злюсь", // [cite: 1]
+    style: "Cyberpunk", // [cite: 9]
+    delay: 240 
+  },
+  { 
+    id: 5, 
+    image: demoLineart, // [cite: 10]
+    video: undefined, 
+    label: "Любовь", // [cite: 1]
+    style: "Line Art", // [cite: 10]
+    delay: 320 
+  },
 ];
 
 const AnimatedStickersSection = () => {
