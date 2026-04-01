@@ -1,58 +1,23 @@
-import { Film, Sparkles, Zap, Coins } from "lucide-react";
+import { Film, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 import ChromaKeyVideo from "./ChromaKeyVideo";
 import { useTokens } from "@/components/TokenContext";
 
-// Импорты демо-ассетов (проверь, что пути верные)
-import demoPixar from "@/assets/demo-pixar-hello-v2.png"; // 
-import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4"; //
+// Импорты демо-ассетов
+import demoPixar from "@/assets/demo-pixar-hello-v2.png";
+import demoPixarVideo from "@/assets/demo-pixar-hello-animated.mp4";
 import demoGta from "@/assets/demo-gta-like-v2.png";
 import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const demoAnimatedStickers = [
-  { 
-    id: 1, 
-    image: demoPixar, // 
-    video: demoPixarVideo, // 
-    label: "Привет", // [cite: 1]
-    style: "Pixar", // 
-    delay: 0 
-  },
-  { 
-    id: 2, 
-    image: demoGta, // [cite: 7]
-    video: undefined, 
-    label: "Лайк", // [cite: 1]
-    style: "GTA", // [cite: 7]
-    delay: 80 
-  },
-  { 
-    id: 3, 
-    image: demoGhibli, // [cite: 8]
-    video: undefined, 
-    label: "Думаю", // [cite: 1]
-    style: "Ghibli", // [cite: 8]
-    delay: 160 
-  },
-  { 
-    id: 4, 
-    image: demoCyberpunk, // [cite: 9]
-    video: undefined, 
-    label: "Злюсь", // [cite: 1]
-    style: "Cyberpunk", // [cite: 9]
-    delay: 240 
-  },
-  { 
-    id: 5, 
-    image: demoLineart, // [cite: 10]
-    video: undefined, 
-    label: "Любовь", // [cite: 1]
-    style: "Line Art", // [cite: 10]
-    delay: 320 
-  },
+  { id: 1, image: demoPixar, video: demoPixarVideo, label: "Привет", style: "Pixar", delay: 0 },
+  { id: 2, image: demoGta, video: undefined, label: "Лайк", style: "GTA", delay: 80 },
+  { id: 3, image: demoGhibli, video: undefined, label: "Думаю", style: "Ghibli", delay: 160 },
+  { id: 4, image: demoCyberpunk, video: undefined, label: "Злюсь", style: "Cyberpunk", delay: 240 },
+  { id: 5, image: demoLineart, video: undefined, label: "Любовь", style: "Line Art", delay: 320 },
 ];
 
 const AnimatedStickersSection = () => {
@@ -75,48 +40,39 @@ const AnimatedStickersSection = () => {
           </p>
         </ScrollReveal>
 
-        {/* Ищи этот фрагмент в AnimatedStickersSection.tsx */}
-<div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
-  {demoAnimatedStickers.map((s) => (
-    <ScrollReveal key={s.id} delay={s.delay}>
-      <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
-        
-        {/* ВОТ ЭТОТ БЛОК МЫ МЕНЯЕМ (Картинка + Видео) */}
-        <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
-          {/* 1. Картинка Pixar теперь всегда на фоне, чтобы не было пустоты */}
-          <img
-            src={s.image}
-            alt={s.label}
-            className={`w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite] ${
-              s.video ? "absolute inset-0 z-0" : ""
-            }`}
-          />
-          
-          {/* 2. Видео накладывается сверху только если оно прописано */}
-          {s.video && (
-            <div className="relative z-10 w-full h-full">
-              <ChromaKeyVideo
-                src={s.video}
-                className="w-full h-full"
-                tolerance={0.38}
-                softness={0.1}
-              />
-            </div>
-          )}
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
+          {demoAnimatedStickers.map((s) => (
+            <ScrollReveal key={s.id} delay={s.delay}>
+              <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
+                <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
+                  <img
+                    src={s.image}
+                    alt={s.label}
+                    className={`w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite] ${
+                      s.video ? "absolute inset-0 z-0" : ""
+                    }`}
+                  />
+                  
+                  {s.video && (
+                    <div className="relative z-10 w-full h-full">
+                      <ChromaKeyVideo
+                        src={s.video}
+                        className="w-full h-full"
+                        tolerance={0.38}
+                        softness={0.1}
+                      />
+                    </div>
+                  )}
+                </div>
+                <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
+                  {s.label}
+                </span>
+                <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
 
-        <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
-          {s.label}
-        </span>
-        <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
-
-        )}
-      </div>
-    </ScrollReveal>
-  ))}
-</div>
-
-        {/* НИЖНЯЯ ЧАСТЬ С КНОПКОЙ */}
         <ScrollReveal delay={300}>
           <div className="text-center flex flex-col items-center">
             <Button
