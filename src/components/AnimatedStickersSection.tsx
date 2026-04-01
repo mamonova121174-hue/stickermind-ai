@@ -110,11 +110,6 @@ const AnimatedStickersSection = () => {
         </span>
         <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
 
-        {/* 3. Убираем значок MP4 только для Pixar (id: 1) */}
-        {s.id !== 1 && (
-          <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-            MP4
-          </span>
         )}
       </div>
     </ScrollReveal>
