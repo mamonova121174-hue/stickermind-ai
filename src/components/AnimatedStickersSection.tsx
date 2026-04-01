@@ -75,38 +75,51 @@ const AnimatedStickersSection = () => {
           </p>
         </ScrollReveal>
 
-        {/* СЕТКА СТИКЕРОВ — ВОТ ЭТОТ БЛОК У ТЕБЯ ПУСТОЙ */}
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
-          {demoAnimatedStickers.map((s) => (
-            <ScrollReveal key={s.id} delay={s.delay}>
-              <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
-                <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
-                  {s.video ? (
-                    <ChromaKeyVideo
-                      src={s.video}
-                      className="w-full h-full"
-                      tolerance={0.38}
-                      softness={0.1}
-                    />
-                  ) : (
-                    <img
-                      src={s.image}
-                      alt={s.label}
-                      className="w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite]"
-                    />
-                  )}
-                </div>
-                <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
-                  {s.label}
-                </span>
-                <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
-                <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
-                  MP4
-                </span>
-              </div>
-            </ScrollReveal>
-          ))}
+        {/* Ищи этот фрагмент в AnimatedStickersSection.tsx */}
+<div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-10">
+  {demoAnimatedStickers.map((s) => (
+    <ScrollReveal key={s.id} delay={s.delay}>
+      <div className="group relative flex flex-col items-center rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
+        
+        {/* ВОТ ЭТОТ БЛОК МЫ МЕНЯЕМ (Картинка + Видео) */}
+        <div className="w-full aspect-square rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
+          {/* 1. Картинка Pixar теперь всегда на фоне, чтобы не было пустоты */}
+          <img
+            src={s.image}
+            alt={s.label}
+            className={`w-full h-full object-contain animate-[sticker-float_2.5s_ease-in-out_infinite] ${
+              s.video ? "absolute inset-0 z-0" : ""
+            }`}
+          />
+          
+          {/* 2. Видео накладывается сверху только если оно прописано */}
+          {s.video && (
+            <div className="relative z-10 w-full h-full">
+              <ChromaKeyVideo
+                src={s.video}
+                className="w-full h-full"
+                tolerance={0.38}
+                softness={0.1}
+              />
+            </div>
+          )}
         </div>
+
+        <span className="text-[10px] font-medium text-foreground truncate w-full text-center">
+          {s.label}
+        </span>
+        <span className="text-[8px] text-muted-foreground/60">{s.style}</span>
+
+        {/* 3. Убираем значок MP4 только для Pixar (id: 1) */}
+        {s.id !== 1 && (
+          <span className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-primary/20 text-primary">
+            MP4
+          </span>
+        )}
+      </div>
+    </ScrollReveal>
+  ))}
+</div>
 
         {/* НИЖНЯЯ ЧАСТЬ С КНОПКОЙ */}
         <ScrollReveal delay={300}>
