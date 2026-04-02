@@ -68,38 +68,37 @@ const HeroSection = () => {
     </div>
   ))}
 
-  {/* ФИНАЛЬНАЯ КНОПКА-ХАМЕЛЕОН */}
-  <div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
-    <a 
-      href="#generator" 
-      className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)]"
-    >
-      
-      {/* 1. ФОН: Переключается с Розового на Фиолетовый */}
-      <div className="absolute inset-0 bg-rose-600/10 animate-[pulse_1.5s_infinite] group-hover:bg-purple-600/20 transition-colors duration-500" />
-      
-      {/* 2. ЦЕНТРАЛЬНОЕ СВЕЧЕНИЕ (Меняет цвет при наведении) */}
-      <div className="relative z-10 flex flex-col items-center gap-4">
-        <div className="relative">
-          {/* Слой вспышки: Красный в покое -> Фиолетовый при наведении */}
-          <div className="absolute inset-0 rounded-full bg-rose-600 blur-[25px] animate-[pulse_0.8s_infinite] group-hover:bg-purple-500 transition-colors duration-500" />
-          
-          {/* Круг с иконкой: Золото -> Фиолетовый Неон */}
-          <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 group-hover:from-fuchsia-600 group-hover:to-purple-600 flex items-center justify-center shadow-[0_0_30px_rgba(225,29,72,0.6)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.8)] transition-all duration-500 group-hover:scale-110">
-            <Sparkles className="w-8 h-8 text-white animate-[bounce_2s_infinite]" />
-          </div>
+{/* ФИНАЛЬНАЯ КНОПКА-ХАМЕЛЕОН */}
+<div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
+  <a 
+    href="#generator" 
+    className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)]"
+  >
+    
+    {/* 1. ФОН: Мерцает розовым в покое, становится фиолетовым при наведении */}
+    <div className="absolute inset-0 bg-rose-600/10 animate-[pulse_1.5s_infinite] group-hover:bg-purple-600/20 transition-colors duration-500" />
+    
+    {/* 2. ЦЕНТРАЛЬНОЕ СВЕЧЕНИЕ (МИГАЛКА) */}
+    <div className="relative z-10 flex flex-col items-center gap-4">
+      <div className="relative">
+        {/* Слой вспышки: Красный -> Фиолетовый */}
+        <div className="absolute inset-0 rounded-full bg-rose-600 blur-[25px] animate-[pulse_0.8s_infinite] group-hover:bg-purple-500 transition-colors duration-500" />
+        
+        {/* Круг с иконкой: Золото -> Фиолетовый Неон */}
+        <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 group-hover:from-fuchsia-600 group-hover:to-purple-600 flex items-center justify-center shadow-[0_0_30px_rgba(225,29,72,0.6)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.8)] transition-all duration-500 group-hover:scale-110">
+          <Sparkles className="w-8 h-8 text-white animate-[bounce_2s_infinite]" />
         </div>
-
-        {/* 3. ТЕКСТ: Золотой -> Белый Неон */}
-        <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-amber-300 group-hover:text-white leading-tight drop-shadow-[0_0_8px_rgba(225,29,72,0.9)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,1)] transition-all duration-500">
-          Создать свой <br/> <span className="text-white group-hover:text-fuchsia-300">стикер</span>
-        </span>
       </div>
 
-      {/* Бегающий лазерный блик (теперь еще ярче при наведении) */}
-      <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 group-hover:via-white/30 to-transparent animate-[shine_3s_infinite]" />
-    </a>
-  </div>
+      {/* 3. ТЕКСТ: Золото -> Неоновый фиолет */}
+      <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-amber-300 group-hover:text-white leading-tight drop-shadow-[0_0_8px_rgba(225,29,72,0.9)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,1)] transition-all duration-500">
+        Создать свой <br/> <span className="text-white group-hover:text-fuchsia-300">стикер</span>
+      </span>
+    </div>
+
+    {/* 4. БЕГАЮЩИЙ ЛАЗЕРНЫЙ БЛИК */}
+    <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 group-hover:via-white/30 to-transparent animate-[shine_3s_infinite]" />
+  </a>
 </div>
           </div>
         </ScrollReveal>
