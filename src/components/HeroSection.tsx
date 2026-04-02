@@ -58,8 +58,8 @@ const HeroSection = () => {
               <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
             </div>
 
-            {/* Сетка со стикерами */}
-<div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start">
+          {/* Сетка со стикерами */}
+<div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start relative z-10">
   {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
     <div key={i} className="flex flex-col items-center shrink-0">
       <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
@@ -68,31 +68,42 @@ const HeroSection = () => {
     </div>
   ))}
 
-  {/* ЭФФЕКТНАЯ ПУЛЬСИРУЮЩАЯ КНОПКА */}
-  <div className="flex flex-col items-center shrink-0 sticky top-24 z-[100] self-start">
+  {/* ЭФФЕКТНАЯ ЗОЛОТИСТО-РОЗОВАЯ КНОПКА (Шестое место) */}
+  <div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
     <a 
       href="#generator" 
-      className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-3 group overflow-hidden transition-all duration-500"
+      className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-500 bg-[#0d0d10] border-2 border-dashed border-amber-400/20 hover:border-rose-400/80 hover:shadow-[0_0_50px_rgba(225,29,72,0.4)]"
     >
-      {/* Внутреннее свечение и градиентный фон */}
-      <div className="absolute inset-0 bg-gradient-to-br from-rose-500/20 via-purple-600/20 to-amber-500/20 animate-pulse" />
       
-      {/* Живая пульсирующая рамка (Золотисто-розовая) */}
-      <div className="absolute inset-0 border-2 border-dashed border-rose-400/50 rounded-[32px] animate-[ping_3s_linear_infinite] opacity-30" />
-      <div className="absolute inset-0 border-2 border-dashed border-amber-400/40 rounded-[32px] shadow-[0_0_20px_rgba(251,191,36,0.2)]" />
+      {/* 1. Внутренний переливающийся градиент (Fuchsia -> Amber) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-900/40 via-purple-900/20 to-amber-900/40 opacity-60 group-hover:opacity-100 transition-opacity" />
 
-      {/* Контент кнопки */}
-      <div className="relative z-10 flex flex-col items-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center shadow-[0_0_25px_rgba(244,63,94,0.5)] group-hover:scale-110 transition-transform duration-300">
-          <Sparkles className="w-7 h-7 text-white animate-spin-slow" />
+      {/* 2. Бегущая пунктирная рамка (через псевдоэлемент, требует custom CSS или Tailwind плагина) */}
+      {/* Если нет плагина для анимации border, оставляем как есть, но делаем ярче при наведении */}
+      <div className="absolute inset-0 border-2 border-dashed border-amber-400/30 rounded-[32px] group-hover:border-rose-400 transition-colors duration-500" />
+
+      {/* 3. КОНТЕНТ КНОПКИ (Центр) */}
+      <div className="relative z-10 flex flex-col items-center gap-4">
+        
+        {/* Мощный неоновый центр */}
+        <div className="relative">
+          {/* Слой экстремального неонового свечения (Fuchsia) */}
+          <div className="absolute inset-0 rounded-full bg-fuchsia-600 blur-[20px] opacity-80 group-hover:opacity-100 group-hover:blur-[25px] transition-all" />
+          
+          {/* Сама иконка на градиентном круге */}
+          <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-fuchsia-600 to-amber-400 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:scale-110 transition-transform">
+            <Sparkles className="w-8 h-8 text-white animate-pulse" />
+          </div>
         </div>
-        <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-          Создать свой <br/> <span className="text-amber-400">стикер</span>
+
+        {/* Золотой текст с неоновой тенью */}
+        <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-amber-300 leading-tight drop-shadow-[0_0_10px_rgba(251,191,36,0.8)] group-hover:text-white transition-colors">
+          Создать свой <br/> <span className="text-white">стикер</span>
         </span>
       </div>
 
-      {/* Блик, бегающий по кнопке */}
-      <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-shine" />
+      {/* 4. Блик, бегающий по кнопке при наведении */}
+      <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-shine transition-all duration-1000" />
     </a>
   </div>
 </div>
