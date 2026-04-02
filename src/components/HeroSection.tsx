@@ -58,13 +58,31 @@ const HeroSection = () => {
               <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
-                <div key={i} className="flex flex-col items-center shrink-0">
-                  <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
-                    <img src={img} className="w-full h-full object-cover" alt="Стиль стикера" />
-                  </div>
-                </div>
+           <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start">
+  {/* Твои 5 существующих стикеров */}
+  {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
+    <div key={i} className="flex flex-col items-center shrink-0">
+      <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
+        <img src={img} className="w-full h-full object-cover" alt="Стиль стикера" />
+      </div>
+    </div>
+  ))}
+
+  {/* НОВАЯ КНОПКА (Шестое место) */}
+  <div className="flex flex-col items-center shrink-0 sticky top-24 z-50">
+    <a 
+      href="#generator" 
+      className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] border-2 border-dashed border-purple-500/40 bg-purple-500/5 hover:bg-purple-600/20 transition-all flex flex-col items-center justify-center gap-3 group shadow-xl backdrop-blur-sm"
+    >
+      <div className="w-12 h-12 rounded-full bg-purple-600/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <Sparkles className="w-6 h-6 text-purple-400" />
+      </div>
+      <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-center px-4 text-white leading-tight">
+        Создать свой <br/> стикер
+      </span>
+    </a>
+  </div>
+</div>
               ))}
             </div>
           </div>
