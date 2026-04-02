@@ -49,8 +49,9 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
-       <ScrollReveal delay={400}>
+   <ScrollReveal delay={400}>
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
+            {/* Карточка "Твой оригинал" */}
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
@@ -58,51 +59,40 @@ const HeroSection = () => {
               <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
             </div>
 
-{/* Сетка со стикерами */}
-<div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start relative z-10">
-  {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
-    <div key={i} className="flex flex-col items-center shrink-0">
-      <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
-        <img src={img} className="w-full h-full object-cover" alt="Стиль стикера" />
-      </div>
-    </div>
-  ))}
+            {/* Сетка со стикерами и Кнопка-Хамелеон */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start">
+              {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
+                <div key={i} className="flex flex-col items-center shrink-0">
+                  <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
+                    <img src={img} className="w-full h-full object-cover" alt="Стиль стикера" />
+                  </div>
+                </div>
+              ))}
 
-{/* ФИНАЛЬНАЯ КНОПКА-ХАМЕЛЕОН */}
-<div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
-  <a 
-    href="#generator" 
-    className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)]"
-  >
-    
-    {/* 1. ФОН: Мерцает розовым в покое, становится фиолетовым при наведении */}
-    <div className="absolute inset-0 bg-rose-600/10 animate-[pulse_1.5s_infinite] group-hover:bg-purple-600/20 transition-colors duration-500" />
-    
-    {/* 2. ЦЕНТРАЛЬНОЕ СВЕЧЕНИЕ (МИГАЛКА) */}
-    <div className="relative z-10 flex flex-col items-center gap-4">
-      <div className="relative">
-        {/* Слой вспышки: Красный -> Фиолетовый */}
-        <div className="absolute inset-0 rounded-full bg-rose-600 blur-[25px] animate-[pulse_0.8s_infinite] group-hover:bg-purple-500 transition-colors duration-500" />
-        
-        {/* Круг с иконкой: Золото -> Фиолетовый Неон */}
-        <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 group-hover:from-fuchsia-600 group-hover:to-purple-600 flex items-center justify-center shadow-[0_0_30px_rgba(225,29,72,0.6)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.8)] transition-all duration-500 group-hover:scale-110">
-          <Sparkles className="w-8 h-8 text-white animate-[bounce_2s_infinite]" />
-        </div>
-      </div>
-
-      {/* 3. ТЕКСТ: Золото -> Неоновый фиолет */}
-      <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-amber-300 group-hover:text-white leading-tight drop-shadow-[0_0_8px_rgba(225,29,72,0.9)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,1)] transition-all duration-500">
-        Создать свой <br/> <span className="text-white group-hover:text-fuchsia-300">стикер</span>
-      </span>
-    </div>
-
-    {/* 4. БЕГАЮЩИЙ ЛАЗЕРНЫЙ БЛИК */}
-    <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 group-hover:via-white/30 to-transparent animate-[shine_3s_infinite]" />
-  </a>
-</div>
+              {/* ТА САМАЯ КНОПКА */}
+              <div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
+                <a 
+                  href="#generator" 
+                  className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)]"
+                >
+                  <div className="absolute inset-0 bg-rose-600/10 animate-[pulse_1.5s_infinite] group-hover:bg-purple-600/20 transition-colors duration-500" />
+                  <div className="relative z-10 flex flex-col items-center gap-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 rounded-full bg-rose-600 blur-[25px] animate-[pulse_0.8s_infinite] group-hover:bg-purple-500 transition-colors duration-500" />
+                      <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 group-hover:from-fuchsia-600 group-hover:to-purple-600 flex items-center justify-center shadow-[0_0_30px_rgba(225,29,72,0.6)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.8)] transition-all duration-500 group-hover:scale-110">
+                        <Sparkles className="w-8 h-8 text-white animate-[bounce_2s_infinite]" />
+                      </div>
+                    </div>
+                    <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-amber-300 group-hover:text-white leading-tight drop-shadow-[0_0_8px_rgba(225,29,72,0.9)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,1)] transition-all duration-500">
+                      Создать свой <br/> <span className="text-white group-hover:text-fuchsia-300">стикер</span>
+                    </span>
+                  </div>
+                  <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 group-hover:via-white/30 to-transparent animate-[shine_3s_infinite]" />
+                </a>
+              </div>
+            </div>
           </div>
         </ScrollReveal>
-
         {/* ЭКРАН 2: ЛИНЕЙКА */}
         {/* --- ЭКРАН 2: ЛИНЕЙКА (ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ) --- */}
 <div className="mt-10 text-center w-full mb-24">
