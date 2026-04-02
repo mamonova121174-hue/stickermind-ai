@@ -59,7 +59,7 @@ const HeroSection = () => {
             </div>
 
             {/* Сетка со стикерами */}
-<div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start"> {/* КРИТИЧНО: items-start */}
+<div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start">
   {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
     <div key={i} className="flex flex-col items-center shrink-0">
       <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
@@ -68,18 +68,31 @@ const HeroSection = () => {
     </div>
   ))}
 
-  {/* Липкая кнопка */}
-  <div className="flex flex-col items-center shrink-0 sticky top-24 z-50"> {/* sticky + top-24 + z-50 */}
+  {/* ЭФФЕКТНАЯ ПУЛЬСИРУЮЩАЯ КНОПКА */}
+  <div className="flex flex-col items-center shrink-0 sticky top-24 z-[100] self-start">
     <a 
       href="#generator" 
-      className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] border-2 border-dashed border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 transition-all flex flex-col items-center justify-center gap-3 group shadow-[0_0_30px_rgba(139,92,246,0.3)] backdrop-blur-md"
+      className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-3 group overflow-hidden transition-all duration-500"
     >
-      <div className="w-12 h-12 rounded-full bg-purple-600/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-        <Sparkles className="w-6 h-6 text-purple-400" />
+      {/* Внутреннее свечение и градиентный фон */}
+      <div className="absolute inset-0 bg-gradient-to-br from-rose-500/20 via-purple-600/20 to-amber-500/20 animate-pulse" />
+      
+      {/* Живая пульсирующая рамка (Золотисто-розовая) */}
+      <div className="absolute inset-0 border-2 border-dashed border-rose-400/50 rounded-[32px] animate-[ping_3s_linear_infinite] opacity-30" />
+      <div className="absolute inset-0 border-2 border-dashed border-amber-400/40 rounded-[32px] shadow-[0_0_20px_rgba(251,191,36,0.2)]" />
+
+      {/* Контент кнопки */}
+      <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center shadow-[0_0_25px_rgba(244,63,94,0.5)] group-hover:scale-110 transition-transform duration-300">
+          <Sparkles className="w-7 h-7 text-white animate-spin-slow" />
+        </div>
+        <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-center px-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+          Создать свой <br/> <span className="text-amber-400">стикер</span>
+        </span>
       </div>
-      <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-center px-4 text-white leading-tight">
-        Создать свой <br/> стикер
-      </span>
+
+      {/* Блик, бегающий по кнопке */}
+      <div className="absolute -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-shine" />
     </a>
   </div>
 </div>
