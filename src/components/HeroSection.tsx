@@ -70,7 +70,7 @@ const HeroSection = () => {
               ))}
 
               {/* ТА САМАЯ КНОПКА */}
-              <div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
+              <div className="flex flex-col items-center shrink-0 fixed bottom-10 right-10 z-[999] group md:relative md:bottom-auto md:right-auto md:top-24 md:sticky">
                 <a 
                   href="#generator" 
                   className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)]"
