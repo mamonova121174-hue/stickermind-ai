@@ -53,7 +53,7 @@ const HeroSection = () => {
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
             {/* Карточка "Твой оригинал" */}
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
-              <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
+              <div className="w-[240px] h-[300px] rounded-[36px]  border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
               </div>
               <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
