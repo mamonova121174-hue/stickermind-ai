@@ -76,7 +76,7 @@ const HeroSection = () => {
     >
       
       {/* 1. ПУЛЬСИРУЮЩИЙ ФОН (Эффект сирены) */}
-      <div className="absolute inset-0 bg-rose-600/20 animate-[pulse_1.5s_ease-in-out_infinite]" />
+      <div className="absolute inset-0 bg-rose-600/40 animate-[pulse_1.5s_ease-in-out_infinite]" />
       
       {/* 2. БЕГУЩАЯ РАМКА (Яркая) */}
       <div className="absolute inset-0 border-2 border-dashed border-rose-500/40 rounded-[32px] animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20" />
