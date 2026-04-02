@@ -49,9 +49,9 @@ const HeroSection = () => {
           </ScrollReveal>
         </div>
 
-   <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
-            {/* Карточка "Твой оригинал" */}
+        <ScrollReveal delay={400}>
+          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
+            {/* ОРИГИНАЛ */}
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
                 <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
@@ -59,8 +59,8 @@ const HeroSection = () => {
               <span className="text-[11px] font-black uppercase tracking-widest text-primary italic">Твой оригинал</span>
             </div>
 
-            {/* Сетка со стикерами и Кнопка-Хамелеон */}
-     <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start">
+            {/* СЕТКА СТИКЕРОВ + ЛИПКАЯ КНОПКА */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-start">
               {[demoPixar, demoGta, demoGhibli, demoCyberpunk, demoLineart].map((img, i) => (
                 <div key={i} className="flex flex-col items-center shrink-0">
                   <div className="w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] overflow-hidden border-2 bg-card/50 border-white/5 hover:border-purple-500/30 transition-all">
@@ -69,17 +69,17 @@ const HeroSection = () => {
                 </div>
               ))}
 
-              {/* ТА САМАЯ КНОПКА */}
+              {/* ТА САМАЯ КНОПКА-ХАМЕЛЕОН */}
               <div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
                 <a 
                   href="#generator" 
-                  className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)]"
+                  className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)] shadow-[0_0_20px_rgba(225,29,72,0.2)]"
                 >
                   <div className="absolute inset-0 bg-rose-600/10 animate-[pulse_1.5s_infinite] group-hover:bg-purple-600/20 transition-colors duration-500" />
                   <div className="relative z-10 flex flex-col items-center gap-4">
                     <div className="relative">
                       <div className="absolute inset-0 rounded-full bg-rose-600 blur-[25px] animate-[pulse_0.8s_infinite] group-hover:bg-purple-500 transition-colors duration-500" />
-                      <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 group-hover:from-fuchsia-600 group-hover:to-purple-600 flex items-center justify-center shadow-[0_0_30px_rgba(225,29,72,0.6)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.8)] transition-all duration-500 group-hover:scale-110">
+                      <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 group-hover:from-fuchsia-600 group-hover:to-purple-600 flex items-center justify-center shadow-lg transition-all duration-500 group-hover:scale-110">
                         <Sparkles className="w-8 h-8 text-white animate-[bounce_2s_infinite]" />
                       </div>
                     </div>
@@ -93,54 +93,44 @@ const HeroSection = () => {
             </div>
           </div>
         </ScrollReveal>
+
         {/* ЭКРАН 2: ЛИНЕЙКА */}
-        {/* --- ЭКРАН 2: ЛИНЕЙКА (ОДИН ПЕРСОНАЖ — ПЯТЬ СТИЛЕЙ) --- */}
-<div className="mt-10 text-center w-full mb-24">
-  <ScrollReveal>
-    <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
-      Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
-    </h2>
-    <div className="flex flex-wrap justify-center gap-4 mb-8">
-      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">⚡️ Стикеры для Telegram</span>
-      <span className="px-7 py-3.5 bg-[#7c3aed] text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">🤖 Создай стикер для МАКС</span>
-    </div>
-  </ScrollReveal>
-
-  <ScrollReveal delay={200}>
-    <div className="flex flex-row items-center justify-center gap-4 w-full">
-      {/* Возвращаем ОРИГИНАЛ */}
-      <div className="flex flex-col items-center gap-3 shrink-0">
-        <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 bg-card/50 shadow-xl">
-          <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
-        </div>
-        <span className="text-[9px] font-black uppercase text-purple-400 italic">Оригинал</span>
-      </div>
-
-      <div className="text-2xl text-purple-500/60 font-bold">→</div>
-
-      {/* СТИЛИ С ВАШИМИ ПОДПИСЯМИ */}
-      <div className="flex flex-row items-center gap-3 overflow-x-auto py-2 no-scrollbar">
-        {[
-          { img: demoPixar, name: "Pixar" },
-          { img: demoGta, name: "GTA" },
-          { img: demoGhibli, name: "Miyazaki" },
-          { img: demoCyberpunk, name: "Cyberpunk" },
-          { img: demoLineart, name: "Line Art" }
-        ].map((s, i) => (
-          <div key={i} className="flex flex-col items-center gap-2 shrink-0">
-            <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg">
-              <img src={s.img} className="w-full h-full object-cover" alt={s.name} />
+        <div className="mt-10 text-center w-full mb-24">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
+              Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <div className="flex flex-row items-center justify-center gap-4 w-full">
+              <div className="flex flex-col items-center gap-3 shrink-0">
+                <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border-2 border-purple-500/30 bg-card/50 shadow-xl">
+                  <img src={originalImg} className="w-full h-full object-cover" alt="Оригинал" />
+                </div>
+                <span className="text-[9px] font-black uppercase text-purple-400 italic">Оригинал</span>
+              </div>
+              <div className="text-2xl text-purple-500/60 font-bold">→</div>
+              <div className="flex flex-row items-center gap-3 overflow-x-auto py-2 no-scrollbar">
+                {[
+                  { img: demoPixar, name: "Pixar" },
+                  { img: demoGta, name: "GTA" },
+                  { img: demoGhibli, name: "Miyazaki" },
+                  { img: demoCyberpunk, name: "Cyberpunk" },
+                  { img: demoLineart, name: "Line Art" }
+                ].map((s, i) => (
+                  <div key={i} className="flex flex-col items-center gap-2 shrink-0">
+                    <div className="w-[120px] h-[120px] md:w-[155px] md:h-[155px] rounded-[28px] overflow-hidden border border-white/10 bg-card/50 shadow-lg">
+                      <img src={s.img} className="w-full h-full object-cover" alt={s.name} />
+                    </div>
+                    <span className="text-[10px] md:text-[12px] font-bold text-gray-400 uppercase tracking-tighter">
+                      {s.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            {/* Ваша подпись внизу */}
-            <span className="text-[10px] md:text-[12px] font-bold text-gray-400 uppercase tracking-tighter">
-              {s.name}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </ScrollReveal>
-</div>
+          </ScrollReveal>
+        </div>
 
         {/* ЭКРАН 3: ИНСТРУКЦИЯ */}
         <div className="mt-12 mb-20 w-full max-w-6xl mx-auto px-6">
@@ -149,26 +139,18 @@ const HeroSection = () => {
               <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-4">
                 Как сделать <span className="text-primary">свой стикер</span> за 30 секунд?
               </h2>
-              <p className="text-gray-400 text-base md:text-lg max-w-none mx-auto font-medium leading-relaxed">
-                Инструкция, как быстро создать премиум стикерпак из обычного фото с помощью нейросети.
-              </p>
             </div>
           </ScrollReveal>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: "01", title: "Загрузи фото", desc: "Чтобы сделать стикерпак, выбери качественное селфи. ИИ автоматически удалит фон.", icon: "📸" },
-              { step: "02", title: "Выбери стили", desc: "Создавай премиум стикеры в одном стиле или выбирай разные для каждой эмоции.", icon: "🎨" },
-              { step: "03", title: "Забирай пак", desc: "Сгенерируй анимированные стикеры и добавь их в Telegram в один клик. Пак готов!", icon: "🚀" }
+              { step: "01", title: "Загрузи фото", desc: "Выбери качественное селфи. ИИ удалит фон.", icon: "📸" },
+              { step: "02", title: "Выбери стили", desc: "Выбирай разные стили для каждой эмоции.", icon: "🎨" },
+              { step: "03", title: "Забирай пак", desc: "Добавь их в Telegram в один клик.", icon: "🚀" }
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 200}>
                 <div className="relative p-8 rounded-[36px] bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all group backdrop-blur-sm shadow-2xl overflow-hidden text-left">
-                  <div className="absolute -right-2 -top-2 text-9xl font-black text-white/[0.03] tracking-tighter group-hover:text-purple-500/10 transition-colors pointer-events-none">
-                    {item.step}
-                  </div>
-                  <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center text-3xl mb-5 shadow-inner">
-                    {item.icon}
-                  </div>
+                  <div className="absolute -right-2 -top-2 text-9xl font-black text-white/[0.03] tracking-tighter group-hover:text-purple-500/10 transition-colors pointer-events-none">{item.step}</div>
+                  <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center text-3xl mb-5 shadow-inner">{item.icon}</div>
                   <h3 className="text-xl font-black text-white mb-3 uppercase tracking-tight">{item.title}</h3>
                   <p className="text-gray-400 text-sm leading-relaxed font-medium">{item.desc}</p>
                 </div>
