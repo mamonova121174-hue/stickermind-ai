@@ -84,4 +84,42 @@ const Pricing = () => {
                 </li>
               </ul>
 
-              <Button className="w-full h-16 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink
+             <Button className="w-full h-16 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all border-none">
+                Получить Хит
+              </Button>
+            </div>
+          </ScrollReveal>
+
+          {/* ТАРИФ 3: ПРО */}
+          <ScrollReveal delay={300}>
+            <div className="relative p-8 rounded-[40px] bg-white/[0.02] border border-white/10 flex flex-col hover:border-amber-500/30 transition-all backdrop-blur-sm h-full">
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-white uppercase mb-2">Безлимит</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">1290₽</span>
+                  <span className="text-gray-500 font-bold text-sm">/ 500 токенов</span>
+                </div>
+              </div>
+              
+              <ul className="space-y-4 mb-10 flex-1">
+                <li className="flex items-center gap-3 text-gray-300 text-sm font-medium">
+                  <Check className="w-5 h-5 text-amber-500" /> 500 токенов
+                </li>
+                <li className="flex items-center gap-3 text-gray-300 text-sm font-medium">
+                  <Check className="w-5 h-5 text-amber-500" /> VIP Поддержка
+                </li>
+              </ul>
+
+              <Button variant="outline" className="w-full h-14 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-amber-500/20 font-black uppercase transition-all">
+                Стать PRO
+              </Button>
+            </div>
+          </ScrollReveal>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Pricing;
