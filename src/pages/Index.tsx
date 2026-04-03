@@ -16,7 +16,7 @@ const Index = () => {
 
         {/* 2. Добавь эту строку здесь, чтобы мстикеры появились под генератором */}
         <AnimatedStickersSection />
-
+<Pricing />
         <FAQSection />
       </main>
       <Footer />
