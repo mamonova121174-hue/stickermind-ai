@@ -1,9 +1,8 @@
 import React from 'react';
 import { Check, Zap, Star, Rocket } from 'lucide-react';
-// Исправленные пути: выходим на уровень вверх (..), заходим в components и там в ui
-import { Button } from '../components/ui/Button'; 
-import { ScrollReveal } from '../components/ui/ScrollReveal';
-
+// Используем абсолютный путь через @ (если настроено) или прямой путь
+import { Button } from '../components/Button'; 
+import { ScrollReveal } from '../components/ScrollReveal';
 const Pricing = () => {
   const tiers = [
     {
