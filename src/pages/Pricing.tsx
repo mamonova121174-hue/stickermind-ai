@@ -1,9 +1,10 @@
 import React from 'react';
 import { Check, Zap, Star, Rocket } from 'lucide-react';
 
-// Попробуем прямой путь относительно файла Pricing.tsx
-import { Button } from '../components/ui/Button'; 
-import { ScrollReveal } from '../components/ui/ScrollReveal';
+// ИСПРАВЛЕНО: маленькая буква 'b' в button, как у тебя в папке!
+import { Button } from '../components/ui/button'; 
+// ИСПРАВЛЕНО: проверь ScrollReveal, если он тоже с маленькой — подправь
+import { ScrollReveal } from '../components/ui/ScrollReveal'; 
 
 const Pricing = () => {
 // ... дальше твой код
