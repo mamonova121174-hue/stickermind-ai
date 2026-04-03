@@ -1,8 +1,7 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/Button'; 
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
-const Pricing = () => {
+import { Button } from '../components/ui/Button'; 
+import { ScrollReveal } from '../components/ui/ScrollReveal';
   const tiers = [
     {
       name: 'Старт',
