@@ -1,8 +1,8 @@
 import React from 'react';
 import { Check, Zap, Star, Rocket } from 'lucide-react';
-// @ указывает сразу на папку src, это самый верный путь
-import { Button } from '@/components/ui/Button'; 
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
+// Поднимаемся из pages в src, затем в components/ui
+import { Button } from '../components/ui/Button'; 
+import { ScrollReveal } from '../components/ui/ScrollReveal';
 const Pricing = () => {
   const tiers = [
     {
