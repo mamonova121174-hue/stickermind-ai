@@ -1,9 +1,12 @@
 import React from 'react';
 import { Check, Zap, Star, Rocket } from 'lucide-react';
-import { Button } from '@/components/ui/Button'; 
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
+
+// Попробуем прямой путь относительно файла Pricing.tsx
+import { Button } from '../components/ui/Button'; 
+import { ScrollReveal } from '../components/ui/ScrollReveal';
 
 const Pricing = () => {
+// ... дальше твой код
   const tiers = [
     {
       name: 'Старт',
