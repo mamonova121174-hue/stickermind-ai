@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { ScrollReveal } from '../components/ScrollReveal';
 
 interface ScrollRevealProps {
   children: ReactNode;
