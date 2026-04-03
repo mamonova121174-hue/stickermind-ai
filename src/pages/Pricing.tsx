@@ -112,3 +112,4 @@
     </div>
   </div>
 </section>
+export default Pricing;
