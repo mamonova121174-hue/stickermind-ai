@@ -1,7 +1,7 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { Button } from '../components/ui/Button'; 
-import { ScrollReveal } from '../components/ui/ScrollReveal';
+import { Button } from '../components/ui/Button.tsx'; 
+import { ScrollReveal } from '../components/ui/ScrollReveal.tsx';
   const tiers = [
     {
       name: 'Старт',
