@@ -1,11 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-#root {
-  max-width: 1280px;
-  /* ... остальной твой код ... */
-}
-/* 1. СТАВИМ ШРИФТ В САМЫЙ ВЕРХ — ЭТО ПРАВИЛО №1 */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 #root {
   max-width: 1280px;
