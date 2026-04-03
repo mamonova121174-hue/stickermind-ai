@@ -1,7 +1,8 @@
 import React from 'react';
 import { Check, Zap, Star, Rocket } from 'lucide-react';
-import { Button } from './ui/Button'; // Убедись, что путь к кнопке верный
-import { ScrollReveal } from './ui/ScrollReveal'; // Убедись, что путь верный
+// Исправленные пути: выходим на уровень вверх (..), заходим в components и там в ui
+import { Button } from '../components/ui/Button'; 
+import { ScrollReveal } from '../components/ui/ScrollReveal';
 
 const Pricing = () => {
   const tiers = [
