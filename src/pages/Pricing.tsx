@@ -1,7 +1,9 @@
 import React from 'react';
-import { Check } from 'lucide-react';
-import { Button } from '../components/ui/Button.tsx'; 
-import { ScrollReveal } from '../components/ui/ScrollReveal.tsx';
+import { Check, Zap, Star, Rocket } from 'lucide-react';
+import { Button } from '../components/ui/Button'; 
+import { ScrollReveal } from '../components/ui/ScrollReveal';
+
+const Pricing = () => {
   const tiers = [
     {
       name: 'Старт',
@@ -119,7 +121,6 @@ import { ScrollReveal } from '../components/ui/ScrollReveal.tsx';
           ))}
         </div>
 
-        {/* Напоминалка про бесплатные токены под тарифами */}
         <ScrollReveal delay={400}>
           <p className="text-center mt-12 text-gray-500 text-sm font-medium">
             🎁 Подарим <span className="text-white font-bold">20 токенов</span> при регистрации. Попробуй сервис бесплатно!
