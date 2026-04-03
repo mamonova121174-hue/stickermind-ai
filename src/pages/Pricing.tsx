@@ -1,8 +1,8 @@
 import React from 'react';
 import { Check, Zap, Star, Rocket } from 'lucide-react';
-// Используем абсолютный путь через @ (если настроено) или прямой путь
-import { Button } from '../components/Button'; 
-import { ScrollReveal } from '../components/ScrollReveal';
+// @ указывает сразу на папку src, это самый верный путь
+import { Button } from '@/components/ui/Button'; 
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 const Pricing = () => {
   const tiers = [
     {
