@@ -15,11 +15,11 @@ const HeroSection = () => {
   const { balance } = useTokens();
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center pt-16 pb-10 px-4 bg-[#0a0a0c]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-16 pb-10 px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
-        
+
         {/* ЭКРАН 1: ГЛАВНЫЙ */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 text-center">
           <ScrollReveal>
             <h1 className="font-display text-5xl sm:text-6xl font-black leading-tight mb-4 uppercase text-white">
               Создавай свои стикеры
@@ -38,19 +38,19 @@ const HeroSection = () => {
                   <span className="leading-none">Создать первый стикер бесплатно</span>
                 </a>
               </Button>
-              
+
               <div className="text-[10px] text-gray-500 font-bold flex items-center gap-2 uppercase tracking-widest">
                 <span className="bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full flex items-center gap-1">
                   <Coins className="w-3 h-3" /> {balance}
                 </span>
-                бесплатно — хватит на {Math.floor(balance / 7)} анимации
+                бесплатно — хватит на {Math.floor(balance / 10)} анимации
               </div>
             </div>
           </ScrollReveal>
         </div>
 
         <ScrollReveal delay={400}>
-          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mt-0 mb-24 p-0">
             {/* ОРИГИНАЛ */}
             <div className="w-full max-w-[240px] flex flex-col items-center gap-3 shrink-0">
               <div className="w-[240px] h-[300px] rounded-[36px] overflow-hidden border-2 border-primary/20 bg-card/50 shadow-2xl">
@@ -71,8 +71,8 @@ const HeroSection = () => {
 
               {/* ТА САМАЯ КНОПКА-ХАМЕЛЕОН */}
               <div className="flex flex-col items-center shrink-0 sticky top-24 z-50 self-start group">
-                <a 
-                  href="#generator" 
+                <a
+                  href="#generator"
                   className="relative w-[160px] h-[220px] md:w-[200px] md:h-[260px] rounded-[32px] flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-700 bg-[#0d0d10] border-2 border-dashed border-rose-500/20 group-hover:border-purple-500/80 group-hover:shadow-[0_0_60px_rgba(168,85,247,0.4)] shadow-[0_0_20px_rgba(225,29,72,0.2)]"
                 >
                   <div className="absolute inset-0 bg-rose-600/10 animate-[pulse_1.5s_infinite] group-hover:bg-purple-600/20 transition-colors duration-500" />
@@ -143,8 +143,8 @@ const HeroSection = () => {
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: "01", title: "Загрузи фото", desc: "Выбери качественное селфи. ИИ удалит фон.", icon: "📸" },
-              { step: "02", title: "Выбери стили", desc: "Выбирай разные стили для каждой эмоции.", icon: "🎨" },
+              { step: "01", title: "Загрузи фото", desc: "Выбери качественное селфи. ИИ автоматически удалит фон.", icon: "📸" },
+              { step: "02", title: "Выбери стили", desc: "Выбирай разные стили для каждой эмоции или сгенерируй пак сразу.", icon: "🎨" },
               { step: "03", title: "Забирай пак", desc: "Добавь их в Telegram в один клик.", icon: "🚀" }
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 200}>
