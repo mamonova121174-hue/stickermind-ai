@@ -1,8 +1,7 @@
 import React from 'react';
-import { Check, Zap, Star, Rocket } from 'lucide-react';
-// Поднимаемся из pages в src, затем в components/ui
-import { Button } from '../components/ui/Button'; 
-import { ScrollReveal } from '../components/ui/ScrollReveal';
+import { Check } from 'lucide-react';
+import { Button } from '@/components/ui/Button'; 
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 const Pricing = () => {
   const tiers = [
     {
