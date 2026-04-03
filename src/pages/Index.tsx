@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 // 1. Проверь, что этот импорт есть
 import AnimatedStickersSection from "@/components/AnimatedStickersSection"; 
+import Pricing from "./Pricing"; // Проверь путь к файлу
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 
