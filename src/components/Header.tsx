@@ -12,10 +12,10 @@ const Header = () => {
   const { balance } = useTokens();
   const navigate = useNavigate();
 
- const navLinks = [
-    { label: "Стили", href: "/#styles" },
-    { label: "Тарифы", href: "#pricing" }, // Убрали слэш, теперь это переход по ID
-    { label: "FAQ", href: "/#faq" },
+const navLinks = [
+    { label: "Стили", href: "#styles" },   // Убрали /
+    { label: "Тарифы", href: "#pricing" },  // Здесь уже было исправлено
+    { label: "FAQ", href: "#faq" },        // Убрали /
   ];
 
   return (
