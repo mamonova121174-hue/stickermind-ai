@@ -16,6 +16,7 @@ interface TokenContextType {
 const TokenContext = createContext<TokenContextType | undefined>(undefined);
 
 export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  console.log("Контекст загрузился!"); // Добавь эту строчку
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [deviceId, setDeviceId] = useState<string | null>(null);
