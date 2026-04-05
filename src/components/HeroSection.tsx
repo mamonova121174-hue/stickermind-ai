@@ -95,7 +95,7 @@ const HeroSection = () => {
         </ScrollReveal>
 
         {/* ЭКРАН 2: ЛИНЕЙКА */}
-        <div className="mt-10 text-center w-full mb-24">
+      <div id="styles" className="mt-10 text-center w-full mb-24">
           <ScrollReveal>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-8">
               Один персонаж — <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">пять стилей</span>
