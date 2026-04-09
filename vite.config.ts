@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   // ЗАМЕНИ НА ИМЯ СВОЕГО РЕПОЗИТОРИЯ
-  base: '/stickermind-ai/', 
+ base: '/',
   plugins: [react()],
   resolve: {
     alias: {
