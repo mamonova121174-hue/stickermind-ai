@@ -49,16 +49,47 @@ const HeroSection = () => {
     );
   };
 
-  const handleGenerate = () => {
-    if (!selectedFile) return alert("Загрузите фото!");
-    if (selectedEmojis.length === 0) return alert("Выберите эмоции!");
-    setIsGenerating(true);
-    setTimeout(() => {
-      setIsGenerating(false);
-      alert("Магия началась!");
-    }, 2000);
-  };
+  const handleGenerate = async () => {
+  if (!selectedFile) return alert("Загрузите фото!");
+  if (selectedEmojis.length === 0) return alert("Выберите эмоции!");
 
+  setIsGenerating(true);
+
+  try {
+    // 1. Читаем файл как Base64
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    
+    reader.onload = async () => {
+      const base64Image = reader.result;
+
+      // 2. Отправляем запрос на наш сервер (тот файл, что мы создали в /api/generate)
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          image: base64Image,
+          style: selectedStyle,
+          motionUrl: EMOTION_TEMPLATES[selectedEmojis[0]] // Берем первую выбранную эмоцию
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Ура! Нейросеть начала работу. Результат скоро появится внизу.");
+        console.log("ID предсказания:", data.id);
+      } else {
+        alert("Ошибка сервера: " + data.error);
+      }
+      setIsGenerating(false);
+    };
+  } catch (error) {
+    console.error(error);
+    alert("Что-то пошло не так...");
+    setIsGenerating(false);
+  }
+};
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-16 pb-10 px-4 bg-[#0a0a0c]">
       <div className="container relative z-10 max-w-7xl flex flex-col items-center">
