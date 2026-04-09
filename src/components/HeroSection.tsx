@@ -1,3 +1,4 @@
+import { useState } from "react"; // 1. Добавь импорт
 import { Sparkles, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
@@ -12,6 +13,48 @@ import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 const HeroSection = () => {
+  // ... твои импорты (не забудь добавить useState в самый верх)
+import { useState } from "react"; 
+
+const HeroSection = () => {
+  const { balance } = useTokens();
+
+  // --- ВСТАВЛЯЕМ СЮДА (ЛОГИКА) ---
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedStyle, setSelectedStyle] = useState<string>("Pixar");
+  const [selectedEmojis, setSelectedEmojis] = useState<string[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // Функция для выбора/снятия выбора эмодзи
+  const toggleEmoji = (emoji: string) => {
+    setSelectedEmojis(prev => 
+      prev.includes(emoji) 
+        ? prev.filter(e => e !== emoji) 
+        : [...prev, emoji]
+    );
+  };
+
+  // Обработчик для кнопки
+  const handleGenerate = async () => {
+    if (!selectedFile) {
+      alert("Пожалуйста, сначала загрузи фото!");
+      return;
+    }
+    setIsGenerating(true);
+    // Имитация работы нейросети
+    setTimeout(() => {
+      setIsGenerating(false);
+      alert("Магия началась!");
+    }, 2000);
+  };
+  // --- КОНЕЦ ЛОГИКИ ---
+
+  return (
+    <section className="...">
+      {/* Твоя верстка */}
+    </section>
+  );
+};
   const { balance } = useTokens();
 
   return (
@@ -201,25 +244,44 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              <div className="lg:col-span-3 flex flex-col gap-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-purple-500 ml-2">3. Эмоции</span>
-                <div className="grid grid-cols-4 gap-2 p-3 bg-black/20 rounded-[24px] border border-white/5">
-                  {['😊', '😎', '😡', '😱', '😭', '🤩', '🤔', '🔥', '😇', '🤡', '🤮', '😴', '👍', '❤️', '👀', '✨'].map((emoji, i) => (
-                    <button key={i} className="aspect-square flex items-center justify-center text-xl hover:bg-white/10 rounded-lg transition-colors">
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
-              </div>
+             <div className="lg:col-span-3 flex flex-col gap-3">
+  <span className="text-[10px] font-black uppercase tracking-widest text-purple-500 ml-2">3. Эмоции</span>
+  <div className="grid grid-cols-4 gap-2 p-3 bg-black/20 rounded-[24px] border border-white/5">
+    {['😊', '😎', '😡', '😱', '😭', '🤩', '🤔', '🔥', '😇', '🤡', '🤮', '😴', '👍', '❤️', '👀', '✨'].map((emoji, i) => (
+      <button 
+        key={i} 
+        onClick={() => toggleEmoji(emoji)}
+        className={`aspect-square flex items-center justify-center text-xl rounded-lg transition-all ${
+          selectedEmojis.includes(emoji) 
+            ? 'bg-purple-600 shadow-[0_0_15px_rgba(168,85,247,0.5)] scale-110' 
+            : 'hover:bg-white/10'
+        }`}
+      >
+        {emoji}
+      </button>
+    ))}
+  </div>
+</div>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={400}>
             <div className="flex flex-col items-center gap-4">
-              <Button size="lg" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white h-16 px-12 text-xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all border-none group">
-                <Sparkles className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
-                <span>СОЗДАТЬ СТИКЕРПАК</span>
-              </Button>
+              <Button 
+  size="lg" 
+  onClick={handleGenerate}
+  disabled={isGenerating}
+  className="..."
+>
+  {isGenerating ? (
+    <span className="animate-pulse text-sm">НЕЙРОСЕТЬ ДУМАЕТ...</span>
+  ) : (
+    <>
+      <Sparkles className="w-6 h-6 mr-3" />
+      <span>СОЗДАТЬ СТИКЕРПАК</span>
+    </>
+  )}
+</Button>
               <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest opacity-50">
                 Бесплатно — осталось {balance} генераций
               </p>
