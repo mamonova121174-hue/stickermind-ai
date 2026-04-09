@@ -12,15 +12,14 @@ import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
-// Сценарии движений для эмодзи
 const EMOTION_TEMPLATES: Record<string, string> = {
-  '😊': 'wave_hand_smile',
-  '😎': 'cool_glasses_tilt',
-  '😡': 'angry_shout',
-  '🤩': 'star_eyes_delight',
-  '🤔': 'think_doubt',
-  '👍': 'thumbs_up',
-  '❤️': 'heart_hands',
+  '😊': 'wave_hand_smile.mp4', // Заменишь, когда загрузишь машущую руку
+  '😎': 'he_adjusts_his_glasses.mp4', // Твое видео с очками
+  '🤩': 'he opens his eyes and mouth wide in surprise, grabbing his.mp4', // Твое видео с удивлением
+  '😡': 'angry_shout.mp4',
+  '🤔': 'think_doubt.mp4',
+  '👍': 'thumbs_up.mp4',
+  '❤️': 'heart_hands.mp4',
 };
 
 const HeroSection = () => {
