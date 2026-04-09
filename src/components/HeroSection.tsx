@@ -12,14 +12,12 @@ import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
 import demoCyberpunk from "@/assets/demo-cyberpunk-cool-v2.png";
 import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
+const GITHUB_BASE = "https://raw.githubusercontent.com/ИМЯ_АККАУНТА/ИМЯ_РЕПОЗИТОРИЯ/main/public/motions";
+
 const EMOTION_TEMPLATES: Record<string, string> = {
-  '😊': 'wave_hand_smile.mp4', // Заменишь, когда загрузишь машущую руку
-  '😎': 'he_adjusts_his_glasses.mp4', // Твое видео с очками
-  '🤩': 'he opens his eyes and mouth wide in surprise, grabbing his.mp4', // Твое видео с удивлением
-  '😡': 'angry_shout.mp4',
-  '🤔': 'think_doubt.mp4',
-  '👍': 'thumbs_up.mp4',
-  '❤️': 'heart_hands.mp4',
+  '😎': `${GITHUB_BASE}/he_adjusts_his_glasses.mp4`,
+  '🤩': `${GITHUB_BASE}/he%20opens%20his%20eyes%20and%20mouth%20wide%20in%20surprise%2C%20grabbing%20his.mp4`,
+  // Добавь остальные, когда они будут загружены
 };
 
 const HeroSection = () => {
