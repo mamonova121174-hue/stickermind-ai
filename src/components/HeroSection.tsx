@@ -14,12 +14,12 @@ import demoLineart from "@/assets/demo-lineart-love-v2.png";
 
 // 1. Карта соответствия эмодзи и типов анимации (твой режиссерский сценарий)
 const EMOTION_TEMPLATES: Record<string, string> = {
-  '😊': 'wave_hand_smile',     // Машет рукой
+  '😊': 'wave_hand_smile',     // Машет рукой и улыбается
   '😎': 'cool_glasses_tilt',   // Очки сползают, вскидывает голову
   '😡': 'angry_shout',         // Злость (уже в базе)
   '🤩': 'star_eyes_delight',   // Хлопает в ладоши, восторг
   '🤔': 'think_doubt',         // Рука у подбородка, взгляд в сторону
-  '👍': 'thumbs_up',           // Палец вверх
+  '👍': 'thumbs_up',           // Сгибает руку в локте и палец вверх
   '❤️': 'heart_hands',         // Руками сердечко
 };
 
