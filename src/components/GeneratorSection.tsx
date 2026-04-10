@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-import { Upload, Sparkles, X, Check, Coins, Loader2 } from "lucide-react";
+import { Upload, Sparkles, X, Coins, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTokens } from "@/components/TokenContext";
 import PricingModal from "@/components/PricingModal";
 
-// Импорты твоих демо-картинок (оставляем как было)
+// Импорты демо-картинок
 import demoPixar from "@/assets/demo-pixar-hello-v2.png";
 import demoGta from "@/assets/demo-gta-like-v2.png";
 import demoGhibli from "@/assets/demo-ghibli-think-v2.png";
@@ -36,11 +36,11 @@ const GeneratorSection = () => {
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
   const [pricingOpen, setPricingOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]); // Состояние для готовых стикеров
   
   const fileInputRef = useRef<HTMLInputElement>(null);
- const { balance, useTokens: subtractTokens } = useTokens();
+  const { balance, useTokens: subtractTokens } = useTokens();
 
-  // ДИНАМИЧЕСКАЯ ЦЕНА: 5 токенов за каждый выбранный эмодзи
   const PRICE_PER_ITEM = 5;
   const totalCost = selectedEmotions.length * PRICE_PER_ITEM;
   const canAfford = balance >= totalCost;
@@ -51,81 +51,50 @@ const GeneratorSection = () => {
     );
   };
 
-  const handleCreatePack = async (prompt: string) => {
-    // Включаем индикатор загрузки на кнопке
-    setLoading(true);
+  // ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ
+  const handleCreatePack = async () => {
+    if (!imageUrl) return;
+    
+    setIsGenerating(true);
     try {
-      // ШАГ А: Отправляем запрос на запуск генерации
+      // 1. Запуск генерации (отправляем фото и выбранный стиль)
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ 
+          image: imageUrl, 
+          prompt: `Sticker style ${selectedStyle}, ${selectedEmotions.join(", ")}` 
+        }),
       });
       
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Ошибка при запуске генерации");
+      if (!response.ok) throw new Error(data.error || "Ошибка старта");
 
-      // Получаем ID, который нам выдал наш новый api/generate.ts
       const predictionId = data.id;
 
-      // ШАГ Б: Запускаем цикл "опроса" (polling)
+      // 2. Опрос готовности (Polling)
       let status = "starting";
       let finalPrediction = null;
 
-      // Цикл будет работать, пока статус не станет финальным
-      while (status !== "succeeded" && status !== "failed" && status !== "canceled") {
-        // Делаем паузу 2.5 секунды, чтобы не перегружать сервер запросами
+      while (status !== "succeeded" && status !== "failed") {
         await new Promise(resolve => setTimeout(resolve, 2500));
-
-        // Проверяем статус через наш новый эндпоинт
         const statusResponse = await fetch(`/api/check-status?id=${predictionId}`);
         finalPrediction = await statusResponse.json();
-        
-        if (!statusResponse.ok) throw new Error("Ошибка при проверке статуса");
-        
         status = finalPrediction.status;
-        console.log("Текущий статус генерации:", status); 
       }
 
-      // ШАГ В: Обработка результата
       if (status === "succeeded" && finalPrediction.output) {
-        // finalPrediction.output — это массив. Берем первый элемент (URL картинки).
-        const imageUrl = finalPrediction.output[0]; 
-        setGeneratedImages([imageUrl]); 
+        // Успех! Вычитаем токены и сохраняем картинку
+        subtractTokens(totalCost);
+        setGeneratedImages(finalPrediction.output);
+        alert("Магия случилась! Стикер готов.");
       } else {
-        throw new Error(`Генерация не удалась. Статус: ${status}`);
+        throw new Error("Генерация не удалась");
       }
 
     } catch (error: any) {
-      console.error("Ошибка в процессе:", error);
-      alert(`Произошла ошибка: ${error.message}`);
-    } finally {
-      // Выключаем индикатор загрузки в любом случае (успех или ошибка)
-      setLoading(false);
-    }
-  };
-    setIsGenerating(true);
-
-    try {
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          image: selectedImage,
-          prompt: selectedStyle,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.output) {
-        subtractTokens(totalCost);
-        alert("Магия случилась! Стикер готов.");
-      } else {
-        alert("Нейросеть ответила, но картинку не прислала. Проверь баланс в Replicate.");
-      }
-    } catch (error) {
-      alert("Ошибка связи с сервером. Но мы пытались!");
+      console.error("Ошибка:", error);
+      alert(`Ошибка: ${error.message}`);
     } finally {
       setIsGenerating(false);
     }
@@ -160,7 +129,14 @@ const GeneratorSection = () => {
                   </div>
                 )}
               </div>
-              <input type="file" ref={fileInputRef} onChange={(e) => e.target.files?.[0] && setImageUrl(URL.createObjectURL(e.target.files[0]))} className="hidden" accept="image/*" />
+              <input type="file" ref={fileInputRef} onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => setImageUrl(reader.result as string);
+                  reader.readAsDataURL(file);
+                }
+              }} className="hidden" accept="image/*" />
             </div>
 
             {/* 2. СТИЛЬ */}
@@ -204,10 +180,20 @@ const GeneratorSection = () => {
             </div>
           </div>
 
-          {/* ФИНАЛЬНАЯ КНОПКА С УМНЫМ ЦЕННИКОМ */}
+          {/* ФИНАЛЬНЫЙ РЕЗУЛЬТАТ (если есть) */}
+          {generatedImages.length > 0 && (
+            <div className="mt-10 p-6 bg-primary/5 rounded-[32px] border border-primary/20">
+              <h3 className="text-sm font-bold uppercase mb-4 text-primary">Ваш результат:</h3>
+              <div className="flex justify-center">
+                <img src={generatedImages[0]} className="w-64 h-64 object-contain rounded-2xl shadow-glow-sm" alt="Результат" />
+              </div>
+            </div>
+          )}
+
+          {/* КНОПКА ДЕЙСТВИЯ */}
           <div className="mt-12 flex flex-col items-center">
             <Button 
-              disabled={!imageUrl || selectedEmotions.length === 0 || isGenerating}
+              disabled={!imageUrl || selectedEmotions.length === 0 || isGenerating || !canAfford}
               onClick={handleCreatePack}
               className={`w-full h-24 text-2xl font-bold rounded-[32px] transition-all shadow-2xl ${
                 canAfford && selectedEmotions.length > 0 ? "bg-primary text-white" : "bg-secondary text-muted-foreground"
@@ -215,16 +201,16 @@ const GeneratorSection = () => {
             >
               {isGenerating ? <Loader2 className="animate-spin mr-3" /> : <Sparkles className="mr-3" />}
               <div className="flex flex-col items-start text-left">
-                <span>{isGenerating ? "НЕЙРОСЕТЬ РИСУЕТ..." : "СОЗДАТЬ СТИКЕРПАК"}</span>
+                <span>{isGenerating ? "НЕЙРОСЕТЬ РИСУЕТ..." : "СОЗДАТЬ СТИКЕР"}</span>
                 {!isGenerating && selectedEmotions.length > 0 && (
                   <span className="text-xs font-medium tracking-widest opacity-80 mt-1">
-                    ИТОГО: {totalCost} 🪙 ({selectedEmotions.length} шт.)
+                    ИТОГО: {totalCost} 🪙
                   </span>
                 )}
               </div>
             </Button>
 
-            {/* ИНДИКАТОР БАЛАНСА */}
+            {/* БАЛАНС */}
             <div className="mt-6 flex flex-col items-center gap-2">
               <div className={`flex items-center gap-2 px-6 py-2 rounded-full border ${
                 !canAfford && selectedEmotions.length > 0 ? "border-red-500 bg-red-500/10 animate-pulse" : "border-white/10 bg-white/5"
