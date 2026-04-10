@@ -51,12 +51,59 @@ const GeneratorSection = () => {
     );
   };
 
-  const handleCreatePack = async () => {
-    if (!canAfford) {
-      setPricingOpen(true);
-      return;
-    }
+  const handleCreatePack = async (prompt: string) => {
+    // Включаем индикатор загрузки на кнопке
+    setLoading(true);
+    try {
+      // ШАГ А: Отправляем запрос на запуск генерации
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Ошибка при запуске генерации");
 
+      // Получаем ID, который нам выдал наш новый api/generate.ts
+      const predictionId = data.id;
+
+      // ШАГ Б: Запускаем цикл "опроса" (polling)
+      let status = "starting";
+      let finalPrediction = null;
+
+      // Цикл будет работать, пока статус не станет финальным
+      while (status !== "succeeded" && status !== "failed" && status !== "canceled") {
+        // Делаем паузу 2.5 секунды, чтобы не перегружать сервер запросами
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        // Проверяем статус через наш новый эндпоинт
+        const statusResponse = await fetch(`/api/check-status?id=${predictionId}`);
+        finalPrediction = await statusResponse.json();
+        
+        if (!statusResponse.ok) throw new Error("Ошибка при проверке статуса");
+        
+        status = finalPrediction.status;
+        console.log("Текущий статус генерации:", status); 
+      }
+
+      // ШАГ В: Обработка результата
+      if (status === "succeeded" && finalPrediction.output) {
+        // finalPrediction.output — это массив. Берем первый элемент (URL картинки).
+        const imageUrl = finalPrediction.output[0]; 
+        setGeneratedImages([imageUrl]); 
+      } else {
+        throw new Error(`Генерация не удалась. Статус: ${status}`);
+      }
+
+    } catch (error: any) {
+      console.error("Ошибка в процессе:", error);
+      alert(`Произошла ошибка: ${error.message}`);
+    } finally {
+      // Выключаем индикатор загрузки в любом случае (успех или ошибка)
+      setLoading(false);
+    }
+  };
     setIsGenerating(true);
 
     try {
