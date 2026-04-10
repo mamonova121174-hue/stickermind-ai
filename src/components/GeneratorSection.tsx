@@ -56,15 +56,31 @@ const GeneratorSection = () => {
       setPricingOpen(true);
       return;
     }
+
     setIsGenerating(true);
-    
-    const success = subtractTokens(totalCost);
-    if (success) {
-      // Имитация запроса к Replicate
-      setTimeout(() => {
-        setIsGenerating(false);
-        alert(`Списано ${totalCost} токенов. Генерация ${selectedEmotions.length} стикеров начата!`);
-      }, 2000);
+
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: selectedImage,
+          prompt: selectedStyle,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.output) {
+        subtractTokens(totalCost);
+        alert("Магия случилась! Стикер готов.");
+      } else {
+        alert("Нейросеть ответила, но картинку не прислала. Проверь баланс в Replicate.");
+      }
+    } catch (error) {
+      alert("Ошибка связи с сервером. Но мы пытались!");
+    } finally {
+      setIsGenerating(false);
     }
   };
 
