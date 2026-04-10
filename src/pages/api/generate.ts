@@ -1,40 +1,39 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import Replicate from 'replicate';
+
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN, 
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
-
-  const REPLICATE_API_TOKEN = 'ТВОЙ_КЛЮЧ_ТУТ'; // Вставь свой ключ сюда
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
   try {
-    const { image, prompt } = req.body;
+    // Принимаем prompt и image из тела запроса
+    const { prompt, image } = req.body;
 
-    // 1. Создаем задачу
-    const startResponse = await fetch("https://api.replicate.com/v1/predictions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Token ${REPLICATE_API_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        version: "f1094040a83021da3342377488009137d7a469f64e030225ba1292023023e670",
-        input: { image, prompt: `Sticker style, ${prompt}, white border`, steps: 20 }
-      }),
-    });
-
-    let prediction = await startResponse.json();
-
-    // 2. Ждем результата (цикл ожидания)
-    while (prediction.status !== "succeeded" && prediction.status !== "failed") {
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Ждем 2 секунды
-      const checkResponse = await fetch(prediction.urls.get, {
-        headers: { "Authorization": `Token ${REPLICATE_API_TOKEN}` },
-      });
-      prediction = await checkResponse.json();
+    // Проверяем наличие изображения, так как оно критично для этой модели
+    if (!image) {
+      return res.status(400).json({ error: 'Image is required' });
     }
 
-    return res.status(200).json(prediction);
+    const prediction = await replicate.predictions.create({
+      version: "f1094040a83021da3342377488009137d7a469f64e030225ba1292023023e670",
+      input: {
+        image: image, // Передаем ссылку на фото
+        steps: 20,
+        outline_width: 10,
+        output_format: "webp",
+        // Если prompt пустой, добавим стандартное описание, чтобы модель не ругалась
+        prompt: prompt || "a sticker of this person", 
+      },
+    });
 
-  } catch (error) {
+    return res.status(201).json({ id: prediction.id });
+  } catch (error: any) {
+    console.error("Replicate Error:", error);
     return res.status(500).json({ error: error.message });
   }
 }
